@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artflow - Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0f0820 0%, #1a0f3a 50%, #2d1554 100%);
+        }
+
+        .background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .floating-shape:hover {
+            transform: scale(1.2);
+            opacity: 0.9;
+        }
+
+        .purple {
+            background: linear-gradient(45deg, #4a1f7a, #6b2fa0);
+        }
+
+        .gold {
+            background: linear-gradient(45deg, #f6ad55, #ffd700);
+        }
+
+        .large-blob {
+            position: absolute;
+            border-radius: 50% 30% 40% 60%;
+            background: linear-gradient(45deg, #2d1454, #4a227a);
+            opacity: 0.3;
+            animation: morph 8s ease-in-out infinite;
+        }
+
+        .blob-1 {
+            width: 300px;
+            height: 250px;
+            bottom: -50px;
+            left: -100px;
+        }
+
+        .blob-2 {
+            width: 200px;
+            height: 180px;
+            top: -30px;
+            right: -50px;
+        }
+
+        @keyframes morph {
+            0%, 100% {
+                border-radius: 50% 30% 40% 60%;
+                transform: rotate(0deg);
+            }
+            25% {
+                border-radius: 60% 40% 30% 50%;
+                transform: rotate(90deg);
+            }
+            50% {
+                border-radius: 40% 60% 50% 30%;
+                transform: rotate(180deg);
+            }
+            75% {
+                border-radius: 30% 50% 60% 40%;
+                transform: rotate(270deg);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) translateX(0px);
+            }
+            25% {
+                transform: translateY(-10px) translateX(5px);
+            }
+            50% {
+                transform: translateY(5px) translateX(-5px);
+            }
+            75% {
+                transform: translateY(-5px) translateX(10px);
+            }
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            transition: opacity 0.8s ease;
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 50px 40px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            width: 400px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .login-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .logo {
+            font-size: 2.5em;
+            font-weight: 300;
+            color: #ffd700;
+            margin-bottom: 40px;
+            font-style: italic;
+            text-shadow: 2px 2px 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .input-field::placeholder {
+            color: rgba(255, 215, 0, 0.7);
+            font-weight: 300;
+        }
+
+        .input-field:focus {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            border: 1px solid rgba(255, 215, 0, 0.5);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(45deg, #ffd700, #f6ad55);
+            color: #1a0f3a;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(255, 215, 0, 0.4);
+        }
+
+        .login-btn:active {
+            transform: translateY(0px);
+        }
+
+        /* Tela de Transição */
+        .transition-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #FFD700, #FFA500, #FF8C00, #FFD700);
+            background-size: 400% 400%;
+            animation: gradientShift 3s ease infinite;
+            z-index: 1000;
+            display: none;
+            overflow: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .waves-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .wave {
+            position: absolute;
+            width: 120%;
+            height: 80px;
+            background: linear-gradient(90deg, 
+                rgba(255, 215, 0, 0.8) 0%,
+                rgba(255, 165, 0, 0.9) 25%,
+                rgba(255, 140, 0, 1) 50%,
+                rgba(255, 165, 0, 0.9) 75%,
+                rgba(255, 215, 0, 0.8) 100%
+            );
+            left: -10%;
+            border-radius: 50px;
+            opacity: 0;
+            animation: waveSlide 2.5s ease-out forwards;
+        }
+
+        .wave:nth-child(1) { animation-delay: 0s; top: 10%; }
+        .wave:nth-child(2) { animation-delay: 0.2s; top: 25%; }
+        .wave:nth-child(3) { animation-delay: 0.4s; top: 40%; }
+        .wave:nth-child(4) { animation-delay: 0.6s; top: 55%; }
+        .wave:nth-child(5) { animation-delay: 0.8s; top: 70%; }
+        .wave:nth-child(6) { animation-delay: 1s; top: 85%; }
+
+        @keyframes waveSlide {
+            0% {
+                transform: translateY(-100px) rotate(-5deg);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(5deg);
+                opacity: 0.3;
+            }
+        }
+
+        .welcome-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4rem;
+            font-weight: bold;
+            color: #2d1554;
+            text-shadow: 2px 2px 20px rgba(45, 21, 84, 0.3);
+            opacity: 0;
+            animation: fadeInWelcome 1s ease-out 1.5s forwards;
+            z-index: 10;
+        }
+
+        @keyframes fadeInWelcome {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        /* Tela Inicial */
+        .home-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #0095ff, #FFA500);
+            z-index: 999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .home-content {
+            text-align: center;
+            color: #2d1554;
+        }
+
+        .home-title {
+            font-size: 5rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 20px rgba(45, 21, 84, 0.2);
+        }
+
+        .home-subtitle {
+            font-size: 1.5rem;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 480px) {
+            .login-card {
+                width: 90%;
+                padding: 30px 25px;
+            }
+            
+            .welcome-text {
+                font-size: 2.5rem;
+            }
+            
+            .home-title {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <div class="large-blob blob-1"></div>
+        <div class="large-blob blob-2"></div>
+    </div>
+
+    <div class="container" id="loginContainer">
+        <div class="login-card">
+            <h1 class="logo">artflow</h1>
+            <form id="loginForm">
+                <div class="input-group">
+                    <input type="email" class="input-field" placeholder="Email" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" class="input-field" placeholder="Senha" required>
+                </div>
+                <button type="submit" class="login-btn">Entrar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Tela de Transição -->
+    <div class="transition-screen" id="transitionScreen">
+        <div class="waves-container">
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+        </div>
+        <div class="welcome-text">Bem Vindo</div>
+    </div>
+
+    <!-- Tela Inicial -->
+    <div class="home-screen" id="homeScreen">
+        <div class="home-content">
+            <h1 class="home-title">Bem Vindo</h1>
+            <p class="home-subtitle">ao Artflow</p>
+        </div>
+    </div>
+
+    <script>
+        // Criar bolinhas flutuantes reativas
+        function createFloatingShapes() {
+            const background = document.querySelector('.background');
+            const shapes = [];
+
+            // Limpar shapes existentes
+            const existingShapes = background.querySelectorAll('.floating-shape');
+            existingShapes.forEach(shape => shape.remove());
+
+            // Criar diferentes tamanhos e cores de bolinhas
+            const shapeConfigs = [
+                { size: 60, color: 'purple', count: 8 },
+                { size: 40, color: 'gold', count: 6 },
+                { size: 80, color: 'purple', count: 4 },
+                { size: 25, color: 'gold', count: 10 },
+                { size: 15, color: 'purple', count: 15 }
+            ];
+
+            shapeConfigs.forEach(config => {
+                for (let i = 0; i < config.count; i++) {
+                    const shape = document.createElement('div');
+                    shape.className = `floating-shape ${config.color}`;
+                    shape.style.width = config.size + 'px';
+                    shape.style.height = config.size + 'px';
+                    shape.style.left = Math.random() * window.innerWidth + 'px';
+                    shape.style.top = Math.random() * window.innerHeight + 'px';
+                    shape.style.animationDelay = Math.random() * 8 + 's';
+                    shape.style.animation = `float ${8 + Math.random() * 4}s ease-in-out infinite`;
+                    
+                    background.appendChild(shape);
+                    shapes.push(shape);
+                }
+            });
+
+            return shapes;
+        }
+
+        // Adicionar interatividade com mouse
+        function addMouseInteractivity(shapes) {
+            function handleMouseMove(e) {
+                const mouseX = e.clientX;
+                const mouseY = e.clientY;
+
+                shapes.forEach(shape => {
+                    const rect = shape.getBoundingClientRect();
+                    const shapeX = rect.left + rect.width / 2;
+                    const shapeY = rect.top + rect.height / 2;
+                    
+                    const distance = Math.sqrt(
+                        Math.pow(mouseX - shapeX, 2) + Math.pow(mouseY - shapeY, 2)
+                    );
+
+                    if (distance < 150) {
+                        const force = (150 - distance) / 150;
+                        const angle = Math.atan2(shapeY - mouseY, shapeX - mouseX);
+                        const moveX = Math.cos(angle) * force * 20;
+                        const moveY = Math.sin(angle) * force * 20;
+                        
+                        shape.style.transform = `translate(${moveX}px, ${moveY}px) scale(${1 + force * 0.3})`;
+                        shape.style.opacity = 0.8 + force * 0.2;
+                    } else {
+                        shape.style.transform = 'translate(0px, 0px) scale(1)';
+                        shape.style.opacity = 0.6;
+                    }
+                });
+            }
+
+            document.addEventListener('mousemove', handleMouseMove);
+            return handleMouseMove;
+        }
+
+        // Adicionar efeito de clique
+        function addClickEffects(shapes) {
+            shapes.forEach(shape => {
+                shape.addEventListener('click', () => {
+                    shape.style.transform = 'scale(1.5)';
+                    shape.style.opacity = '1';
+                    
+                    setTimeout(() => {
+                        shape.style.transform = 'scale(1)';
+                        shape.style.opacity = '0.6';
+                    }, 300);
+                });
+            });
+        }
+
+        // Função de transição
+        function startTransition() {
+            const loginContainer = document.getElementById('loginContainer');
+            const transitionScreen = document.getElementById('transitionScreen');
+            const homeScreen = document.getElementById('homeScreen');
+
+            // Esconder tela de login
+            loginContainer.style.opacity = '0';
+            
+            setTimeout(() => {
+                loginContainer.style.display = 'none';
+                transitionScreen.style.display = 'block';
+                
+                // Após a transição das ondas e texto "Bem Vindo"
+                setTimeout(() => {
+                    transitionScreen.style.display = 'none';
+                    homeScreen.style.display = 'flex';
+                }, 4000); // 4 segundos para completar a animação
+            }, 800);
+        }
+
+        // Inicializar
+        window.addEventListener('load', () => {
+            const shapes = createFloatingShapes();
+            addMouseInteractivity(shapes);
+            addClickEffects(shapes);
+
+            // Adicionar evento ao formulário
+            const loginForm = document.getElementById('loginForm');
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                startTransition();
+            });
+        });
+
+        // Recriar bolinhas quando redimensionar janela
+        window.addEventListener('resize', () => {
+            document.querySelector('.background').innerHTML = `
+                <div class="large-blob blob-1"></div>
+                <div class="large-blob blob-2"></div>
+            `;
+            const shapes = createFloatingShapes();
+            addMouseInteractivity(shapes);
+            addClickEffects(shapes);
+        });
+
+        // Adicionar efeito de foco nos inputs
+        const inputs = document.querySelectorAll('.input-field');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.style.transform = 'translateY(-2px)';
+            });
+            
+            input.addEventListener('blur', () => {
+                input.parentElement.style.transform = 'translateY(0px)';
+            });
+        });
+    </script>
+</body>
+</html>
