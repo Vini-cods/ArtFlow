@@ -14,7 +14,7 @@ categories.forEach(category => {
         categories.forEach(c => c.classList.remove('active'));
         category.classList.add('active');
         
-        // Aqui você pode adicionar a lógica para filtrar as obras por categoria
+        // Aqui você pode adicionar a lógica para filtrar as histórias por categoria
         console.log(`Categoria selecionada: ${category.textContent}`);
     });
 });
@@ -77,11 +77,11 @@ featuredItems.forEach(item => {
         const title = item.querySelector('.art-title').textContent;
         const artist = item.querySelector('.art-artist').textContent;
         
-        // Aqui você pode abrir um modal ou redirecionar para a página da obra
-        console.log(`Visualizando obra: ${title} | ${artist}`);
+        // Aqui você pode abrir um modal ou redirecionar para a página da história
+        console.log(`Visualizando história: ${title} | ${artist}`);
         
         // Simulação de abertura de modal
-        showArtModal(title, artist);
+        showStoryModal(title, artist);
     });
 });
 
@@ -133,8 +133,8 @@ function showNotification(message) {
     }, 3000);
 }
 
-// Função para simular a abertura de um modal de obra de arte
-function showArtModal(title, artist) {
+// Função para simular a abertura de um modal de história
+function showStoryModal(title, artist) {
     // Criar overlay do modal
     const modalOverlay = document.createElement('div');
     modalOverlay.className = 'modal-overlay';
@@ -148,12 +148,12 @@ function showArtModal(title, artist) {
             <span class="close-modal">&times;</span>
         </div>
         <div class="modal-body">
-            <p>Artista: ${artist}</p>
-            <p>Esta é uma visualização simulada da obra. Em uma implementação real, aqui estariam os detalhes completos da obra de arte.</p>
-        </div>
-        <div class="modal-footer">
-            <button class="modal-button">Favoritar</button>
-            <button class="modal-button">Compartilhar</button>
+            <p>Autor: ${artist}</p>
+            <p>Esta é uma visualização simulada da história. Em uma implementação real, aqui estaria o conteúdo da história com opções para desenhar em cada página.</p>
+            <div class="modal-actions">
+                <button class="modal-button read-btn">Ler História</button>
+                <button class="modal-button draw-btn">Desenhar Agora</button>
+            </div>
         </div>
     `;
     
@@ -204,26 +204,90 @@ function showArtModal(title, artist) {
     });
     
     // Adicionar interatividade aos botões do modal
-    const modalButtons = modalContent.querySelectorAll('.modal-button');
-    modalButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            if (button.textContent === 'Favoritar') {
-                button.textContent = 'Favoritado';
-                button.style.background = 'rgba(255, 215, 0, 0.2)';
-                showNotification('Obra adicionada aos favoritos!');
-            } else if (button.textContent === 'Compartilhar') {
-                showNotification('Link de compartilhamento copiado!');
-                // Simular cópia de link para área de transferência
-                navigator.clipboard.writeText(window.location.href).catch(err => {
-                    console.log('Falha ao copiar link: ', err);
-                });
-            }
-        });
+    const readBtn = modalContent.querySelector('.read-btn');
+    const drawBtn = modalContent.querySelector('.draw-btn');
+    
+    readBtn.addEventListener('click', () => {
+        showNotification('Iniciando a leitura da história!');
+        setTimeout(() => {
+            modalOverlay.style.opacity = '0';
+            modalContent.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                document.body.removeChild(modalOverlay);
+            }, 300);
+        }, 1000);
+    });
+    
+    drawBtn.addEventListener('click', () => {
+        showNotification('Abrindo ferramenta de desenho!');
+        setTimeout(() => {
+            modalOverlay.style.opacity = '0';
+            modalContent.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                document.body.removeChild(modalOverlay);
+            }, 300);
+        }, 1000);
+    });
+}
+
+// Criar bolinhas flutuantes interativas
+function createFloatingShapes() {
+    const container = document.querySelector('.floating-shapes');
+    
+    // Limpar shapes existentes
+    container.innerHTML = '';
+    
+    // Criar diferentes tamanhos e cores de bolinhas
+    const shapeConfigs = [
+        { size: 60, color: 'purple', count: 8 },
+        { size: 40, color: 'gold', count: 6 },
+        { size: 80, color: 'purple', count: 4 },
+        { size: 25, color: 'gold', count: 10 },
+        { size: 15, color: 'purple', count: 15 }
+    ];
+    
+    shapeConfigs.forEach(config => {
+        for (let i = 0; i < config.count; i++) {
+            const shape = document.createElement('div');
+            shape.className = `floating-shape ${config.color}`;
+            shape.style.width = config.size + 'px';
+            shape.style.height = config.size + 'px';
+            shape.style.left = Math.random() * 100 + '%';
+            shape.style.top = Math.random() * 100 + '%';
+            shape.style.animationDelay = Math.random() * 8 + 's';
+            shape.style.animationDuration = `${8 + Math.random() * 4}s`;
+            
+            // Adicionar interação ao passar o mouse
+            shape.addEventListener('mouseover', () => {
+                shape.style.transform = 'scale(1.2)';
+                shape.style.opacity = '0.9';
+            });
+            
+            shape.addEventListener('mouseout', () => {
+                shape.style.transform = 'scale(1)';
+                shape.style.opacity = '0.6';
+            });
+            
+            // Adicionar interação ao clicar
+            shape.addEventListener('click', () => {
+                shape.style.animation = 'none';
+                shape.style.transform = 'scale(1.5)';
+                shape.style.opacity = '0.8';
+                
+                setTimeout(() => {
+                    shape.style.animation = `float ${8 + Math.random() * 4}s ease-in-out infinite`;
+                    shape.style.transform = 'scale(1)';
+                    shape.style.opacity = '0.6';
+                }, 500);
+            });
+            
+            container.appendChild(shape);
+        }
     });
 }
 
 // Efeito de digitação no título de boas-vindas
-document.addEventListener('DOMContentLoaded', function() {
+function typeWriterEffect() {
     const welcomeTitle = document.querySelector('.welcome-text h2');
     if (welcomeTitle) {
         const originalText = welcomeTitle.textContent;
@@ -240,8 +304,10 @@ document.addEventListener('DOMContentLoaded', function() {
         
         typeWriter();
     }
-    
-    // Adicionar funcionalidade de busca
+}
+
+// Adicionar funcionalidade de busca
+function setupSearch() {
     const searchInput = document.querySelector('.search-input');
     if (searchInput) {
         searchInput.addEventListener('keypress', function(e) {
@@ -250,7 +316,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-});
+}
 
 // Função de busca
 function performSearch(query) {
@@ -262,14 +328,65 @@ function performSearch(query) {
 }
 
 // Adicionar funcionalidade ao formulário de inscrição
-const footerForm = document.querySelector('.footer-form');
-if (footerForm) {
-    footerForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const emailInput = this.querySelector('.footer-input');
-        if (emailInput.value.trim() !== '') {
-            showNotification('Inscrição realizada com sucesso!');
-            emailInput.value = '';
+function setupNewsletter() {
+    const footerForm = document.querySelector('.footer-form');
+    if (footerForm) {
+        footerForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const emailInput = this.querySelector('.footer-input');
+            if (emailInput.value.trim() !== '') {
+                showNotification('Inscrição realizada com sucesso!');
+                emailInput.value = '';
+            }
+        });
+    }
+}
+
+// Configurações de acessibilidade
+function setupAccessibility() {
+    // Tecla "A" para ativar/desativar alto contraste
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'a' || e.key === 'A') {
+            document.body.classList.toggle('high-contrast');
+            showNotification('Modo de alto contraste ' + 
+                (document.body.classList.contains('high-contrast') ? 'ativado' : 'desativado'));
         }
+        
+        // Tecla "F" para fonte mais legível
+        if (e.key === 'f' || e.key === 'F') {
+            document.body.classList.toggle('readable-font');
+            showNotification('Fonte especial ' + 
+                (document.body.classList.contains('readable-font') ? 'ativada' : 'desativada'));
+        }
+    });
+}
+
+// Inicializar quando o DOM estiver carregado
+document.addEventListener('DOMContentLoaded', function() {
+    // Criar bolinhas flutuantes
+    createFloatingShapes();
+    
+    // Efeito de digitação
+    typeWriterEffect();
+    
+    // Configurar busca
+    setupSearch();
+    
+    // Configurar newsletter
+    setupNewsletter();
+    
+    // Configurar acessibilidade
+    setupAccessibility();
+    
+    // Recriar bolinhas quando a janela for redimensionada
+    window.addEventListener('resize', createFloatingShapes);
+});
+
+// Botão de desenhar
+const drawButton = document.querySelector('.btn-draw');
+if (drawButton) {
+    drawButton.addEventListener('click', () => {
+        showNotification('Abrindo ferramenta de desenho!');
+        // Aqui você redirecionaria para a página de desenho
     });
 }

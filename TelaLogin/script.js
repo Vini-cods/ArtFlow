@@ -125,6 +125,7 @@ function startTransition() {
     const loginButton = document.getElementById('loginButton');
     const btnText = loginButton.querySelector('.btn-text');
     const btnSpinner = loginButton.querySelector('.btn-spinner');
+    const progressFill = document.querySelector('.progress-fill');
 
     // Mostrar animação de carregamento no botão
     btnText.style.display = 'none';
@@ -136,7 +137,10 @@ function startTransition() {
 
     // Mostrar a tela de transição após um pequeno atraso
     setTimeout(() => {
-        transitionScreen.style.display = 'block';
+        transitionScreen.style.display = 'flex';
+        
+        // Iniciar animação da barra de progresso
+        progressFill.style.animation = 'loading 3s ease-in-out forwards';
         
         // Mostrar as ondas descendentes após a mensagem de boas-vindas
         setTimeout(() => {
@@ -144,12 +148,11 @@ function startTransition() {
             
             // Redirecionar para a tela principal após as ondas
             setTimeout(() => {
-                window.location.href = 'TelaInicial/index.html';
+                window.location.href = '../TelaInicial/index.html';
             }, 3000);
         }, 1500);
     }, 800);
 }
-
 
 // Inicializar quando o DOM estiver carregado
 document.addEventListener('DOMContentLoaded', function() {

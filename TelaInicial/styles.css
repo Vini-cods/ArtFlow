@@ -7,28 +7,61 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     height: 100vh;
-    overflow: hidden;
+    overflow-x: hidden;
     background: linear-gradient(135deg, #0f0820 0%, #1a0f3a 50%, #2d1554 100%);
     color: #fff;
 }
 
-/* Estrutura principal */
-.home-screen {
+/* Bolinhas flutuantes interativas */
+.floating-shapes {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, #2d1554 0%, #1a0f3a 50%, #0f0820 100%);
-    z-index: 998;
-    display: none;
-    opacity: 0;
-    transition: opacity 1s ease;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
 }
 
-.home-screen.show {
-    opacity: 1;
-    display: block;
+.floating-shape {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: float 15s infinite ease-in-out;
+    pointer-events: auto;
+    cursor: pointer;
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+.floating-shape.purple {
+    background: rgba(107, 47, 160, 0.3);
+    box-shadow: 0 0 20px rgba(107, 47, 160, 0.4);
+}
+
+.floating-shape.gold {
+    background: rgba(255, 215, 0, 0.3);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-20px) rotate(5deg);
+    }
+    50% {
+        transform: translateY(0) rotate(0deg);
+    }
+    75% {
+        transform: translateY(20px) rotate(-5deg);
+    }
+}
+
+.floating-shape:hover {
+    transform: scale(1.2);
+    opacity: 0.9;
 }
 
 /* Header melhorado */
@@ -310,6 +343,11 @@ body {
     max-width: 600px;
 }
 
+.welcome-cta {
+    display: flex;
+    gap: 15px;
+}
+
 .welcome-cta button {
     background: linear-gradient(45deg, #ffd700, #f6ad55);
     color: #1a0f3a;
@@ -325,6 +363,10 @@ body {
 .welcome-cta button:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+}
+
+.welcome-cta .btn-draw {
+    background: linear-gradient(45deg, #ff6b6b, #ff9e7d);
 }
 
 /* Destaques */
@@ -370,7 +412,7 @@ body {
     text-decoration: underline;
 }
 
-/* Carrossel de obras em destaque */
+/* Carrossel de histórias em destaque */
 .featured-carousel {
     display: flex;
     gap: 20px;
@@ -509,6 +551,18 @@ body {
     object-fit: cover;
 }
 
+.story-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 215, 0, 0.9);
+    color: #1a0f3a;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
 .thumbnail-info {
     padding: 15px;
     height: 25%;
@@ -552,65 +606,44 @@ body {
     border-color: rgba(255, 215, 0, 0.5);
 }
 
-/* Artistas em destaque */
-.artists-grid {
+/* Área de desenho em destaque */
+.drawing-showcase {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 25px;
-    margin-top: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
 }
 
-.artist-card {
+.drawing-item {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     border-radius: 15px;
+    overflow: hidden;
     border: 1px solid rgba(255, 215, 0, 0.2);
-    padding: 20px;
-    text-align: center;
-    transition: all 0.3s ease;
-    cursor: pointer;
+    transition: transform 0.3s ease;
 }
 
-.artist-avatar {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin: 0 auto 15px;
-    border: 2px solid rgba(255, 215, 0, 0.5);
-}
-
-.artist-name {
-    font-size: 1.1rem;
-    font-weight: 500;
-    margin-bottom: 5px;
-    color: #FFD700;
-}
-
-.artist-specialty {
-    font-size: 0.85rem;
-    opacity: 0.8;
-    margin-bottom: 15px;
-}
-
-.artist-follow {
-    background: transparent;
-    border: 1px solid rgba(255, 215, 0, 0.5);
-    color: #FFD700;
-    padding: 8px 15px;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 0.9rem;
-}
-
-.artist-follow:hover {
-    background: rgba(255, 215, 0, 0.1);
-}
-
-.artist-card:hover {
+.drawing-item:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(255, 215, 0, 0.2);
+}
+
+.drawing-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.drawing-info {
+    padding: 15px;
+}
+
+.drawing-info h4 {
+    color: #FFD700;
+    margin-bottom: 5px;
+}
+
+.drawing-info p {
+    font-size: 0.9rem;
+    opacity: 0.8;
 }
 
 /* Footer */
@@ -718,6 +751,15 @@ body {
     color: #1a0f3a;
     cursor: pointer;
     font-weight: bold;
+}
+
+/* Acessibilidade */
+.high-contrast {
+    filter: contrast(1.2);
+}
+
+.readable-font {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
 }
 
 /* Responsividade */
@@ -854,5 +896,9 @@ body {
     
     .footer-button {
         border-radius: 20px;
+    }
+    
+    .welcome-cta {
+        flex-direction: column;
     }
 }
