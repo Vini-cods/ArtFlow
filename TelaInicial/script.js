@@ -361,6 +361,36 @@ function setupAccessibility() {
     });
 }
 
+// Garantir que as imagens sejam carregadas corretamente
+function setupImageLoading() {
+  const images = document.querySelectorAll('img');
+  
+  images.forEach(img => {
+    // Forçar recarregamento se necessário
+    if (img.complete) {
+      adjustImage(img);
+    } else {
+      img.addEventListener('load', function() {
+        adjustImage(this);
+      });
+    }
+    
+    // Adicionar tratamento de erro
+    img.addEventListener('error', function() {
+      this.classList.add('image-error');
+    });
+  });
+  
+  function adjustImage(image) {
+    // Adicionar classe para tratamento de erro se a imagem não carregar
+    if (image.naturalWidth === 0) {
+      image.classList.add('image-error');
+    } else {
+      image.classList.remove('image-error');
+    }
+  }
+}
+
 // Inicializar quando o DOM estiver carregado
 document.addEventListener('DOMContentLoaded', function () {
     // Criar bolinhas flutuantes
@@ -377,6 +407,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Configurar acessibilidade
     setupAccessibility();
+    
+    // Configurar carregamento de imagens
+    setupImageLoading();
 
     // Recriar bolinhas quando a janela for redimensionada
     window.addEventListener('resize', createFloatingShapes);

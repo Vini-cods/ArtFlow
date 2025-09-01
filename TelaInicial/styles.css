@@ -417,7 +417,7 @@ body {
   text-decoration: underline;
 }
 
-/* Carrossel de histórias em destaque */
+/* Carrossel de histórias em destaque - MELHORIAS PARA AS CAPAS */
 .featured-carousel {
   display: flex;
   gap: 20px;
@@ -438,7 +438,7 @@ body {
 
 .featured-item {
   flex: 0 0 300px;
-  height: 350px;
+  height: 400px; /* Altura aumentada para melhor proporção */
   border-radius: 15px;
   overflow: hidden;
   position: relative;
@@ -454,6 +454,7 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center top; /* Foca no topo da imagem */
   transition: transform 0.5s ease;
 }
 
@@ -461,20 +462,21 @@ body {
   transform: scale(1.05);
 }
 
+/* EFEITO ORIGINAL: Overlay que sobe ao passar o mouse */
 .art-overlay {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
   padding: 20px;
   color: white;
-  transform: translateY(100%);
+  transform: translateY(100%); /* Começa escondido */
   transition: transform 0.3s ease;
 }
 
 .featured-item:hover .art-overlay {
-  transform: translateY(0);
+  transform: translateY(0); /* Sobe ao passar o mouse */
 }
 
 .art-title {
@@ -531,7 +533,7 @@ body {
   box-shadow: 0 5px 15px rgba(255, 215, 0, 0.1);
 }
 
-/* Grid de miniaturas melhorado */
+/* Grid de miniaturas melhorado - MELHORIAS PARA AS CAPAS */
 .thumbnail-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -549,12 +551,15 @@ body {
   cursor: pointer;
   overflow: hidden;
   position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 .thumbnail-img {
   width: 100%;
   height: 75%;
   object-fit: cover;
+  object-position: center top; /* Foca no topo da imagem */
 }
 
 .story-badge {
@@ -612,7 +617,7 @@ body {
   border-color: rgba(255, 215, 0, 0.5);
 }
 
-/* Área de desenho em destaque */
+/* Área de desenho em destaque - MELHORIAS PARA AS CAPAS */
 .drawing-showcase {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -634,8 +639,9 @@ body {
 
 .drawing-item img {
   width: 100%;
-  height: 200px;
+  height: 250px; /* Altura aumentada */
   object-fit: cover;
+  object-position: center;
 }
 
 .drawing-info {
@@ -768,6 +774,21 @@ body {
   font-family: "Comic Sans MS", cursive, sans-serif;
 }
 
+/* Estilo para imagens com erro de carregamento */
+.image-error {
+  background: linear-gradient(135deg, #6b2fa0, #ffd700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+}
+
+.image-error::before {
+  content: "Capa Indisponível";
+  text-align: center;
+}
+
 /* Responsividade */
 @media (max-width: 1024px) {
   .header {
@@ -846,7 +867,7 @@ body {
 
   .featured-item {
     flex: 0 0 250px;
-    height: 300px;
+    height: 350px;
   }
 
   .thumbnail-grid {
@@ -871,7 +892,7 @@ body {
 
   .featured-item {
     flex: 0 0 200px;
-    height: 250px;
+    height: 300px;
   }
 
   .thumbnail-grid {
