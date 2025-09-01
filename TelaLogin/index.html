@@ -1,89 +1,94 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ArtFlow</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
     <div class="background">
-        <div class="large-blob blob-1"></div>
-        <div class="large-blob blob-2"></div>
+      <div class="large-blob blob-1"></div>
+      <div class="large-blob blob-2"></div>
     </div>
 
     <!-- Tela de Login -->
     <div class="container" id="loginContainer">
-        <div class="login-card">
-            <h1 class="logo">artflow</h1>
-            <p class="subtitle">Sua plataforma de arte digital</p>
-            <form id="loginForm">
-                <div class="input-group">
-                    <input type="email" class="input-field" id="email" placeholder="Email" required>
-                    <span class="input-error" id="email-error"></span>
-                </div>
-                <div class="input-group">
-                    <input type="password" class="input-field" id="password" placeholder="Senha" required>
-                    <span class="input-error" id="password-error"></span>
-                </div>
-                <div class="remember-forgot">
-                    <label class="remember-me">
-                        <input type="checkbox" id="remember">
-                        <span class="checkmark"></span>
-                        Lembrar-me
-                    </label>
-                    <a href="#" class="forgot-password">Esqueceu a senha?</a>
-                </div>
-                <button type="submit" class="login-btn" id="loginButton">
-                    <span class="btn-text">Entrar</span>
-                    <div class="btn-spinner" style="display: none;">
-                        <div class="spinner"></div>
-                    </div>
-                </button>
-            </form>
-            <div class="separator">
-                <span>ou</span>
+      <div class="login-card">
+        <h1 class="logo">artflow</h1>
+        <p class="subtitle">Sua plataforma de arte digital</p>
+        <form id="loginForm">
+          <div class="input-group">
+            <input
+              type="email"
+              class="input-field"
+              id="email"
+              placeholder="Email educacional"
+              required
+            />
+            <span class="input-error" id="email-error"></span>
+          </div>
+          <div class="input-group">
+            <input
+              type="password"
+              class="input-field"
+              id="password"
+              placeholder="Senha"
+              required
+            />
+            <span class="input-error" id="password-error"></span>
+          </div>
+          <div class="remember-forgot">
+            <label class="remember-me">
+              <input type="checkbox" id="remember" />
+              <span class="checkmark"></span>
+              Lembrar-me
+            </label>
+            <a href="#" class="forgot-password">Esqueceu a senha?</a>
+          </div>
+          <button type="submit" class="login-btn" id="loginButton">
+            <span class="btn-text">Entrar</span>
+            <div class="btn-spinner" style="display: none">
+              <div class="spinner"></div>
             </div>
-            <div class="social-login">
-                <button class="social-btn google-btn">
-                    <span class="social-icon">G</span>
-                    Entrar com Google
-                </button>
-                <button class="social-btn facebook-btn">
-                    <span class="social-icon">f</span>
-                    Entrar com Facebook
-                </button>
-            </div>
-            <p class="signup-link">
-                Não tem uma conta? <a href="#">Cadastre-se</a>
-            </p>
+          </button>
+        </form>
+        <div class="separator">
+          <span>ou</span>
         </div>
+        <div class="social-login">
+          <button class="social-btn google-btn">
+            <span class="social-icon">G</span>
+            Entrar com Google
+          </button>
+          <!-- Facebook removido -->
+        </div>
+        <p class="signup-link">
+          Não tem uma conta? <a href="#">Cadastre-se</a>
+        </p>
+      </div>
     </div>
 
     <!-- Tela de Transição Melhorada -->
     <div class="transition-screen" id="transitionScreen">
-        <div class="transition-content">
-            <div class="mascot-container">
-                <img src="./img/octo-mascote.png" alt="Octo, o mascote ArtFlow" class="mascot">
-            </div>
-            <div class="welcome-text">Bem Vindo</div>
-            <div class="loading-progress">
-                <div class="progress-bar">
-                    <div class="progress-fill"></div>
-                </div>
-                <div class="progress-text">Carregando...</div>
-            </div>
+      <div class="transition-content">
+        <div class="mascot-container">
+          <img
+            src="./img/octo-mascote.png"
+            alt="Octo, o mascote ArtFlow"
+            class="mascot"
+          />
         </div>
+        <div class="welcome-text">Bem Vindo</div>
+        <div class="loading-progress">
+          <div class="progress-bar">
+            <div class="progress-fill"></div>
+          </div>
+          <div class="progress-text">Carregando...</div>
+        </div>
+      </div>
     </div>
-
-    <!-- Ondas Descendentes Melhoradas -->
-    <div class="descending-waves" id="descendingWaves">
-        <div class="wave wave-1"></div>
-        <div class="wave wave-2"></div>
-        <div class="wave wave-3"></div>
-        <div class="wave wave-4"></div>
-    </div>
-
+    
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
