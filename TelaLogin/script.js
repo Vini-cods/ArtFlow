@@ -25,9 +25,8 @@ function createFloatingShapes() {
       shape.style.left = Math.random() * window.innerWidth + "px";
       shape.style.top = Math.random() * window.innerHeight + "px";
       shape.style.animationDelay = Math.random() * 8 + "s";
-      shape.style.animation = `float ${
-        8 + Math.random() * 4
-      }s ease-in-out infinite`;
+      shape.style.animation = `float ${8 + Math.random() * 4
+        }s ease-in-out infinite`;
 
       background.appendChild(shape);
       shapes.push(shape);
@@ -58,9 +57,8 @@ function addMouseInteractivity(shapes) {
         const moveX = Math.cos(angle) * force * 20;
         const moveY = Math.sin(angle) * force * 20;
 
-        shape.style.transform = `translate(${moveX}px, ${moveY}px) scale(${
-          1 + force * 0.3
-        })`;
+        shape.style.transform = `translate(${moveX}px, ${moveY}px) scale(${1 + force * 0.3
+          })`;
         shape.style.opacity = 0.8 + force * 0.2;
       } else {
         shape.style.transform = "translate(0px, 0px) scale(1)";
