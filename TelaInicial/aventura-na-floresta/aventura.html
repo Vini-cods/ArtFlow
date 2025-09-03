@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArtFlow Kids - Desenhe: Aventura na Floresta</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="aventura.css">
+    <link rel="icon" href="/TelaInicial/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/TelaInicial/img/favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <!-- Bolinhas flutuantes de fundo -->
+    <div class="floating-shapes"></div>
+
+    <div class="drawing-container">
+        <div class="header">
+            <div class="action-buttons">
+                <button class="btn btn-back" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i> Voltar
+                </button>
+            </div>
+            <div class="story-info">
+                <h1 class="story-title" id="story-title">Aventura na Floresta</h1>
+                <p class="story-author" id="story-author">Por: Sofia Mendes</p>
+            </div>
+            <div class="action-buttons">
+                <button class="btn btn-clear" onclick="clearCanvas()">
+                    <i class="fas fa-eraser"></i> Limpar
+                </button>
+                <button class="btn btn-save" onclick="saveDrawing()">
+                    <i class="fas fa-save"></i> Salvar
+                </button>
+            </div>
+        </div>
+
+        <div class="content-area">
+            <div class="book-section">
+                <div class="book-content" id="book-content">
+                    <p>Era uma vez, em uma floresta encantada, vivia um pequeno esquilo chamado Zeke. Zeke era conhecido
+                        por sua curiosidade sem limites e seu amor por aventuras.</p>
+                    <p>Um dia, enquanto explorava a parte mais densa da floresta, Zeke encontrou um mapa antigo
+                        escondido no oco de uma árvore centenária. O mapa mostrava o caminho para a lendária Noz
+                        Dourada, que diziam ter o poder de conceder um desejo a quem a encontrasse.</p>
+                    <p>Animado com a descoberta, Zeke decidiu seguir o mapa. Seu primeiro desafio foi cruzar o Rio das
+                        Correntes Prateadas. As águas eram rápidas e profundas, mas Zeke avistou algumas pedras que
+                        formavam um caminho através do rio. Com cuidado e equilíbrio, ele pulou de pedra em pedra até
+                        chegar ao outro lado.</p>
+                    <p>Em seguida, Zeke precisou escalar a Montanha dos Sussurros. O vento soprava forte e sussurrava
+                        segredos antigos. Zeke se agarrou às raízes e pedras, lembrando-se de que a coragem mora dentro
+                        de cada um de nós.</p>
+                    <p>Após muitas aventuras, Zeke finalmente chegou à clareira sagrada onde a Noz Dourada brilhava
+                        suavemente. Ele fez seu desejo: que todos os animais da floresta vivessem em harmonia e nunca
+                        passassem fome.</p>
+                    <p>Quando Zeke retornou para casa, descobriu que seu desejo havia se realizado. A floresta estava
+                        mais verde, os frutos mais abundantes, e todos os animais viviam em paz. Zeke havia aprendido
+                        que a maior aventura é aquela que beneficia a todos.</p>
+                </div>
+                <div class="page-controls">
+                    <button class="page-btn" id="prev-page" disabled>
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <span class="page-indicator">Página 1 de 1</span>
+                    <button class="page-btn" id="next-page" disabled>
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="drawing-section">
+                <div class="drawing-area">
+                    <canvas id="drawing-canvas"></canvas>
+                </div>
+                <div class="tools-area">
+                    <div class="color-palette">
+                        <div class="color-option active" style="background-color: #000000;" data-color="#000000"></div>
+                        <div class="color-option" style="background-color: #ff0000;" data-color="#ff0000"></div>
+                        <div class="color-option" style="background-color: #0000ff;" data-color="#0000ff"></div>
+                        <div class="color-option" style="background-color: #008000;" data-color="#008000"></div>
+                        <div class="color-option" style="background-color: #ffff00;" data-color="#ffff00"></div>
+                        <div class="color-option" style="background-color: #ffa500;" data-color="#ffa500"></div>
+                        <div class="color-option" style="background-color: #800080;" data-color="#800080"></div>
+                        <div class="color-option" style="background-color: #ffc0cb;" data-color="#ffc0cb"></div>
+                    </div>
+                    <div class="brush-size">
+                        <label for="brush-size">Espessura:</label>
+                        <input type="range" id="brush-size" min="1" max="20" value="5">
+                    </div>
+                    <div class="custom-color">
+                        <label for="color-picker">Personalizada:</label>
+                        <input type="color" id="color-picker" value="#000000">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="aventura.js"></script>
+</body>
+
+</html>

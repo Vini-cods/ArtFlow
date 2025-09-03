@@ -229,7 +229,7 @@ function showStoryModal(title, artist, imageSrc) {
             </div>
             <div class="modal-actions">
                 <button class="modal-button read-btn">Ler História</button>
-                <button class="modal-button draw-btn">Desenhar Agora</button>
+                <button class="modal-button draw-btn" onclick="window.location.href='aventura-na-floresta/aventura.html'">Desenhar Agora</button>
                 <button class="modal-button favorite-btn">
                     <i class="far fa-heart"></i> Favoritar
                 </button>
@@ -288,12 +288,13 @@ function showStoryModal(title, artist, imageSrc) {
     }, 1000);
   });
 
-  drawBtn.addEventListener("click", () => {
+  drawBtn.addEventListener("click", function() {
     showNotification("Abrindo ferramenta de desenho!");
     setTimeout(() => {
       modalOverlay.style.opacity = "0";
       setTimeout(() => {
         document.body.removeChild(modalOverlay);
+        window.location.href = 'aventura-na-floresta/aventura.html';
       }, 300);
     }, 1000);
   });
@@ -426,33 +427,6 @@ function setupNewsletter() {
   }
 }
 
-// Configurações de acessibilidade
-function setupAccessibility() {
-  // Tecla "A" para ativar/desativar alto contraste
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "a" || e.key === "A") {
-      document.body.classList.toggle("high-contrast");
-      showNotification(
-        "Modo de alto contraste " +
-          (document.body.classList.contains("high-contrast")
-            ? "ativado"
-            : "desativado")
-      );
-    }
-
-    // Tecla "F" para fonte mais legível
-    if (e.key === "f" || e.key === "F") {
-      document.body.classList.toggle("readable-font");
-      showNotification(
-        "Fonte especial " +
-          (document.body.classList.contains("readable-font")
-            ? "ativada"
-            : "desativada")
-      );
-    }
-  });
-}
-
 // Garantir que as imagens sejam carregadas corretamente
 function setupImageLoading() {
   const images = document.querySelectorAll("img");
@@ -491,27 +465,47 @@ document.addEventListener("DOMContentLoaded", function () {
   // Efeito de digitação
   typeWriterEffect();
 
-  // Configurar busca
+  // Configurar funcionalidades
   setupSearch();
-
-  // Configurar newsletter
   setupNewsletter();
-
-  // Configurar acessibilidade
   setupAccessibility();
-
-  // Configurar carregamento de imagens
   setupImageLoading();
 
-  // Recriar bolinhas quando a janela for redimensionada
-  window.addEventListener("resize", createFloatingShapes);
+  // Adicionar estilos para alto contraste e fonte legível
+  const style = document.createElement("style");
+  style.textContent = `
+        .high-contrast {
+            --primary-color: #000000;
+            --secondary-color: #ffffff;
+            --accent-color: #ffff00;
+            filter: contrast(1.5);
+        }
+        
+        .high-contrast .floating-shapes {
+            display: none;
+        }
+        
+        .readable-font {
+            font-family: Arial, sans-serif;
+        }
+        
+        .readable-font * {
+            font-weight: 500 !important;
+            letter-spacing: 0.5px !important;
+        }
+        
+        .image-error {
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 12px;
+        }
+        
+        .image-error::before {
+            content: "Imagem não disponível";
+        }
+    `;
+  document.head.appendChild(style);
 });
-
-// Botão de desenhar
-const drawButton = document.querySelector(".btn-draw");
-if (drawButton) {
-  drawButton.addEventListener("click", () => {
-    showNotification("Abrindo ferramenta de desenho!");
-    // Aqui você redirecionaria para a página de desenho
-  });
-}

@@ -19,7 +19,7 @@
     <div class="header">
         <div class="nav-left">
             <div class="nav-menu">
-                <a href="#" class="nav-item">INÍCIO</a>
+                <a href="#" class="nav-item">POPULAR</a>
                 <a href="#" class="nav-item">HISTÓRIAS</a>
                 <a href="#" class="nav-item">DESENHOS</a>
                 <a href="#" class="nav-item">ARTISTAS</a>
@@ -36,7 +36,6 @@
             <div class="profile-container">
                 <div class="notifications">
                     <i class="far fa-bell"></i>
-                    <span class="notification-badge">3</span>
                 </div>
                 <div class="profile-icon">
                     <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80"
@@ -52,10 +51,10 @@
             <i class="fas fa-home"></i>
             <span>Início</span>
         </div>
-        <div class="sidebar-icon">
+        <a href="minhas-historias.html" class="sidebar-icon">
             <i class="fas fa-book"></i>
             <span>Minhas Histórias</span>
-        </div>
+        </a>
         <div class="sidebar-icon">
             <i class="fas fa-paint-brush"></i>
             <span>Desenhar</span>
@@ -85,7 +84,7 @@
             </div>
             <div class="welcome-cta">
                 <button>Começar História</button>
-                <button class="btn-draw">Desenhar Agora</button>
+                <button class="btn-draw" onclick="window.location.href='#'">Desenhar Agora</button>
             </div>
         </div>
 
@@ -93,11 +92,11 @@
         <div class="featured-section">
             <div class="section-header">
                 <h3 class="section-title">Histórias em Destaque</h3>
-                <a href="#" class="view-all">Ver tudo</a>
+                <a href="../TelaMinhasHistorias/minhas-historias.html" class="view-all">Ver tudo</a>
             </div>
 
             <div class="featured-carousel">
-                <div class="featured-item">
+                <div class="featured-item" onclick="showStoryModal('Aventura na Floresta', 'Por: Sofia Mendes', './img/Aventura na Floresta.png')">
                     <img src="./img/Aventura na Floresta.png"
                         alt="Obra de arte" class="art-image">
                     <div class="art-overlay">
@@ -110,7 +109,7 @@
                     </div>
                 </div>
 
-                <div class="featured-item">
+                <div class="featured-item" onclick="showStoryModal('O Castelo Mágico', 'Por: Carlos Silva', './img/O castelo magico.png')">
                     <img src="./img/O castelo magico.png"
                         alt="Obra de arte" class="art-image">
                     <div class="art-overlay">
@@ -123,7 +122,7 @@
                     </div>
                 </div>
 
-                <div class="featured-item">
+                <div class="featured-item" onclick="showStoryModal('Viagem ao Espaço', 'Por: Ana Costa', './img/Viagem ao espaço.png')">
                     <img src="./img/Viagem ao espaço.png"
                         alt="Obra de arte" class="art-image">
                     <div class="art-overlay">
@@ -136,7 +135,7 @@
                     </div>
                 </div>
 
-                <div class="featured-item">
+                <div class="featured-item" onclick="showStoryModal('O Tesouro Perdido', 'Por: Miguel Santos', './img/O tesouro perdido.png')">
                     <img src="./img/O tesouro perdido.png"
                         alt="Obra de arte" class="art-image">
                     <div class="art-overlay">
@@ -172,7 +171,7 @@
         <div class="featured-section">
             <div class="section-header">
                 <h3 class="section-title">Histórias Recentes</h3>
-                <a href="#" class="view-all">Ver tudo</a>
+                <a href="minhas-historias.html" class="view-all">Ver tudo</a>
             </div>
 
             <div class="thumbnail-grid">
