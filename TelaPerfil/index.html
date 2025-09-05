@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil - ArtFlow Kids</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="./img/favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <!-- Bolinhas flutuantes interativas -->
+    <div class="floating-shapes"></div>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="nav-left">
+            <div class="nav-menu">
+                <a href="#" class="nav-item">POPULAR</a>
+                <a href="#" class="nav-item">HISTÓRIAS</a>
+                <a href="#" class="nav-item">DESENHOS</a>
+                <a href="#" class="nav-item">ARTISTAS</a>
+            </div>
+        </div>
+
+        <div class="nav-right">
+            <div class="logo-header">artflow</div>
+            <div class="profile-container">
+                <div class="notifications">
+                    <i class="far fa-bell"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <a href="../TelaInicial/index.html" class="sidebar-icon">
+            <i class="fas fa-home"></i>
+            <span>Início</span>
+        </a>
+        <a href="../TelaInicial/minhas-historias/index.html" class="sidebar-icon">
+            <i class="fas fa-book"></i>
+            <span>Minhas Histórias</span>
+        </a>
+        <a href="#" class="sidebar-icon">
+            <i class="fas fa-paint-brush"></i>
+            <span>Desenhar</span>
+        </a>
+        <a href="#" class="sidebar-icon">
+            <i class="fas fa-heart"></i>
+            <span>Favoritos</span>
+        </a>
+        <a href="#" class="sidebar-icon active">
+            <i class="fas fa-user"></i>
+            <span>Meu Perfil</span>
+        </a>
+        <a href="#" class="sidebar-icon">
+            <i class="fas fa-cog"></i>
+            <span>Configurações</span>
+        </a>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <div class="main-content">
+        <!-- Cabeçalho do Perfil -->
+        <div class="profile-header">
+            <div class="profile-banner">
+                <div class="profile-avatar">
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80"
+                        alt="Avatar">
+                    <button class="edit-avatar-btn">
+                        <i class="fas fa-camera"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="profile-info">
+                <h1 class="profile-name">João Silva</h1>
+                <p class="profile-bio">Amo histórias de aventura e desenhar personagens fantásticos! ✨🎨</p>
+                <div class="profile-stats">
+                    <div class="stat">
+                        <span class="stat-number">24</span>
+                        <span class="stat-label">Histórias</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">156</span>
+                        <span class="stat-label">Seguidores</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">87</span>
+                        <span class="stat-label">Seguindo</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">18</span>
+                        <span class="stat-label">Conquistas</span>
+                    </div>
+                </div>
+                <button class="edit-profile-btn">Editar Perfil</button>
+            </div>
+        </div>
+
+        <!-- Abas de Navegação -->
+        <div class="profile-tabs">
+            <div class="tab active" data-tab="lendo">Lendo Agora</div>
+            <div class="tab" data-tab="favoritos">Favoritos</div>
+            <div class="tab" data-tab="conquistas">Conquistas</div>
+            <div class="tab" data-tab="seguindo">Seguindo</div>
+        </div>
+
+        <!-- Conteúdo das Abas -->
+        <div class="tab-content">
+            <!-- Aba: Lendo Agora -->
+            <div class="tab-pane active" id="lendo">
+                <div class="currently-reading">
+                    <div class="reading-book">
+                        <img src="./img/Aventura na Floresta.png" alt="Lendo atualmente">
+                        <div class="reading-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 65%"></div>
+                            </div>
+                            <span>65% completo</span>
+                        </div>
+                        <button class="continue-reading-btn">Continuar Leitura</button>
+                    </div>
+                    
+                    <div class="reading-details">
+                        <h3>Aventura na Floresta</h3>
+                        <p>Uma emocionante jornada pela floresta amazônica, onde dois amigos descobrem criaturas mágicas...</p>
+                        <div class="reading-stats">
+                            <div class="reading-stat">
+                                <i class="fas fa-book-open"></i>
+                                <span>8/12 páginas</span>
+                            </div>
+                            <div class="reading-stat">
+                                <i class="fas fa-clock"></i>
+                                <span>Última leitura: Hoje</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Aba: Favoritos -->
+            <div class="tab-pane" id="favoritos">
+                <div class="filters">
+                    <div class="filter-tab active" data-filter="all">Todos</div>
+                    <div class="filter-tab" data-filter="stories">Histórias</div>
+                    <div class="filter-tab" data-filter="drawings">Desenhos</div>
+                </div>
+
+                <div class="favorites-grid">
+                    <!-- Item Favorito 1 -->
+                    <div class="favorite-item" data-type="stories">
+                        <img src="../img/O castelo magico.png" alt="História favorita">
+                        <div class="favorite-overlay">
+                            <h4>O Castelo Mágico</h4>
+                            <p>Por: Carlos Silva</p>
+                            <div class="favorite-actions">
+                                <button class="favorite-btn active">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                                <button class="read-btn">
+                                    <i class="fas fa-book-open"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Item Favorito 2 -->
+                    <div class="favorite-item" data-type="drawings">
+                        <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Desenho favorito">
+                        <div class="favorite-overlay">
+                            <h4>Dragão Colorido</h4>
+                            <p>Meu desenho</p>
+                            <div class="favorite-actions">
+                                <button class="favorite-btn active">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                                <button class="edit-btn">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Item Favorito 3 -->
+                    <div class="favorite-item" data-type="stories">
+                        <img src="../img/Viagem ao espaço.png" alt="História favorita">
+                        <div class="favorite-overlay">
+                            <h4>Viagem ao Espaço</h4>
+                            <p>Por: Ana Costa</p>
+                            <div class="favorite-actions">
+                                <button class="favorite-btn active">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                                <button class="read-btn">
+                                    <i class="fas fa-book-open"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Item Favorito 4 -->
+                    <div class="favorite-item" data-type="drawings">
+                        <img src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Desenho favorito">
+                        <div class="favorite-overlay">
+                            <h4>Família de Ursos</h4>
+                            <p>Desenho de Pedro</p>
+                            <div class="favorite-actions">
+                                <button class="favorite-btn active">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                                <button class="view-btn">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Aba: Conquistas -->
+            <div class="tab-pane" id="conquistas">
+                <div class="achievements-container">
+                    <div class="achievement-category">
+                        <h3>Leitura</h3>
+                        <div class="achievements-grid">
+                            <!-- Conquista 1 -->
+                            <div class="achievement unlocked">
+                                <div class="achievement-icon">
+                                    <i class="fas fa-book"></i>
+                                </div>
+                                <h4>Primeira Leitura</h4>
+                                <p>Complete sua primeira história</p>
+                                <span class="achievement-date">Conquistado em: 12/03/2023</span>
+                            </div>
+
+                            <!-- Conquista 2 -->
+                            <div class="achievement unlocked">
+                                <div class="achievement-icon">
+                                    <i class="fas fa-trophy"></i>
+                                </div>
+                                <h4>Leitor Ávido</h4>
+                                <p>Leia 10 histórias</p>
+                                <span class="achievement-date">Conquistado em: 15/04/2023</span>
+                            </div>
+
+                            <!-- Conquista 3 -->
+                            <div class="achievement locked">
+                                <div class="achievement-icon">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <h4>Leitor Mestre</h4>
+                                <p>Leia 50 histórias</p>
+                                <span class="achievement-progress">25/50</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="achievement-category">
+                        <h3>Desenho</h3>
+                        <div class="achievements-grid">
+                            <!-- Conquista 4 -->
+                            <div class="achievement unlocked">
+                                <div class="achievement-icon">
+                                    <i class="fas fa-paint-brush"></i>
+                                </div>
+                                <h4>Artista Iniciante</h4>
+                                <p>Crie seu primeiro desenho</p>
+                                <span class="achievement-date">Conquistado em: 05/02/2023</span>
+                            </div>
+
+                            <!-- Conquista 5 -->
+                            <div class="achievement locked">
+                                <div class="achievement-icon">
+                                    <i class="fas fa-palette"></i>
+                                </div>
+                                <h4>Mestre das Cores</h4>
+                                <p>Use 20 cores diferentes</p>
+                                <span class="achievement-progress">12/20</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Aba: Seguindo -->
+            <div class="tab-pane" id="seguindo">
+                <div class="following-list">
+                    <!-- Pessoa 1 -->
+                    <div class="following-item">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Seguindo">
+                        <div class="following-info">
+                            <h4>Carlos Silva</h4>
+                            <p>Autor de 15 histórias</p>
+                            <div class="following-stats">
+                                <span>2.4K seguidores</span>
+                                <span>•</span>
+                                <span>12 histórias</span>
+                            </div>
+                        </div>
+                        <button class="unfollow-btn">Seguindo</button>
+                    </div>
+
+                    <!-- Pessoa 2 -->
+                    <div class="following-item">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Seguindo">
+                        <div class="following-info">
+                            <h4>Ana Costa</h4>
+                            <p>Especialista em ficção científica</p>
+                            <div class="following-stats">
+                                <span>1.8K seguidores</span>
+                                <span>•</span>
+                                <span>8 histórias</span>
+                            </div>
+                        </div>
+                        <button class="unfollow-btn">Seguindo</button>
+                    </div>
+
+                    <!-- Pessoa 3 -->
+                    <div class="following-item">
+                        <img src="https://images.unsplash.com/photo-1552058544-f2b08422138a?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Seguindo">
+                        <div class="following-info">
+                            <h4>Miguel Santos</h4>
+                            <p>Aventuras e mistérios</p>
+                            <div class="following-stats">
+                                <span>3.1K seguidores</span>
+                                <span>•</span>
+                                <span>20 histórias</span>
+                            </div>
+                        </div>
+                        <button class="unfollow-btn">Seguindo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,479 +1,550 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Minhas Histórias - ArtFlow Kids</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" href="./img/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="icon" href="../img/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
     <!-- Bolinhas flutuantes interativas -->
     <div class="floating-shapes"></div>
 
     <!-- Header -->
     <div class="header">
-        <div class="nav-left">
-            <div class="nav-menu">
-                <a href="#" class="nav-item">POPULAR</a>
-                <a href="#" class="nav-item active">HISTÓRIAS</a>
-                <a href="#" class="nav-item">DESENHOS</a>
-                <a href="#" class="nav-item">ARTISTAS</a>
-            </div>
+      <div class="nav-left">
+        <div class="nav-menu">
+          <a href="#" class="nav-item">POPULAR</a>
+          <a href="#" class="nav-item active">HISTÓRIAS</a>
+          <a href="#" class="nav-item">DESENHOS</a>
+          <a href="#" class="nav-item">ARTISTAS</a>
         </div>
+      </div>
 
-        <div class="nav-right">
-            <div class="logo-header">artflow</div>
+      <div class="nav-right">
+        <div class="logo-header">artflow</div>
+        <div class="profile-container">
+          <div class="notifications">
+            <i class="far fa-bell"></i>
+          </div>
+          <a href="../../TelaPerfil/index.html" class="profile-icon">
+            <img
+              src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80"
+              alt="Perfil"
+            />
+          </a>
         </div>
+      </div>
     </div>
 
     <!-- Sidebar -->
     <div class="sidebar">
-        <a href="../index.html" class="sidebar-icon">
-            <i class="fas fa-home"></i>
-            <span>Início</span>
-        </a>
-        <a href="#" class="sidebar-icon active">
-            <i class="fas fa-book"></i>
-            <span>Minhas Histórias</span>
-        </a>
-        <a href="#" class="sidebar-icon">
-            <i class="fas fa-paint-brush"></i>
-            <span>Desenhar</span>
-        </a>
-        <a href="#" class="sidebar-icon">
-            <i class="fas fa-heart"></i>
-            <span>Favoritos</span>
-        </a>
-        <a href="#" class="sidebar-icon">
-            <i class="fas fa-trophy"></i>
-            <span>Conquistas</span>
-        </a>
-        <a href="#" class="sidebar-icon">
-            <i class="fas fa-cog"></i>
-            <span>Configurações</span>
-        </a>
+      <a href="../index.html" class="sidebar-icon">
+        <i class="fas fa-home"></i>
+        <span>Início</span>
+      </a>
+      <a href="#" class="sidebar-icon active">
+        <i class="fas fa-book"></i>
+        <span>Minhas Histórias</span>
+      </a>
+      <a href="#" class="sidebar-icon">
+        <i class="fas fa-paint-brush"></i>
+        <span>Desenhar</span>
+      </a>
+      <a href="#" class="sidebar-icon">
+        <i class="fas fa-heart"></i>
+        <span>Favoritos</span>
+      </a>
+      <a href="#" class="sidebar-icon">
+        <i class="fas fa-trophy"></i>
+        <span>Conquistas</span>
+      </a>
+      <a href="#" class="sidebar-icon">
+        <i class="fas fa-cog"></i>
+        <span>Configurações</span>
+      </a>
     </div>
 
     <!-- Conteúdo Principal -->
     <div class="main-content">
-        <!-- Cabeçalho da página -->
-        <div class="page-header">
-            <div class="page-info">
-                <h1 class="page-title">Minhas Histórias</h1>
-                <p class="page-subtitle">Suas aventuras salvas e progresso de leitura</p>
-            </div>
-            <div class="stats-container">
-                <div class="stat-item">
-                    <span class="stat-number">8</span>
-                    <span class="stat-label">Histórias</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">5</span>
-                    <span class="stat-label">Lidas</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">3</span>
-                    <span class="stat-label">Lendo</span>
-                </div>
-            </div>
+      <!-- Cabeçalho da página -->
+      <div class="page-header">
+        <div class="page-info">
+          <h1 class="page-title">Minhas Histórias</h1>
+          <p class="page-subtitle">
+            Suas aventuras salvas e progresso de leitura
+          </p>
+        </div>
+        <div class="stats-container">
+          <div class="stat-item">
+            <span class="stat-number">8</span>
+            <span class="stat-label">Histórias</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">5</span>
+            <span class="stat-label">Lidas</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">3</span>
+            <span class="stat-label">Lendo</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filtros e Controles -->
+      <div class="controls-section">
+        <div class="filter-tabs">
+          <div class="filter-tab active" data-filter="all">Todas</div>
+          <div class="filter-tab" data-filter="reading">Lendo</div>
+          <div class="filter-tab" data-filter="completed">Concluídas</div>
+          <div class="filter-tab" data-filter="new">Novas</div>
+          <div class="filter-tab" data-filter="paused">Pausadas</div>
         </div>
 
-        <!-- Filtros e Controles -->
-        <div class="controls-section">
-            <div class="filter-tabs">
-                <div class="filter-tab active" data-filter="all">Todas</div>
-                <div class="filter-tab" data-filter="reading">Lendo</div>
-                <div class="filter-tab" data-filter="completed">Concluídas</div>
-                <div class="filter-tab" data-filter="new">Novas</div>
-                <div class="filter-tab" data-filter="paused">Pausadas</div>
-            </div>
+        <div class="search-sort-container">
+          <div class="search-stories">
+            <i class="fas fa-search"></i>
+            <input
+              type="text"
+              placeholder="Buscar histórias..."
+              id="searchInput"
+            />
+          </div>
 
-            <div class="search-sort-container">
-                <div class="search-stories">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Buscar histórias..." id="searchInput">
-                </div>
-                
-                <select class="sort-select" id="sortSelect">
-                    <option value="recent">Mais Recentes</option>
-                    <option value="title">Nome A-Z</option>
-                    <option value="progress">Progresso</option>
-                    <option value="date">Data Adicionada</option>
-                </select>
+          <select class="sort-select" id="sortSelect">
+            <option value="recent">Mais Recentes</option>
+            <option value="title">Nome A-Z</option>
+            <option value="progress">Progresso</option>
+            <option value="date">Data Adicionada</option>
+          </select>
 
-                <div class="view-toggle">
-                    <button class="view-btn active" data-view="grid">
-                        <i class="fas fa-th"></i>
-                    </button>
-                    <button class="view-btn" data-view="list">
-                        <i class="fas fa-list"></i>
-                    </button>
-                </div>
-            </div>
+          <div class="view-toggle">
+            <button class="view-btn active" data-view="grid">
+              <i class="fas fa-th"></i>
+            </button>
+            <button class="view-btn" data-view="list">
+              <i class="fas fa-list"></i>
+            </button>
+          </div>
         </div>
+      </div>
 
-        <!-- Grid de Histórias -->
-        <div class="stories-grid" id="storiesGrid">
-            <!-- História 1 -->
-            <div class="story-card" data-status="reading" data-title="Aventura na Floresta">
-                <div class="story-cover">
-                    <img src="../img/Aventura na Floresta.png" alt="Aventura na Floresta">
-                    <div class="story-status status-reading">Lendo</div>
-                    <div class="story-progress">
-                        <div class="progress-bar" style="width: 65%"></div>
-                    </div>
-                </div>
-                <div class="story-info">
-                    <h3 class="story-title">Aventura na Floresta</h3>
-                    <div class="story-meta">
-                        <div class="story-date">
-                            <i class="fas fa-calendar"></i>
-                            <span>Hoje</span>
-                        </div>
-                        <div class="story-pages">
-                            <i class="fas fa-book-open"></i>
-                            <span>8/12 páginas</span>
-                        </div>
-                    </div>
-                    <p class="story-description">
-                        Uma emocionante jornada pela floresta amazônica, onde dois amigos descobrem criaturas mágicas...
-                    </p>
-                    <div class="story-actions">
-                        <div class="action-buttons">
-                            <button class="action-btn" title="Favoritar">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                            <button class="action-btn" title="Compartilhar">
-                                <i class="fas fa-share"></i>
-                            </button>
-                            <button class="action-btn" title="Mais opções">
-                                <i class="fas fa-ellipsis-v"></i>
-                            </button>
-                        </div>
-                        <button class="continue-btn">Continuar</button>
-                    </div>
-                </div>
+      <!-- Grid de Histórias -->
+      <div class="stories-grid" id="storiesGrid">
+        <!-- História 1 -->
+        <div
+          class="story-card"
+          data-status="reading"
+          data-title="Aventura na Floresta"
+        >
+          <div class="story-cover">
+            <img
+              src="../img/Aventura na Floresta.png"
+              alt="Aventura na Floresta"
+            />
+            <div class="story-status status-reading">Lendo</div>
+            <div class="story-progress">
+              <div class="progress-bar" style="width: 65%"></div>
             </div>
-
-            <!-- História 2 -->
-            <div class="story-card" data-status="completed" data-title="O Castelo Mágico">
-                <div class="story-cover">
-                    <img src="../img/O castelo magico.png" alt="O Castelo Mágico">
-                    <div class="story-status status-completed">Concluída</div>
-                    <div class="story-progress">
-                        <div class="progress-bar" style="width: 100%"></div>
-                    </div>
-                </div>
-                <div class="story-info">
-                    <h3 class="story-title">O Castelo Mágico</h3>
-                    <div class="story-meta">
-                        <div class="story-date">
-                            <i class="fas fa-calendar"></i>
-                            <span>Ontem</span>
-                        </div>
-                        <div class="story-pages">
-                            <i class="fas fa-book-open"></i>
-                            <span>10/10 páginas</span>
-                        </div>
-                    </div>
-                    <p class="story-description">
-                        Em um reino distante, uma jovem princesa descobre um castelo encantado cheio de segredos...
-                    </p>
-                    <div class="story-actions">
-                        <div class="action-buttons">
-                            <button class="action-btn" title="Favoritar">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                            <button class="action-btn" title="Compartilhar">
-                                <i class="fas fa-share"></i>
-                            </button>
-                            <button class="action-btn" title="Mais opções">
-                                <i class="fas fa-ellipsis-v"></i>
-                            </button>
-                        </div>
-                        <button class="continue-btn">Reler</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- História 3 -->
-            <div class="story-card" data-status="new" data-title="Viagem ao Espaço">
-                <div class="story-cover">
-                    <img src="../img/Viagem ao espaço.png" alt="Viagem ao Espaço">
-                    <div class="story-status status-new">Nova</div>
-                    <div class="story-progress">
-                        <div class="progress-bar" style="width: 0%"></div>
-                    </div>
-                </div>
-                <div class="story-info">
-                    <h3 class="story-title">Viagem ao Espaço</h3>
-                    <div class="story-meta">
-                        <div class="story-date">
-                            <i class="fas fa-calendar"></i>
-                            <span>2 dias</span>
-                        </div>
-                        <div class="story-pages">
-                            <i class="fas fa-book-open"></i>
-                            <span>0/14 páginas</span>
-                        </div>
-                    </div>
-                    <p class="story-description">
-                        Junte-se à tripulação da nave estelar Exploradora em uma missão para descobrir novos planetas...
-                    </p>
-                    <div class="story-actions">
-                        <div class="action-buttons">
-                            <button class="action-btn" title="Favoritar">
-                                <i class="far fa-heart"></i>
-                            </button>
-                            <button class="action-btn" title="Compartilhar">
-                                <i class="fas fa-share"></i>
-                            </button>
-                            <button class="action-btn" title="Mais opções">
-                                <i class="fas fa-ellipsis-v"></i>
-                            </button>
-                        </div>
-                        <button class="continue-btn">Começar</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- História 4 -->
-            <div class="story-card" data-status="reading" data-title="O Tesouro Perdido">
-                <div class="story-cover">
-                    <img src="../img/O tesouro perdido.png" alt="O Tesouro Perdido">
-                    <div class="story-status status-reading">Lendo</div>
-                    <div class="story-progress">
-                        <div class="progress-bar" style="width: 25%"></div>
-                    </div>
-                </div>
-                <div class="story-info">
-                    <h3 class="story-title">O Tesouro Perdido</h3>
-                    <div class="story-meta">
-                        <div class="story-date">
-                            <i class="fas fa-calendar"></i>
-                            <span>3 dias</span>
-                        </div>
-                        <div class="story-pages">
-                            <i class="fas fa-book-open"></i>
-                            <span>4/16 páginas</span>
-                        </div>
-                    </div>
-                    <p class="story-description">
-                        Um mapa misterioso leva três irmãos em uma caça ao tesouro cheia de enigmas e desafios...
-                    </p>
-                    <div class="story-actions">
-                        <div class="action-buttons">
-                            <button class="action-btn" title="Favoritar">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                            <button class="action-btn" title="Compartilhar">
-                                <i class="fas fa-share"></i>
-                            </button>
-                            <button class="action-btn" title="Mais opções">
-                                <i class="fas fa-ellipsis-v"></i>
-                            </button>
-                        </div>
-                        <button class="continue-btn">Continuar</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- História 5 -->
-            <div class="story-card" data-status="paused" data-title="O Pequeno Explorador">
-                <div class="story-cover">
-                    <img src="https://images.unsplash.com/photo-1626618012641-bfbca5a31239?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="O Pequeno Explorador">
-                    <div class="story-status status-paused">Pausada</div>
-                    <div class="story-progress">
-                        <div class="progress-bar" style="width: 40%"></div>
-                    </div>
-                </div>
-                <div class="story-info">
-                    <h3 class="story-title">O Pequeno Explorador</h3>
-                    <div class="story-meta">
-                        <div class="story-date">
-                            <i class="fas fa-calendar"></i>
-                            <span>1 semana</span>
-                        </div>
-                        <div class="story-pages">
-                            <i class="fas fa-book-open"></i>
-                            <span>4/10 páginas</span>
-                        </div>
-                    </div>
-                    <p class="story-description">
-                        Um jovem aventureiro parte em uma jornada para descobrir os segredos de uma ilha misteriosa...
-                    </p>
-                    <div class="story-actions">
-                        <div class="action-buttons">
-                            <button class="action-btn" title="Favoritar">
-                                <i class="far fa-heart"></i>
-                            </button>
-                            <button class="action-btn" title="Compartilhar">
-                                <i class="fas fa-share"></i>
-                            </button>
-                            <button class="action-btn" title="Mais opções">
-                                <i class="fas fa-ellipsis-v"></i>
-                            </button>
-                        </div>
-                        <button class="continue-btn">Retomar</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- História 6 -->
-            <div class="story-card" data-status="completed" data-title="A Menina e o Dragão">
-                <div class="story-cover">
-                    <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="A Menina e o Dragão">
-                    <div class="story-status status-completed">Concluída</div>
-                    <div class="story-progress">
-                        <div class="progress-bar" style="width: 100%"></div>
-                    </div>
-                </div>
-                <div class="story-info">
-                    <h3 class="story-title">A Menina e o Dragão</h3>
-                    <div class="story-meta">
-                        <div class="story-date">
-                            <i class="fas fa-calendar"></i>
-                            <span>2 semanas</span>
-                        </div>
-                        <div class="story-pages">
-                            <i class="fas fa-book-open"></i>
-                            <span>8/8 páginas</span>
-                        </div>
-                    </div>
-                    <p class="story-description">
-                        A amizade improvável entre uma jovem corajosa e um dragão incompreendido...
-                    </p>
-                    <div class="story-actions">
-                        <div class="action-buttons">
-                            <button class="action-btn" title="Favoritar">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                            <button class="action-btn" title="Compartilhar">
-                                <i class="fas fa-share"></i>
-                            </button>
-                            <button class="action-btn" title="Mais opções">
-                                <i class="fas fa-ellipsis-v"></i>
-                            </button>
-                        </div>
-                        <button class="continue-btn">Reler</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- História 7 -->
-            <div class="story-card" data-status="reading" data-title="No Fundo do Mar">
-                <div class="story-cover">
-                    <img src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="No Fundo do Mar">
-                    <div class="story-status status-reading">Lendo</div>
-                    <div class="story-progress">
-                        <div class="progress-bar" style="width: 75%"></div>
-                    </div>
-                </div>
-                <div class="story-info">
-                    <h3 class="story-title">No Fundo do Mar</h3>
-                    <div class="story-meta">
-                        <div class="story-date">
-                            <i class="fas fa-calendar"></i>
-                            <span>1 semana</span>
-                        </div>
-                        <div class="story-pages">
-                            <i class="fas fa-book-open"></i>
-                            <span>9/12 páginas</span>
-                        </div>
-                    </div>
-                    <p class="story-description">
-                        Uma aventura submarina cheia de criaturas fantásticas e descobertas surpreendentes...
-                    </p>
-                    <div class="story-actions">
-                        <div class="action-buttons">
-                            <button class="action-btn" title="Favoritar">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                            <button class="action-btn" title="Compartilhar">
-                                <i class="fas fa-share"></i>
-                            </button>
-                            <button class="action-btn" title="Mais opções">
-                                <i class="fas fa-ellipsis-v"></i>
-                            </button>
-                        </div>
-                        <button class="continue-btn">Continuar</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- História 8 -->
-            <div class="story-card" data-status="completed" data-title="O Circo Mágico">
-                <div class="story-cover">
-                    <img src="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="O Circo Mágico">
-                    <div class="story-status status-completed">Concluída</div>
-                    <div class="story-progress">
-                        <div class="progress-bar" style="width: 100%"></div>
-                    </div>
-                </div>
-                <div class="story-info">
-                    <h3 class="story-title">O Circo Mágico</h3>
-                    <div class="story-meta">
-                        <div class="story-date">
-                            <i class="fas fa-calendar"></i>
-                            <span>3 semanas</span>
-                        </div>
-                        <div class="story-pages">
-                            <i class="fas fa-book-open"></i>
-                            <span>6/6 páginas</span>
-                        </div>
-                    </div>
-                    <p class="story-description">
-                        Entre trapezistas, mágicos e palhaços, uma história encantadora sobre sonhos и determinação...
-                    </p>
-                    <div class="story-actions">
-                        <div class="action-buttons">
-                            <button class="action-btn" title="Favoritar">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                            <button class="action-btn" title="Compartilhar">
-                                <i class="fas fa-share"></i>
-                            </button>
-                            <button class="action-btn" title="Mais opções">
-                                <i class="fas fa-ellipsis-v"></i>
-                            </button>
-                        </div>
-                        <button class="continue-btn">Reler</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Estado vazio (será mostrado quando não houver histórias ou filtros não retornarem resultados) -->
-        <div class="empty-state" id="emptyState" style="display: none;">
-            <div class="empty-icon">
+          </div>
+          <div class="story-info">
+            <h3 class="story-title">Aventura na Floresta</h3>
+            <div class="story-meta">
+              <div class="story-date">
+                <i class="fas fa-calendar"></i>
+                <span>Hoje</span>
+              </div>
+              <div class="story-pages">
                 <i class="fas fa-book-open"></i>
+                <span>8/12 páginas</span>
+              </div>
             </div>
-            <h3 class="empty-title">Nenhuma história encontrada</h3>
-            <p class="empty-subtitle">Que tal explorar novas aventuras?</p>
-            <a href="index.html" class="explore-btn">Explorar Histórias</a>
+            <p class="story-description">
+              Uma emocionante jornada pela floresta amazônica, onde dois amigos
+              descobrem criaturas mágicas...
+            </p>
+            <div class="story-actions">
+              <div class="action-buttons">
+                <button class="action-btn" title="Favoritar">
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button class="action-btn" title="Compartilhar">
+                  <i class="fas fa-share"></i>
+                </button>
+                <button class="action-btn" title="Mais opções">
+                  <i class="fas fa-ellipsis-v"></i>
+                </button>
+              </div>
+              <button class="continue-btn">Continuar</button>
+            </div>
+          </div>
         </div>
+
+        <!-- História 2 -->
+        <div
+          class="story-card"
+          data-status="completed"
+          data-title="O Castelo Mágico"
+        >
+          <div class="story-cover">
+            <img src="../img/O castelo magico.png" alt="O Castelo Mágico" />
+            <div class="story-status status-completed">Concluída</div>
+            <div class="story-progress">
+              <div class="progress-bar" style="width: 100%"></div>
+            </div>
+          </div>
+          <div class="story-info">
+            <h3 class="story-title">O Castelo Mágico</h3>
+            <div class="story-meta">
+              <div class="story-date">
+                <i class="fas fa-calendar"></i>
+                <span>Ontem</span>
+              </div>
+              <div class="story-pages">
+                <i class="fas fa-book-open"></i>
+                <span>10/10 páginas</span>
+              </div>
+            </div>
+            <p class="story-description">
+              Em um reino distante, uma jovem princesa descobre um castelo
+              encantado cheio de segredos...
+            </p>
+            <div class="story-actions">
+              <div class="action-buttons">
+                <button class="action-btn" title="Favoritar">
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button class="action-btn" title="Compartilhar">
+                  <i class="fas fa-share"></i>
+                </button>
+                <button class="action-btn" title="Mais opções">
+                  <i class="fas fa-ellipsis-v"></i>
+                </button>
+              </div>
+              <button class="continue-btn">Reler</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- História 3 -->
+        <div class="story-card" data-status="new" data-title="Viagem ao Espaço">
+          <div class="story-cover">
+            <img src="../img/Viagem ao espaço.png" alt="Viagem ao Espaço" />
+            <div class="story-status status-new">Nova</div>
+            <div class="story-progress">
+              <div class="progress-bar" style="width: 0%"></div>
+            </div>
+          </div>
+          <div class="story-info">
+            <h3 class="story-title">Viagem ao Espaço</h3>
+            <div class="story-meta">
+              <div class="story-date">
+                <i class="fas fa-calendar"></i>
+                <span>2 dias</span>
+              </div>
+              <div class="story-pages">
+                <i class="fas fa-book-open"></i>
+                <span>0/14 páginas</span>
+              </div>
+            </div>
+            <p class="story-description">
+              Junte-se à tripulação da nave estelar Exploradora em uma missão
+              para descobrir novos planetas...
+            </p>
+            <div class="story-actions">
+              <div class="action-buttons">
+                <button class="action-btn" title="Favoritar">
+                  <i class="far fa-heart"></i>
+                </button>
+                <button class="action-btn" title="Compartilhar">
+                  <i class="fas fa-share"></i>
+                </button>
+                <button class="action-btn" title="Mais opções">
+                  <i class="fas fa-ellipsis-v"></i>
+                </button>
+              </div>
+              <button class="continue-btn">Começar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- História 4 -->
+        <div
+          class="story-card"
+          data-status="reading"
+          data-title="O Tesouro Perdido"
+        >
+          <div class="story-cover">
+            <img src="../img/O tesouro perdido.png" alt="O Tesouro Perdido" />
+            <div class="story-status status-reading">Lendo</div>
+            <div class="story-progress">
+              <div class="progress-bar" style="width: 25%"></div>
+            </div>
+          </div>
+          <div class="story-info">
+            <h3 class="story-title">O Tesouro Perdido</h3>
+            <div class="story-meta">
+              <div class="story-date">
+                <i class="fas fa-calendar"></i>
+                <span>3 dias</span>
+              </div>
+              <div class="story-pages">
+                <i class="fas fa-book-open"></i>
+                <span>4/16 páginas</span>
+              </div>
+            </div>
+            <p class="story-description">
+              Um mapa misterioso leva três irmãos em uma caça ao tesouro cheia
+              de enigmas e desafios...
+            </p>
+            <div class="story-actions">
+              <div class="action-buttons">
+                <button class="action-btn" title="Favoritar">
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button class="action-btn" title="Compartilhar">
+                  <i class="fas fa-share"></i>
+                </button>
+                <button class="action-btn" title="Mais opções">
+                  <i class="fas fa-ellipsis-v"></i>
+                </button>
+              </div>
+              <button class="continue-btn">Continuar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- História 5 -->
+        <div
+          class="story-card"
+          data-status="paused"
+          data-title="O Pequeno Explorador"
+        >
+          <div class="story-cover">
+            <img
+              src="https://images.unsplash.com/photo-1626618012641-bfbca5a31239?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+              alt="O Pequeno Explorador"
+            />
+            <div class="story-status status-paused">Pausada</div>
+            <div class="story-progress">
+              <div class="progress-bar" style="width: 40%"></div>
+            </div>
+          </div>
+          <div class="story-info">
+            <h3 class="story-title">O Pequeno Explorador</h3>
+            <div class="story-meta">
+              <div class="story-date">
+                <i class="fas fa-calendar"></i>
+                <span>1 semana</span>
+              </div>
+              <div class="story-pages">
+                <i class="fas fa-book-open"></i>
+                <span>4/10 páginas</span>
+              </div>
+            </div>
+            <p class="story-description">
+              Um jovem aventureiro parte em uma jornada para descobrir os
+              segredos de uma ilha misteriosa...
+            </p>
+            <div class="story-actions">
+              <div class="action-buttons">
+                <button class="action-btn" title="Favoritar">
+                  <i class="far fa-heart"></i>
+                </button>
+                <button class="action-btn" title="Compartilhar">
+                  <i class="fas fa-share"></i>
+                </button>
+                <button class="action-btn" title="Mais opções">
+                  <i class="fas fa-ellipsis-v"></i>
+                </button>
+              </div>
+              <button class="continue-btn">Retomar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- História 6 -->
+        <div
+          class="story-card"
+          data-status="completed"
+          data-title="A Menina e o Dragão"
+        >
+          <div class="story-cover">
+            <img
+              src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+              alt="A Menina e o Dragão"
+            />
+            <div class="story-status status-completed">Concluída</div>
+            <div class="story-progress">
+              <div class="progress-bar" style="width: 100%"></div>
+            </div>
+          </div>
+          <div class="story-info">
+            <h3 class="story-title">A Menina e o Dragão</h3>
+            <div class="story-meta">
+              <div class="story-date">
+                <i class="fas fa-calendar"></i>
+                <span>2 semanas</span>
+              </div>
+              <div class="story-pages">
+                <i class="fas fa-book-open"></i>
+                <span>8/8 páginas</span>
+              </div>
+            </div>
+            <p class="story-description">
+              A amizade improvável entre uma jovem corajosa e um dragão
+              incompreendido...
+            </p>
+            <div class="story-actions">
+              <div class="action-buttons">
+                <button class="action-btn" title="Favoritar">
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button class="action-btn" title="Compartilhar">
+                  <i class="fas fa-share"></i>
+                </button>
+                <button class="action-btn" title="Mais opções">
+                  <i class="fas fa-ellipsis-v"></i>
+                </button>
+              </div>
+              <button class="continue-btn">Reler</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- História 7 -->
+        <div
+          class="story-card"
+          data-status="reading"
+          data-title="No Fundo do Mar"
+        >
+          <div class="story-cover">
+            <img
+              src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+              alt="No Fundo do Mar"
+            />
+            <div class="story-status status-reading">Lendo</div>
+            <div class="story-progress">
+              <div class="progress-bar" style="width: 75%"></div>
+            </div>
+          </div>
+          <div class="story-info">
+            <h3 class="story-title">No Fundo do Mar</h3>
+            <div class="story-meta">
+              <div class="story-date">
+                <i class="fas fa-calendar"></i>
+                <span>1 semana</span>
+              </div>
+              <div class="story-pages">
+                <i class="fas fa-book-open"></i>
+                <span>9/12 páginas</span>
+              </div>
+            </div>
+            <p class="story-description">
+              Uma aventura submarina cheia de criaturas fantásticas e
+              descobertas surpreendentes...
+            </p>
+            <div class="story-actions">
+              <div class="action-buttons">
+                <button class="action-btn" title="Favoritar">
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button class="action-btn" title="Compartilhar">
+                  <i class="fas fa-share"></i>
+                </button>
+                <button class="action-btn" title="Mais opções">
+                  <i class="fas fa-ellipsis-v"></i>
+                </button>
+              </div>
+              <button class="continue-btn">Continuar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- História 8 -->
+        <div
+          class="story-card"
+          data-status="completed"
+          data-title="O Circo Mágico"
+        >
+          <div class="story-cover">
+            <img
+              src="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+              alt="O Circo Mágico"
+            />
+            <div class="story-status status-completed">Concluída</div>
+            <div class="story-progress">
+              <div class="progress-bar" style="width: 100%"></div>
+            </div>
+          </div>
+          <div class="story-info">
+            <h3 class="story-title">O Circo Mágico</h3>
+            <div class="story-meta">
+              <div class="story-date">
+                <i class="fas fa-calendar"></i>
+                <span>3 semanas</span>
+              </div>
+              <div class="story-pages">
+                <i class="fas fa-book-open"></i>
+                <span>6/6 páginas</span>
+              </div>
+            </div>
+            <p class="story-description">
+              Entre trapezistas, mágicos e palhaços, uma história encantadora
+              sobre sonhos e determinação...
+            </p>
+            <div class="story-actions">
+              <div class="action-buttons">
+                <button class="action-btn" title="Favoritar">
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button class="action-btn" title="Compartilhar">
+                  <i class="fas fa-share"></i>
+                </button>
+                <button class="action-btn" title="Mais opções">
+                  <i class="fas fa-ellipsis-v"></i>
+                </button>
+              </div>
+              <button class="continue-btn">Reler</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Estado vazio (será mostrado quando não houver histórias ou filtros não retornarem resultados) -->
+      <div class="empty-state" id="emptyState" style="display: none">
+        <div class="empty-icon">
+          <i class="fas fa-book-open"></i>
+        </div>
+        <h3 class="empty-title">Nenhuma história encontrada</h3>
+        <p class="empty-subtitle">Que tal explorar novas aventuras?</p>
+        <a href="../index.html" class="explore-btn">Explorar Histórias</a>
+      </div>
     </div>
 
     <!-- Modal de detalhes/opções -->
     <div class="modal-overlay" id="storyModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title" id="modalTitle">Opções da História</h3>
-                <button class="close-modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p>O que você gostaria de fazer com esta história?</p>
-            </div>
-            <div class="modal-actions">
-                <button class="modal-btn primary">Abrir História</button>
-                <button class="modal-btn secondary">Remover da Lista</button>
-                <button class="modal-btn secondary">Marcar como Favorita</button>
-            </div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="modalTitle">Opções da História</h3>
+          <button class="close-modal">&times;</button>
         </div>
+        <div class="modal-body">
+          <p>O que você gostaria de fazer com esta história?</p>
+        </div>
+        <div class="modal-actions">
+          <button class="modal-btn primary">Abrir História</button>
+          <button class="modal-btn secondary">Remover da Lista</button>
+          <button class="modal-btn secondary">Marcar como Favorita</button>
+        </div>
+      </div>
     </div>
 
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
