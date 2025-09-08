@@ -188,7 +188,7 @@ document.addEventListener("DOMContentLoaded", function() {
         continueReadingBtn.addEventListener("click", function() {
             showNotification("Continuando a leitura...");
             // Redirecionar para a página de leitura
-            window.location.href = "../aventura-na-floresta/aventura.html";
+            window.location.href = "../../Telainicial/aventura-na-floresta/aventura.html";
         });
     }
 });
