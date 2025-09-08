@@ -1,145 +1,197 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Desenhar - ArtFlow Kids</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../TelaInicial/styles.css">
-    <link rel="stylesheet" href="drawing.css">
-    <link rel="icon" href="../img/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
-</head>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../TelaInicial/styles.css" />
+    <link rel="stylesheet" href="drawing.css" />
+    <link rel="icon" href="../img/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon" />
+  </head>
 
-<body>
+  <body>
     <!-- Bolinhas flutuantes interativas -->
     <div class="floating-shapes"></div>
 
     <!-- Header -->
     <div class="header">
-        <div class="nav-left">
-            <div class="nav-menu">
-                <a href="#" class="nav-item">POPULAR</a>
-                <a href="#" class="nav-item">HISTÓRIAS</a>
-                <a href="#" class="nav-item">DESENHOS</a>
-                <a href="#" class="nav-item">ARTISTAS</a>
-            </div>
+      <div class="nav-left">
+        <div class="nav-menu">
+          <a href="#" class="nav-item">POPULAR</a>
+          <a href="#" class="nav-item">HISTÓRIAS</a>
+          <a href="#" class="nav-item">DESENHOS</a>
+          <a href="#" class="nav-item">ARTISTAS</a>
         </div>
+      </div>
 
-        <div class="search-bar">
-            <span class="search-icon"><i class="fas fa-search"></i></span>
-            <input type="text" class="search-input" placeholder="Pesquisar desenhos...">
-        </div>
+      <div class="search-bar">
+        <span class="search-icon"><i class="fas fa-search"></i></span>
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Pesquisar desenhos..."
+        />
+      </div>
 
-        <div class="nav-right">
-            <div class="logo-header">artflow</div>
-            <div class="profile-container">
-                <div class="notifications">
-                    <i class="far fa-bell"></i>
-                </div>
-                <div class="profile-icon">
-                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80"
-                        alt="Perfil">
-                </div>
-            </div>
+      <div class="nav-right">
+        <div class="logo-header">artflow</div>
+        <div class="profile-container">
+          <div class="notifications">
+            <i class="far fa-bell"></i>
+          </div>
+          <div class="profile-icon">
+            <img
+              src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80"
+              alt="Perfil"
+            />
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- Sidebar -->
     <div class="sidebar">
-        <div class="sidebar-icon">
-            <a href="../index.html" style="color: inherit; display: flex; align-items: center; gap: 12px; width: 100%;">
-                <i class="fas fa-home"></i>
-                <span>Início</span>
-            </a>
-        </div>
-        <div class="sidebar-icon">
-            <a href="../minhas-historias.html"
-                style="color: inherit; display: flex; align-items: center; gap: 12px; width: 100%;">
-                <i class="fas fa-book"></i>
-                <span>Minhas História</span>
-            </a>
-        </div>
-        <div class="sidebar-icon">
-            <i class="fas fa-paint-brush"></i>
-            <span>Desenhando</span>
-        </div>
-        <div class="sidebar-icon">
-            <i class="fas fa-heart"></i>
-            <span>Favoritos</span>
-        </div>
-        <div class="sidebar-icon">
-            <i class="fas fa-trophy"></i>
-            <span>Conquistas</span>
-        </div>
-        <div class="sidebar-icon">
-            <i class="fas fa-cog"></i>
-            <span>Configurações</span>
-        </div>
+      <div class="sidebar-icon">
+        <a
+          href="../index.html"
+          style="
+            color: inherit;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+          "
+        >
+          <i class="fas fa-home"></i>
+          <span>Início</span>
+        </a>
+      </div>
+      <div class="sidebar-icon">
+        <a
+          href="../minhas-historias.html"
+          style="
+            color: inherit;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+          "
+        >
+          <i class="fas fa-book"></i>
+          <span>Minhas História</span>
+        </a>
+      </div>
+      <div class="sidebar-icon">
+        <i class="fas fa-paint-brush"></i>
+        <span>Meus Desenhos</span>
+      </div>
+      <div class="sidebar-icon">
+        <i class="fas fa-heart"></i>
+        <span>Favoritos</span>
+      </div>
+      <div class="sidebar-icon">
+        <i class="fas fa-trophy"></i>
+        <span>Conquistas</span>
+      </div>
+      <div class="sidebar-icon">
+        <i class="fas fa-cog"></i>
+        <span>Configurações</span>
+      </div>
     </div>
 
     <!-- Conteúdo Principal -->
     <div class="main-content">
-        <div class="drawing-container">
-            <div class="drawing-header">
-                <button class="back-button" onclick="window.history.back()">
-                    <i class="fas fa-arrow-left"></i> Voltar
-                </button>
-                <h2 class="drawing-title">Exponha suas ideias</h2>
-                <div class="drawing-info">Desenhe o que você quiser!</div>
-            </div>
-
-            <div class="drawing-area">
-                <div class="tools-panel">
-                    <div class="tool-btn active" data-tool="pencil">
-                        <i class="fas fa-pencil-alt"></i>
-                    </div>
-                    <div class="tool-btn" data-tool="brush">
-                        <i class="fas fa-paint-brush"></i>
-                    </div>
-                    <div class="tool-btn" data-tool="eraser">
-                        <i class="fas fa-eraser"></i>
-                    </div>
-
-                    <div class="color-palette">
-                        <div class="color-btn active" style="background-color: #000000;" data-color="#000000"></div>
-                        <div class="color-btn" style="background-color: #ff0000;" data-color="#ff0000"></div>
-                        <div class="color-btn" style="background-color: #0000ff;" data-color="#0000ff"></div>
-                        <div class="color-btn" style="background-color: #00ff00;" data-color="#00ff00"></div>
-                        <div class="color-btn" style="background-color: #ffff00;" data-color="#ffff00"></div>
-                        <div class="color-btn" style="background-color: #ff00ff;" data-color="#ff00ff"></div>
-                        <div class="color-btn" style="background-color: #ff8800;" data-color="#ff8800"></div>
-                    </div>
-
-                    <div class="tool-btn" id="color-picker-btn">
-                        <i class="fas fa-palette"></i>
-                    </div>
-                    <input type="color" id="color-picker" style="display: none;">
-                </div>
-                <div class="canvas-container">
-                    <canvas id="drawing-canvas"></canvas>
-                </div>
-            </div>
-            <div class="drawing-controls">
-                <button class="control-btn clear" id="clear-btn">
-                    <i class="fas fa-trash"></i> Limpar
-                </button>
-                <button class="control-btn save" id="save-btn">
-                    <i class="fas fa-save"></i> Salvar Desenho
-                </button>
-            </div>
+      <div class="drawing-container">
+        <div class="drawing-header">
+          <button class="back-button" onclick="window.history.back()">
+            <i class="fas fa-arrow-left"></i> Voltar
+          </button>
+          <h2 class="drawing-title">Exponha suas ideias</h2>
+          <div class="drawing-info">Desenhe o que você quiser!</div>
         </div>
+
+        <div class="drawing-area">
+          <div class="tools-panel">
+            <div class="tool-btn active" data-tool="pencil">
+              <i class="fas fa-pencil-alt"></i>
+            </div>
+            <div class="tool-btn" data-tool="brush">
+              <i class="fas fa-paint-brush"></i>
+            </div>
+            <div class="tool-btn" data-tool="eraser">
+              <i class="fas fa-eraser"></i>
+            </div>
+
+            <div class="color-palette">
+              <div
+                class="color-btn active"
+                style="background-color: #000000"
+                data-color="#000000"
+              ></div>
+              <div
+                class="color-btn"
+                style="background-color: #ff0000"
+                data-color="#ff0000"
+              ></div>
+              <div
+                class="color-btn"
+                style="background-color: #0000ff"
+                data-color="#0000ff"
+              ></div>
+              <div
+                class="color-btn"
+                style="background-color: #00ff00"
+                data-color="#00ff00"
+              ></div>
+              <div
+                class="color-btn"
+                style="background-color: #ffff00"
+                data-color="#ffff00"
+              ></div>
+              <div
+                class="color-btn"
+                style="background-color: #ff00ff"
+                data-color="#ff00ff"
+              ></div>
+              <div
+                class="color-btn"
+                style="background-color: #ff8800"
+                data-color="#ff8800"
+              ></div>
+            </div>
+
+            <div class="tool-btn" id="color-picker-btn">
+              <i class="fas fa-palette"></i>
+            </div>
+            <input type="color" id="color-picker" style="display: none" />
+          </div>
+          <div class="canvas-container">
+            <canvas id="drawing-canvas"></canvas>
+          </div>
+        </div>
+        <div class="drawing-controls">
+          <button class="control-btn clear" id="clear-btn">
+            <i class="fas fa-trash"></i> Limpar
+          </button>
+          <button class="control-btn save" id="save-btn">
+            <i class="fas fa-save"></i> Salvar Desenho
+          </button>
+        </div>
+      </div>
     </div>
 
     <div class="notification" id="notification">
-        <div class="notification-content">
-            <i class="fas fa-check-circle"></i>
-            <span id="notification-text">Desenho salvo com sucesso!</span>
-        </div>
+      <div class="notification-content">
+        <i class="fas fa-check-circle"></i>
+        <span id="notification-text">Desenho salvo com sucesso!</span>
+      </div>
     </div>
 
     <script src="drawing.js"></script>
-</body>
-
+  </body>
 </html>

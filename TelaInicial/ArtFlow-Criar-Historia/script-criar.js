@@ -375,23 +375,35 @@ function publishStory() {
         return;
     }
     
-    // Simular publicação (em uma aplicação real, isso faria uma requisição AJAX)
-    const stories = JSON.parse(localStorage.getItem('publishedStories') || '[]');
-    stories.push({
-        ...storyData,
-        id: Date.now(),
-        publishedAt: new Date().toISOString(),
-        likes: 0,
-        reads: 0
-    });
+    // Salvar a história no localStorage com uma estrutura que a página Minhas Histórias possa entender
+    const story = {
+        id: Date.now().toString(), // ID único
+        title: storyData.title,
+        category: storyData.category,
+        cover: storyData.cover,
+        pages: storyData.pages,
+        date: new Date().toISOString(),
+        status: "new", // nova história
+        progress: 0, // progresso inicial
+        pagesCount: Object.keys(storyData.pages).length,
+        currentPage: 1,
+        favorite: false
+    };
     
-    localStorage.setItem('publishedStories', JSON.stringify(stories));
+    // Recuperar histórias existentes ou criar um array vazio
+    let stories = JSON.parse(localStorage.getItem('artflow-stories')) || [];
+    
+    // Adicionar a nova história
+    stories.push(story);
+    
+    // Salvar no localStorage
+    localStorage.setItem('artflow-stories', JSON.stringify(stories));
     
     showNotification('História publicada com sucesso!');
     
     // Redirecionar para a página de minhas histórias após um breve delay
     setTimeout(() => {
-        window.location.href = 'minhas-historias.html';
+        window.location.href = '../minhas-historias/index.html';
     }, 1500);
 }
 

@@ -186,13 +186,49 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     saveBtn.addEventListener('click', function () {
-        saveProgress();
-        showNotification('Desenho salvo com sucesso!');
+        saveDrawing();
     });
 
     function saveProgress() {
         const dataURL = canvas.toDataURL('image/png');
         localStorage.setItem('drawing', dataURL);
+    }
+
+    function saveDrawing() {
+        const dataURL = canvas.toDataURL('image/png');
+        
+        // Solicitar um nome para o desenho
+        const drawingName = prompt('Dê um nome para o seu desenho:', `Meu Desenho ${new Date().toLocaleDateString('pt-BR')}`);
+        
+        if (!drawingName) return; // Usuário cancelou
+        
+        // Salvar no localStorage com uma estrutura que a página Meus Desenhos possa entender
+        const drawingData = {
+            id: Date.now().toString(), // ID único
+            title: drawingName,
+            image: dataURL,
+            date: new Date().toISOString(),
+            size: `${canvas.width}x${canvas.height}`,
+            favorite: false,
+            shared: false
+        };
+        
+        // Recuperar desenhos existentes ou criar um array vazio
+        let drawings = JSON.parse(localStorage.getItem('artflow-drawings')) || [];
+        
+        // Adicionar o novo desenho
+        drawings.push(drawingData);
+        
+        // Salvar no localStorage
+        localStorage.setItem('artflow-drawings', JSON.stringify(drawings));
+        
+        showNotification('Desenho salvo com sucesso!');
+        
+        // Limpar o canvas após salvar
+        setTimeout(() => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            localStorage.removeItem('drawing');
+        }, 1000);
     }
 
     function showNotification(message) {

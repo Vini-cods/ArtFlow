@@ -272,6 +272,7 @@ body {
   color: rgba(255, 215, 0, 0.8);
   overflow: hidden;
   gap: 15px;
+  text-decoration: none;
 }
 
 .sidebar-icon i {

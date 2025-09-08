@@ -117,9 +117,222 @@ function toggleView(view) {
   }
 }
 
+// Função para carregar histórias do localStorage
+function loadStoriesFromStorage() {
+  const stories = JSON.parse(localStorage.getItem("artflow-stories")) || [];
+  const grid = document.getElementById("storiesGrid");
+  const emptyState = document.getElementById("emptyState");
+
+  // Se não houver histórias, mostrar estado vazio
+  if (stories.length === 0) {
+    emptyState.style.display = "block";
+    return;
+  }
+
+  emptyState.style.display = "none";
+
+  // Limpar o grid (mantenha as histórias estáticas já existentes ou substitua completamente)
+  // Para adicionar às histórias existentes, comente a linha abaixo
+  // grid.innerHTML = '';
+
+  stories.forEach((story) => {
+    const storyCard = createStoryCard(story);
+    grid.appendChild(storyCard);
+  });
+
+  // Atualizar contadores
+  updateStoryCounters(stories);
+}
+
+// Função para criar um card de história
+function createStoryCard(story) {
+  const card = document.createElement("div");
+  card.className = "story-card";
+  card.dataset.status = story.status;
+  card.dataset.title = story.title;
+  card.dataset.id = story.id;
+
+  // Determinar texto e classe do status
+  let statusText, statusClass;
+  switch (story.status) {
+    case "reading":
+      statusText = "Lendo";
+      statusClass = "status-reading";
+      break;
+    case "completed":
+      statusText = "Concluída";
+      statusClass = "status-completed";
+      break;
+    case "new":
+      statusText = "Nova";
+      statusClass = "status-new";
+      break;
+    case "paused":
+      statusText = "Pausada";
+      statusClass = "status-paused";
+      break;
+    default:
+      statusText = "Nova";
+      statusClass = "status-new";
+  }
+
+  // Formatar a data
+  const storyDate = new Date(story.date);
+  const today = new Date();
+  const diffTime = Math.abs(today - storyDate);
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+  let dateText;
+  if (diffDays === 1) {
+    dateText = "Hoje";
+  } else if (diffDays === 2) {
+    dateText = "Ontem";
+  } else if (diffDays < 7) {
+    dateText = `${diffDays - 1} dias`;
+  } else {
+    dateText = storyDate.toLocaleDateString("pt-BR");
+  }
+
+  card.innerHTML = `
+      <div class="story-cover">
+          <img src="${story.cover || "../img/default-cover.png"}" alt="${
+    story.title
+  }" />
+          <div class="story-status ${statusClass}">${statusText}</div>
+          <div class="story-progress">
+              <div class="progress-bar" style="width: ${
+                story.progress
+              }%"></div>
+          </div>
+      </div>
+      <div class="story-info">
+          <h3 class="story-title">${story.title}</h3>
+          <div class="story-meta">
+              <div class="story-date">
+                  <i class="fas fa-calendar"></i>
+                  <span>${dateText}</span>
+              </div>
+              <div class="story-pages">
+                  <i class="fas fa-book-open"></i>
+                  <span>${story.currentPage || 0}/${
+    story.pagesCount
+  } páginas</span>
+              </div>
+          </div>
+          <p class="story-description">
+              ${
+                story.category
+                  ? `Categoria: ${story.category}`
+                  : "História criada por você"
+              }
+          </p>
+          <div class="story-actions">
+              <div class="action-buttons">
+                  <button class="action-btn" title="Favoritar">
+                      <i class="${
+                        story.favorite ? "fas" : "far"
+                      } fa-heart"></i>
+                  </button>
+                  <button class="action-btn" title="Compartilhar">
+                      <i class="fas fa-share"></i>
+                  </button>
+                  <button class="action-btn" title="Mais opções">
+                      <i class="fas fa-ellipsis-v"></i>
+                  </button>
+              </div>
+              <button class="continue-btn">${
+                story.status === "new"
+                  ? "Começar"
+                  : story.status === "completed"
+                  ? "Reler"
+                  : "Continuar"
+              }</button>
+          </div>
+      </div>
+  `;
+
+  // Adicionar event listeners aos botões
+  const favoriteBtn = card.querySelector('.action-btn[title="Favoritar"]');
+  favoriteBtn.addEventListener("click", function (e) {
+    e.stopPropagation();
+    toggleFavorite(story.id);
+  });
+
+  const optionsBtn = card.querySelector('.action-btn[title="Mais opções"]');
+  optionsBtn.addEventListener("click", function (e) {
+    e.stopPropagation();
+    showStoryOptions(story);
+  });
+
+  const continueBtn = card.querySelector(".continue-btn");
+  continueBtn.addEventListener("click", function (e) {
+    e.stopPropagation();
+    openStory(story);
+  });
+
+  return card;
+}
+
+// Função para alternar favorito
+function toggleFavorite(storyId) {
+  let stories = JSON.parse(localStorage.getItem("artflow-stories")) || [];
+  const storyIndex = stories.findIndex((s) => s.id === storyId);
+
+  if (storyIndex !== -1) {
+    stories[storyIndex].favorite = !stories[storyIndex].favorite;
+    localStorage.setItem("artflow-stories", JSON.stringify(stories));
+    loadStoriesFromStorage(); // Recarregar as histórias
+  }
+}
+
+// Função para abrir uma história
+function openStory(story) {
+  // Aqui você pode redirecionar para uma página de leitura ou abrir um modal
+  alert(`Abrindo: ${story.title}`);
+
+  // Atualizar status se for nova
+  if (story.status === "new") {
+    let stories = JSON.parse(localStorage.getItem("artflow-stories")) || [];
+    const storyIndex = stories.findIndex((s) => s.id === story.id);
+
+    if (storyIndex !== -1) {
+      stories[storyIndex].status = "reading";
+      stories[storyIndex].currentPage = 1;
+      stories[storyIndex].progress = Math.round(
+        (1 / stories[storyIndex].pagesCount) * 100
+      );
+      localStorage.setItem("artflow-stories", JSON.stringify(stories));
+    }
+  }
+}
+
+// Função para mostrar opções da história
+function showStoryOptions(story) {
+  const modal = document.getElementById("storyModal");
+  const modalTitle = document.getElementById("modalTitle");
+
+  modalTitle.textContent = `Opções: ${story.title}`;
+  modal.classList.add("active");
+}
+
+// Função para atualizar contadores
+function updateStoryCounters(stories) {
+  const totalStories = stories.length;
+  const readStories = stories.filter((s) => s.status === "completed").length;
+  const readingStories = stories.filter((s) => s.status === "reading").length;
+
+  document.querySelector(".stat-number:nth-child(1)").textContent =
+    totalStories;
+  document.querySelector(".stat-number:nth-child(2)").textContent =
+    readStories;
+  document.querySelector(".stat-number:nth-child(3)").textContent =
+    readingStories;
+}
+
 // Event listeners
 document.addEventListener("DOMContentLoaded", function () {
   createFloatingShapes();
+  loadStoriesFromStorage(); // Carregar histórias do localStorage
 
   // Filtros
   document.querySelectorAll(".filter-tab").forEach((tab) => {
