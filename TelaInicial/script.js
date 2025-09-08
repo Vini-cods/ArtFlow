@@ -288,13 +288,13 @@ function showStoryModal(title, artist, imageSrc) {
     }, 1000);
   });
 
-  drawBtn.addEventListener("click", function() {
+  drawBtn.addEventListener("click", function () {
     showNotification("Abrindo ferramenta de desenho!");
     setTimeout(() => {
       modalOverlay.style.opacity = "0";
       setTimeout(() => {
         document.body.removeChild(modalOverlay);
-        window.location.href = 'aventura-na-floresta/aventura.html';
+        window.location.href = "aventura-na-floresta/aventura.html";
       }, 300);
     }, 1000);
   });
@@ -457,6 +457,109 @@ function setupImageLoading() {
   }
 }
 
+// Função para inicializar o carrossel
+function initCarousel() {
+  const slides = document.querySelectorAll(".carousel-slide");
+  const dots = document.querySelectorAll(".dot");
+  const prevBtn = document.querySelector(".carousel-prev");
+  const nextBtn = document.querySelector(".carousel-next");
+  let currentSlide = 0;
+  let autoSlideInterval;
+
+  // Função para mostrar um slide específico
+  function showSlide(index) {
+    // Remover a classe active de todos os slides e dots
+    slides.forEach((slide) => slide.classList.remove("active"));
+    dots.forEach((dot) => dot.classList.remove("active"));
+
+    // Adicionar a classe active ao slide e dot atual
+    slides[index].classList.add("active");
+    dots[index].classList.add("active");
+
+    currentSlide = index;
+  }
+
+  // Função para avançar para o próximo slide
+  function nextSlide() {
+    let nextIndex = (currentSlide + 1) % slides.length;
+    showSlide(nextIndex);
+  }
+
+  // Função para voltar ao slide anterior
+  function prevSlide() {
+    let prevIndex = (currentSlide - 1 + slides.length) % slides.length;
+    showSlide(prevIndex);
+  }
+
+  // Iniciar a transição automática
+  function startAutoSlide() {
+    autoSlideInterval = setInterval(nextSlide, 5000); // Muda a cada 5 segundos
+  }
+
+  // Parar a transição automática
+  function stopAutoSlide() {
+    clearInterval(autoSlideInterval);
+  }
+
+  // Event listeners para os botões de navegação
+  nextBtn.addEventListener("click", () => {
+    stopAutoSlide();
+    nextSlide();
+    startAutoSlide();
+  });
+
+  prevBtn.addEventListener("click", () => {
+    stopAutoSlide();
+    prevSlide();
+    startAutoSlide();
+  });
+
+  // Event listeners para os dots
+  dots.forEach((dot, index) => {
+    dot.addEventListener("click", () => {
+      stopAutoSlide();
+      showSlide(index);
+      startAutoSlide();
+    });
+  });
+
+  // Pausar o carrossel quando o mouse estiver sobre ele
+  const carousel = document.querySelector(".carousel-container");
+  carousel.addEventListener("mouseenter", stopAutoSlide);
+  carousel.addEventListener("mouseleave", startAutoSlide);
+
+  // Iniciar o carrossel
+  startAutoSlide();
+}
+
+// Configurar acessibilidade
+function setupAccessibility() {
+  // Adicionar atalhos de teclado
+  document.addEventListener("keydown", function (e) {
+    // Tecla 'Escape' para fechar modais
+    if (e.key === "Escape") {
+      const modal = document.querySelector(".modal-overlay");
+      if (modal) {
+        modal.style.opacity = "0";
+        setTimeout(() => {
+          if (modal.parentNode) {
+            modal.parentNode.removeChild(modal);
+          }
+        }, 300);
+      }
+    }
+
+    // Tecla 'Tab' para melhor navegação por teclado
+    if (e.key === "Tab") {
+      document.documentElement.classList.add("keyboard-nav");
+    }
+  });
+
+  document.addEventListener("mousedown", function () {
+    document.documentElement.classList.remove("keyboard-nav");
+  });
+}
+
 // Inicializar quando o DOM estiver carregado
 document.addEventListener("DOMContentLoaded", function () {
   // Criar bolinhas flutuantes
@@ -470,6 +573,9 @@ document.addEventListener("DOMContentLoaded", function () {
   setupNewsletter();
   setupAccessibility();
   setupImageLoading();
+
+  // Inicializar o carrossel
+  initCarousel();
 
   // Adicionar estilos para alto contraste e fonte legível
   const style = document.createElement("style");
@@ -505,6 +611,12 @@ document.addEventListener("DOMContentLoaded", function () {
         
         .image-error::before {
             content: "Imagem não disponível";
+        }
+        
+        /* Estilos para navegação por teclado */
+        .keyboard-nav *:focus {
+            outline: 2px solid #ffd700;
+            outline-offset: 2px;
         }
     `;
   document.head.appendChild(style);
