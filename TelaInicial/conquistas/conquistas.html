@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conquistas - ArtFlow Kids</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="conquistas.css">
+    <link rel="icon" href="../img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <!-- Bolinhas flutuantes interativas -->
+    <div class="floating-shapes"></div>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="nav-left">
+            <div class="nav-menu">
+                <a href="../index.html" class="nav-item">POPULAR</a>
+                <a href="../index.html" class="nav-item">HISTÓRIAS</a>
+                <a href="../index.html" class="nav-item">DESENHOS</a>
+                <a href="../index.html" class="nav-item">ARTISTAS</a>
+            </div>
+        </div>
+
+        <div class="search-bar">
+            <span class="search-icon"><i class="fas fa-search"></i></span>
+            <input type="text" class="search-input" placeholder="Pesquisar...">
+        </div>
+
+        <div class="nav-right">
+            <div class="logo-header">artflow</div>
+            <div class="profile-container">
+                <div class="notifications">
+                    <i class="far fa-bell"></i>
+                </div>
+                <a href="../../TelaPerfil/index.html" class="profile-icon">
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80" alt="Perfil">
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <a href="../index.html" class="sidebar-icon">
+            <i class="fas fa-home"></i>
+            <span>Início</span>
+        </a>
+        <a href="../minhas-historias/index.html" class="sidebar-icon">
+            <i class="fas fa-book"></i>
+            <span>Minhas Histórias</span>
+        </a>
+        <a href="../meus-desenhos/meus-desenhos.html" class="sidebar-icon">
+            <i class="fas fa-paint-brush"></i>
+            <span>Meus Desenhos</span>
+        </a>
+        <a href="../favoritos/favoritos.html" class="sidebar-icon">
+            <i class="fas fa-heart"></i>
+            <span>Favoritos</span>
+        </a>
+        <div class="sidebar-icon active">
+            <i class="fas fa-trophy"></i>
+            <span>Conquistas</span>
+        </div>
+        <div class="sidebar-icon">
+            <i class="fas fa-cog"></i>
+            <span>Configurações</span>
+        </div>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <div class="main-content">
+        <div class="achievements-container">
+            <div class="welcome-banner">
+                <div class="welcome-text">
+                    <h2>Suas Conquistas</h2>
+                    <p>Celebre cada marco da sua jornada criativa! Cada troféu representa uma aventura concluída e uma habilidade desenvolvida.</p>
+                </div>
+                <div class="achievement-summary">
+                    <div class="summary-item">
+                        <span class="summary-number">18</span>
+                        <span class="summary-label">Conquistas</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-number">65%</span>
+                        <span class="summary-label">Completas</span>
+                    </div>
+                    <div class="summary-item highlight">
+                        <span class="summary-number">3</span>
+                        <span class="summary-label">Troféus Ouro</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="achievements-tabs">
+                <div class="achievements-tab active" data-tab="all">Todas</div>
+                <div class="achievements-tab" data-tab="reading">Leitura</div>
+                <div class="achievements-tab" data-tab="drawing">Desenho</div>
+                <div class="achievements-tab" data-tab="creation">Criação</div>
+                <div class="achievements-tab" data-tab="community">Comunidade</div>
+            </div>
+
+            <!-- Conquistas de Leitura -->
+            <div class="achievements-category active" id="reading-category">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-book-reader"></i>
+                    </div>
+                    <div class="category-info">
+                        <h3>Leitor Destemido</h3>
+                        <p>Desbrave mundos através da leitura e descubra histórias incríveis!</p>
+                    </div>
+                    <div class="category-progress">
+                        <div class="progress-text">8/12 conquistas</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 67%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="achievements-grid" id="reading-achievements">
+                    <!-- Conteúdo dinâmico de conquistas de leitura -->
+                </div>
+            </div>
+
+            <!-- Conquistas de Desenho -->
+            <div class="achievements-category" id="drawing-category">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <div class="category-info">
+                        <h3>Artista Talentoso</h3>
+                        <p>Solte sua criatividade e transforme sua imaginação em arte!</p>
+                    </div>
+                    <div class="category-progress">
+                        <div class="progress-text">5/8 conquistas</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 63%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="achievements-grid" id="drawing-achievements">
+                    <!-- Conteúdo dinâmico de conquistas de desenho -->
+                </div>
+            </div>
+
+            <!-- Conquistas de Criação -->
+            <div class="achievements-category" id="creation-category">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-feather-alt"></i>
+                    </div>
+                    <div class="category-info">
+                        <h3>Escritor Criativo</h3>
+                        <p>Crie suas próprias histórias e compartilhe suas aventuras com o mundo!</p>
+                    </div>
+                    <div class="category-progress">
+                        <div class="progress-text">3/6 conquistas</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 50%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="achievements-grid" id="creation-achievements">
+                    <!-- Conteúdo dinâmico de conquistas de criação -->
+                </div>
+            </div>
+
+            <!-- Conquistas de Comunidade -->
+            <div class="achievements-category" id="community-category">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="category-info">
+                        <h3>Explorador Social</h3>
+                        <p>Conecte-se com outros criativos e faça parte da comunidade ArtFlow!</p>
+                    </div>
+                    <div class="category-progress">
+                        <div class="progress-text">2/4 conquistas</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 50%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="achievements-grid" id="community-achievements">
+                    <!-- Conteúdo dinâmico de conquistas de comunidade -->
+                </div>
+            </div>
+
+            <!-- Todas as Conquistas -->
+            <div class="achievements-category active" id="all-category">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="category-info">
+                        <h3>Todas as Conquistas</h3>
+                        <p>Seu progresso geral em toda a sua jornada ArtFlow!</p>
+                    </div>
+                    <div class="category-progress">
+                        <div class="progress-text">18/30 conquistas</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 60%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="achievements-grid" id="all-achievements">
+                    <!-- Conteúdo dinâmico de todas as conquistas -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../script.js"></script>
+    <script src="conquistas.js"></script>
+</body>
+</html>
