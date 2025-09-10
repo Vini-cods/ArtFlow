@@ -91,7 +91,7 @@ body {
 
 .nav-menu {
   display: flex;
-  gap: 25px;
+  gap: 55px;
 }
 
 .nav-item {
@@ -316,15 +316,17 @@ body {
   transition: margin-left 0.3s ease;
 }
 
-.sidebar:hover~.main-content {
+.sidebar:hover ~ .main-content {
   margin-left: 220px;
 }
 
 /* Banner de boas-vindas */
 .welcome-banner {
-  background: linear-gradient(135deg,
-      rgba(74, 31, 122, 0.7),
-      rgba(107, 47, 160, 0.7));
+  background: linear-gradient(
+    135deg,
+    rgba(74, 31, 122, 0.7),
+    rgba(107, 47, 160, 0.7)
+  );
   border-radius: 20px;
   padding: 25px;
   margin-bottom: 30px;
@@ -1194,7 +1196,7 @@ body {
     padding: 20px;
   }
 
-  .sidebar:hover~.main-content {
+  .sidebar:hover ~ .main-content {
     margin-left: 0;
   }
 

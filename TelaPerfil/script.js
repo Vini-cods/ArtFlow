@@ -16,10 +16,10 @@ tabs.forEach((tab) => {
         // Remover classe ativa de todas as abas
         tabs.forEach((t) => t.classList.remove("active"));
         tabPanes.forEach((pane) => pane.classList.remove("active"));
-        
+
         // Adicionar classe ativa à aba clicada
         tab.classList.add("active");
-        
+
         // Mostrar o conteúdo correspondente
         const tabId = tab.getAttribute("data-tab");
         document.getElementById(tabId).classList.add("active");
@@ -34,9 +34,9 @@ filterTabs.forEach((filter) => {
     filter.addEventListener("click", () => {
         filterTabs.forEach((f) => f.classList.remove("active"));
         filter.classList.add("active");
-        
+
         const filterType = filter.getAttribute("data-filter");
-        
+
         favoriteItems.forEach((item) => {
             if (filterType === "all" || item.getAttribute("data-type") === filterType) {
                 item.style.display = "block";
@@ -50,7 +50,7 @@ filterTabs.forEach((filter) => {
 // Botão de seguir/deixar de seguir
 const unfollowButtons = document.querySelectorAll(".unfollow-btn");
 unfollowButtons.forEach((button) => {
-    button.addEventListener("click", function(e) {
+    button.addEventListener("click", function (e) {
         e.stopPropagation();
         if (this.textContent === "Seguindo") {
             this.textContent = "Seguir";
@@ -66,10 +66,10 @@ unfollowButtons.forEach((button) => {
 // Botões de favorito
 const favoriteButtons = document.querySelectorAll(".favorite-btn");
 favoriteButtons.forEach((button) => {
-    button.addEventListener("click", function(e) {
+    button.addEventListener("click", function (e) {
         e.stopPropagation();
         const icon = this.querySelector("i");
-        
+
         if (this.classList.contains("active")) {
             this.classList.remove("active");
             this.style.background = "rgba(255, 255, 255, 0.2)";
@@ -170,22 +170,22 @@ function createFloatingShapes() {
 }
 
 // Inicializar quando o DOM estiver carregado
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     createFloatingShapes();
-    
+
     // Adicionar evento ao botão de editar perfil
     const editProfileBtn = document.querySelector(".edit-profile-btn");
     if (editProfileBtn) {
-        editProfileBtn.addEventListener("click", function() {
+        editProfileBtn.addEventListener("click", function () {
             showNotification("Modo de edição de perfil ativado");
             // Aqui você implementaria a lógica de edição de perfil
         });
     }
-    
+
     // Adicionar evento ao botão de continuar leitura
     const continueReadingBtn = document.querySelector(".continue-reading-btn");
     if (continueReadingBtn) {
-        continueReadingBtn.addEventListener("click", function() {
+        continueReadingBtn.addEventListener("click", function () {
             showNotification("Continuando a leitura...");
             // Redirecionar para a página de leitura
             window.location.href = "../../Telainicial/aventura-na-floresta/aventura.html";

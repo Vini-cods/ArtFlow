@@ -15,13 +15,13 @@ function setupCanvas() {
     const drawingArea = canvas.parentElement;
     canvas.width = drawingArea.offsetWidth;
     canvas.height = drawingArea.offsetHeight;
-    
+
     // Configurar contexto
     ctx.lineJoin = 'round';
     ctx.lineCap = 'round';
     ctx.lineWidth = brushSize;
     ctx.strokeStyle = currentColor;
-    
+
     // Limpar canvas com fundo branco
     ctx.fillStyle = '#FFFFFF';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -30,18 +30,18 @@ function setupCanvas() {
 // Inicializar a tela de desenho
 function initDrawing() {
     setupCanvas();
-    
+
     // Event listeners para desenho
     canvas.addEventListener('mousedown', startDrawing);
     canvas.addEventListener('mousemove', draw);
     canvas.addEventListener('mouseup', stopDrawing);
     canvas.addEventListener('mouseout', stopDrawing);
-    
+
     // Event listeners para toque (dispositivos móveis)
     canvas.addEventListener('touchstart', handleTouchStart);
     canvas.addEventListener('touchmove', handleTouchMove);
     canvas.addEventListener('touchend', handleTouchEnd);
-    
+
     // Configurar paleta de cores
     const colorOptions = document.querySelectorAll('.color-option');
     colorOptions.forEach(option => {
@@ -57,17 +57,17 @@ function initDrawing() {
             document.getElementById('color-picker').value = currentColor;
         });
     });
-    
+
     // Configurar seletor de cor personalizada
     const colorPicker = document.getElementById('color-picker');
     colorPicker.addEventListener('input', (e) => {
         currentColor = e.target.value;
         ctx.strokeStyle = currentColor;
-        
+
         // Atualizar opção ativa na paleta
         colorOptions.forEach(opt => opt.classList.remove('active'));
     });
-    
+
     // Configurar controle de espessura do pincel
     const brushSizeInput = document.getElementById('brush-size');
     brushSizeInput.addEventListener('input', (e) => {
@@ -84,7 +84,7 @@ function startDrawing(e) {
 
 function draw(e) {
     if (!isDrawing) return;
-    
+
     ctx.beginPath();
     ctx.moveTo(lastX, lastY);
     ctx.lineTo(e.offsetX, e.offsetY);
@@ -137,7 +137,7 @@ function saveDrawing() {
     link.download = 'meu-desenho-aventura-na-floresta.png';
     link.href = canvas.toDataURL('image/png');
     link.click();
-    
+
     // Mostrar mensagem de sucesso
     showNotification('Desenho salvo com sucesso!');
 }
@@ -200,10 +200,10 @@ function showNotification(message) {
 // Criar bolinhas flutuantes
 function createFloatingShapes() {
     const container = document.querySelector('.floating-shapes');
-    
+
     // Limpar shapes existentes
     container.innerHTML = '';
-    
+
     // Criar diferentes tamanhos e cores de bolinhas
     const shapeConfigs = [
         { size: 60, color: 'purple', count: 8 },
@@ -212,7 +212,7 @@ function createFloatingShapes() {
         { size: 25, color: 'gold', count: 10 },
         { size: 15, color: 'purple', count: 15 },
     ];
-    
+
     shapeConfigs.forEach((config) => {
         for (let i = 0; i < config.count; i++) {
             const shape = document.createElement('div');
@@ -223,7 +223,7 @@ function createFloatingShapes() {
             shape.style.top = Math.random() * 100 + '%';
             shape.style.animationDelay = Math.random() * 8 + 's';
             shape.style.animationDuration = `${8 + Math.random() * 4}s`;
-            
+
             container.appendChild(shape);
         }
     });
@@ -233,7 +233,7 @@ function createFloatingShapes() {
 window.addEventListener('load', () => {
     initDrawing();
     createFloatingShapes();
-    
+
     // Ajustar canvas quando a janela for redimensionada
     window.addEventListener('resize', setupCanvas);
 });

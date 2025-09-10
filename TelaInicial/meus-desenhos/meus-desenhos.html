@@ -1,185 +1,175 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Meus Desenhos - ArtFlow Kids</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link rel="stylesheet" href="meus-desenhos.css" />
-    <link rel="icon" href="../img/favicon.ico" type="image/x-icon" />
-  </head>
-  <body>
-    <!-- Bolinhas flutuantes interativas -->
-    <div class="floating-shapes"></div>
 
-    <!-- Header -->
-    <div class="header">
-      <div class="nav-left">
-        <div class="nav-menu">
-          <a href="#" class="nav-item">POPULAR</a>
-          <a href="#" class="nav-item">HISTÓRIAS</a>
-          <a href="#" class="nav-item active">DESENHOS</a>
-          <a href="#" class="nav-item">ARTISTAS</a>
-        </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meus Desenhos - ArtFlow Kids</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="meus-desenhos.css" />
+  <link rel="icon" href="../img/favicon.ico" type="image/x-icon" />
+</head>
+
+<body>
+  <!-- Bolinhas flutuantes interativas -->
+  <div class="floating-shapes"></div>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="nav-left">
+      <div class="nav-menu">
+        <a href="#" class="nav-item">POPULAR</a>
+        <a href="#" class="nav-item">HISTÓRIAS</a>
+        <a href="#" class="nav-item active">DESENHOS</a>
+        <a href="#" class="nav-item">ARTISTAS</a>
       </div>
+    </div>
 
-      <div class="nav-right">
-        <div class="logo-header">artflow</div>
-        <div class="profile-container">
-          <div class="notifications">
-            <i class="far fa-bell"></i>
-          </div>
-          <a href="../../TelaPerfil/index.html" class="profile-icon">
-            <img
-              src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80"
-              alt="Perfil"
-            />
-          </a>
+    <div class="nav-right">
+      <div class="logo-header">artflow</div>
+      <div class="profile-container">
+        <div class="notifications">
+          <i class="far fa-bell"></i>
+        </div>
+        <a href="../../TelaPerfil/index.html" class="profile-icon">
+          <img
+            src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80"
+            alt="Perfil" />
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <a href="../index.html" class="sidebar-icon">
+      <i class="fas fa-home"></i>
+      <span>Início</span>
+    </a>
+    <a href="../minhas-historias/index.html" class="sidebar-icon">
+      <i class="fas fa-book"></i>
+      <span>Minhas Histórias</span>
+    </a>
+    <a href="#" class="sidebar-icon active">
+      <i class="fas fa-paint-brush"></i>
+      <span>Meus Desenhos</span>
+    </a>
+    <a href="../favoritos/favoritos.html" class="sidebar-icon">
+      <i class="fas fa-heart"></i>
+      <span>Favoritos</span>
+    </a>
+    <a href="../conquistas/conquistas.html" class="sidebar-icon">
+      <i class="fas fa-trophy"></i>
+      <span>Conquistas</span>
+    </a>
+    <a href="../configuracoes/configuracoes.html" class="sidebar-icon">
+      <i class="fas fa-cog"></i>
+      <span>Configurações</span>
+    </a>
+  </div>
+
+  <!-- Conteúdo Principal -->
+  <div class="main-content">
+    <!-- Cabeçalho da página -->
+    <div class="page-header">
+      <div class="page-info">
+        <h1 class="page-title">Meus Desenhos</h1>
+        <p class="page-subtitle">Suas criações artísticas salvas</p>
+      </div>
+      <div class="stats-container">
+        <div class="stat-item">
+          <span class="stat-number" id="totalDrawings">0</span>
+          <span class="stat-label">Desenhos</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number" id="favoriteDrawings">0</span>
+          <span class="stat-label">Favoritos</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number" id="recentDrawings">0</span>
+          <span class="stat-label">Recentes</span>
         </div>
       </div>
     </div>
 
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <a href="../index.html" class="sidebar-icon">
-        <i class="fas fa-home"></i>
-        <span>Início</span>
-      </a>
-      <a href="../minhas-historias/index.html" class="sidebar-icon">
-        <i class="fas fa-book"></i>
-        <span>Minhas Histórias</span>
-      </a>
-      <a href="#" class="sidebar-icon active">
+    <!-- Filtros e Controles -->
+    <div class="controls-section">
+      <div class="filter-tabs">
+        <div class="filter-tab active" data-filter="all">Todos</div>
+        <div class="filter-tab" data-filter="favorites">Favoritos</div>
+        <div class="filter-tab" data-filter="recent">Recentes</div>
+        <div class="filter-tab" data-filter="shared">Compartilhados</div>
+      </div>
+
+      <div class="search-sort-container">
+        <div class="search-drawings">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Buscar desenhos..." id="searchInput" />
+        </div>
+
+        <select class="sort-select" id="sortSelect">
+          <option value="recent">Mais Recentes</option>
+          <option value="title">Nome A-Z</option>
+          <option value="favorites">Mais Favoritos</option>
+        </select>
+
+        <div class="view-toggle">
+          <button class="view-btn active" data-view="grid">
+            <i class="fas fa-th"></i>
+          </button>
+          <button class="view-btn" data-view="list">
+            <i class="fas fa-list"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grid de Desenhos -->
+    <div class="drawings-grid" id="drawingsGrid">
+      <!-- Os desenhos serão carregados aqui via JavaScript -->
+    </div>
+
+    <!-- Estado vazio (será mostrado quando não houver desenhos) -->
+    <div class="empty-state" id="emptyState">
+      <div class="empty-icon">
         <i class="fas fa-paint-brush"></i>
-        <span>Meus Desenhos</span>
-      </a>
-      <a href="../favoritos/favoritos.html" class="sidebar-icon">
-        <i class="fas fa-heart"></i>
-        <span>Favoritos</span>
-      </a>
-      <a href="../conquistas/conquistas.html" class="sidebar-icon">
-        <i class="fas fa-trophy"></i>
-        <span>Conquistas</span>
-      </a>
-      <a href="../configuracoes/configuracoes.html" class="sidebar-icon">
-        <i class="fas fa-cog"></i>
-        <span>Configurações</span>
-      </a>
+      </div>
+      <h3 class="empty-title">Nenhum desenho encontrado</h3>
+      <p class="empty-subtitle">
+        Que tal começar a criar sua primeira obra de arte?
+      </p>
+      <button class="explore-btn" id="startDrawingBtn">
+        Começar a Desenhar
+      </button>
     </div>
+  </div>
 
-    <!-- Conteúdo Principal -->
-    <div class="main-content">
-      <!-- Cabeçalho da página -->
-      <div class="page-header">
-        <div class="page-info">
-          <h1 class="page-title">Meus Desenhos</h1>
-          <p class="page-subtitle">Suas criações artísticas salvas</p>
-        </div>
-        <div class="stats-container">
-          <div class="stat-item">
-            <span class="stat-number" id="totalDrawings">0</span>
-            <span class="stat-label">Desenhos</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number" id="favoriteDrawings">0</span>
-            <span class="stat-label">Favoritos</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number" id="recentDrawings">0</span>
-            <span class="stat-label">Recentes</span>
-          </div>
-        </div>
+  <!-- Modal de detalhes/opções -->
+  <div class="modal-overlay" id="drawingModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalTitle">Opções do Desenho</h3>
+        <button class="close-modal">&times;</button>
       </div>
-
-      <!-- Filtros e Controles -->
-      <div class="controls-section">
-        <div class="filter-tabs">
-          <div class="filter-tab active" data-filter="all">Todos</div>
-          <div class="filter-tab" data-filter="favorites">Favoritos</div>
-          <div class="filter-tab" data-filter="recent">Recentes</div>
-          <div class="filter-tab" data-filter="shared">Compartilhados</div>
-        </div>
-
-        <div class="search-sort-container">
-          <div class="search-drawings">
-            <i class="fas fa-search"></i>
-            <input
-              type="text"
-              placeholder="Buscar desenhos..."
-              id="searchInput"
-            />
-          </div>
-
-          <select class="sort-select" id="sortSelect">
-            <option value="recent">Mais Recentes</option>
-            <option value="title">Nome A-Z</option>
-            <option value="favorites">Mais Favoritos</option>
-          </select>
-
-          <div class="view-toggle">
-            <button class="view-btn active" data-view="grid">
-              <i class="fas fa-th"></i>
-            </button>
-            <button class="view-btn" data-view="list">
-              <i class="fas fa-list"></i>
-            </button>
-          </div>
-        </div>
+      <div class="modal-body">
+        <img id="modalImage" src="" alt="Desenho" style="width: 100%; border-radius: 10px; margin-bottom: 15px" />
+        <p id="modalDescription"></p>
       </div>
-
-      <!-- Grid de Desenhos -->
-      <div class="drawings-grid" id="drawingsGrid">
-        <!-- Os desenhos serão carregados aqui via JavaScript -->
-      </div>
-
-      <!-- Estado vazio (será mostrado quando não houver desenhos) -->
-      <div class="empty-state" id="emptyState">
-        <div class="empty-icon">
-          <i class="fas fa-paint-brush"></i>
-        </div>
-        <h3 class="empty-title">Nenhum desenho encontrado</h3>
-        <p class="empty-subtitle">
-          Que tal começar a criar sua primeira obra de arte?
-        </p>
-        <button class="explore-btn" id="startDrawingBtn">
-          Começar a Desenhar
+      <div class="modal-actions">
+        <button class="modal-btn primary" id="viewDrawingBtn">
+          Ver Desenho
+        </button>
+        <button class="modal-btn secondary" id="shareDrawingBtn">
+          Compartilhar
+        </button>
+        <button class="modal-btn secondary" id="deleteDrawingBtn">
+          Excluir
         </button>
       </div>
     </div>
+  </div>
 
-    <!-- Modal de detalhes/opções -->
-    <div class="modal-overlay" id="drawingModal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3 class="modal-title" id="modalTitle">Opções do Desenho</h3>
-          <button class="close-modal">&times;</button>
-        </div>
-        <div class="modal-body">
-          <img
-            id="modalImage"
-            src=""
-            alt="Desenho"
-            style="width: 100%; border-radius: 10px; margin-bottom: 15px"
-          />
-          <p id="modalDescription"></p>
-        </div>
-        <div class="modal-actions">
-          <button class="modal-btn primary" id="viewDrawingBtn">
-            Ver Desenho
-          </button>
-          <button class="modal-btn secondary" id="shareDrawingBtn">
-            Compartilhar
-          </button>
-          <button class="modal-btn secondary" id="deleteDrawingBtn">
-            Excluir
-          </button>
-        </div>
-      </div>
-    </div>
+  <script src="meus-desenhos.js"></script>
+</body>
 
-    <script src="meus-desenhos.js"></script>
-  </body>
 </html>

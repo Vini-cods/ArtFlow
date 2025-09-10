@@ -258,10 +258,10 @@ const achievementsData = {
 function initAchievementsPage() {
     // Configurar tabs
     setupAchievementsTabs();
-    
+
     // Carregar conquistas
     loadAchievements('all');
-    
+
     // Configurar eventos
     setupAchievementsEvents();
 }
@@ -269,20 +269,20 @@ function initAchievementsPage() {
 // Configurar as abas de conquistas
 function setupAchievementsTabs() {
     const tabs = document.querySelectorAll('.achievements-tab');
-    
+
     tabs.forEach(tab => {
         tab.addEventListener('click', () => {
             // Remover classe active de todas as tabs
             tabs.forEach(t => t.classList.remove('active'));
-            
+
             // Adicionar classe active à tab clicada
             tab.classList.add('active');
-            
+
             // Esconder todas as categorias
             document.querySelectorAll('.achievements-category').forEach(category => {
                 category.classList.remove('active');
             });
-            
+
             // Mostrar a categoria correspondente
             const tabId = tab.getAttribute('data-tab');
             if (tabId === 'all') {
@@ -299,7 +299,7 @@ function setupAchievementsTabs() {
 // Carregar conquistas
 function loadAchievements(category) {
     let achievementsToShow = [];
-    
+
     if (category === 'all') {
         // Combinar todas as conquistas
         Object.values(achievementsData).forEach(cat => {
@@ -308,30 +308,30 @@ function loadAchievements(category) {
     } else {
         achievementsToShow = achievementsData[category] || [];
     }
-    
+
     // Ordenar: desbloqueadas primeiro, depois por tier e pontos
     achievementsToShow.sort((a, b) => {
         if (a.unlocked && !b.unlocked) return -1;
         if (!a.unlocked && b.unlocked) return 1;
-        
+
         // Ordenar por tier: platinum > gold > silver > bronze
         const tierOrder = { platinum: 4, gold: 3, silver: 2, bronze: 1 };
         if (tierOrder[a.tier] !== tierOrder[b.tier]) {
             return tierOrder[b.tier] - tierOrder[a.tier];
         }
-        
+
         // Ordenar por pontos
         return b.points - a.points;
     });
-    
+
     // Limpar e preencher o grid
     const gridId = category === 'all' ? 'all-achievements' : `${category}-achievements`;
     const grid = document.getElementById(gridId);
-    
+
     if (!grid) return;
-    
+
     grid.innerHTML = '';
-    
+
     if (achievementsToShow.length === 0) {
         grid.innerHTML = `
             <div class="empty-state">
@@ -342,7 +342,7 @@ function loadAchievements(category) {
         `;
         return;
     }
-    
+
     achievementsToShow.forEach(achievement => {
         const achievementElement = createAchievementElement(achievement);
         grid.appendChild(achievementElement);
@@ -353,10 +353,10 @@ function loadAchievements(category) {
 function createAchievementElement(achievement) {
     const element = document.createElement('div');
     element.className = `achievement-card ${achievement.unlocked ? 'unlocked' : 'locked'}`;
-    
-    const progressPercentage = achievement.unlocked ? 100 : 
+
+    const progressPercentage = achievement.unlocked ? 100 :
         Math.min(100, (achievement.progress.current / achievement.progress.target) * 100);
-    
+
     element.innerHTML = `
         <div class="achievement-header">
             <div class="achievement-icon">
@@ -392,7 +392,7 @@ function createAchievementElement(achievement) {
             </span>
         </div>
     `;
-    
+
     return element;
 }
 
@@ -406,14 +406,14 @@ function formatDate(dateString) {
 function setupAchievementsEvents() {
     // Efeito de hover nas conquistas
     const achievements = document.querySelectorAll('.achievement-card');
-    
+
     achievements.forEach(achievement => {
-        achievement.addEventListener('mouseenter', function() {
+        achievement.addEventListener('mouseenter', function () {
             this.style.transform = 'translateY(-5px)';
             this.style.boxShadow = '0 15px 30px rgba(255, 215, 0, 0.1)';
         });
-        
-        achievement.addEventListener('mouseleave', function() {
+
+        achievement.addEventListener('mouseleave', function () {
             this.style.transform = 'translateY(0)';
             this.style.boxShadow = 'none';
         });
@@ -421,14 +421,14 @@ function setupAchievementsEvents() {
 }
 
 // Inicializar a página quando o DOM estiver carregado
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     initAchievementsPage();
-    
+
     // Garantir que as bolinhas flutuantes sejam criadas
     if (typeof createFloatingShapes === 'function') {
         createFloatingShapes();
     }
-    
+
     // Configurar acessibilidade
     if (typeof setupAccessibility === 'function') {
         setupAccessibility();

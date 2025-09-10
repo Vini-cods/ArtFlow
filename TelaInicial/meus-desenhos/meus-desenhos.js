@@ -5,33 +5,33 @@ function loadDrawings() {
     const totalDrawings = document.getElementById('totalDrawings');
     const favoriteDrawings = document.getElementById('favoriteDrawings');
     const recentDrawings = document.getElementById('recentDrawings');
-    
+
     // Recuperar desenhos do localStorage
     let drawings = JSON.parse(localStorage.getItem('artflow-drawings')) || [];
-    
+
     // Atualizar estatísticas
     totalDrawings.textContent = drawings.length;
     favoriteDrawings.textContent = drawings.filter(d => d.favorite).length;
-    
+
     // Calcular desenhos recentes (últimos 7 dias)
     const oneWeekAgo = new Date();
     oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
     recentDrawings.textContent = drawings.filter(d => new Date(d.date) > oneWeekAgo).length;
-    
+
     // Limpar grid
     drawingsGrid.innerHTML = '';
-    
+
     // Verificar se há desenhos
     if (drawings.length === 0) {
         emptyState.style.display = 'block';
         return;
     }
-    
+
     emptyState.style.display = 'none';
-    
+
     // Ordenar desenhos (por padrão, mais recentes primeiro)
     drawings.sort((a, b) => new Date(b.date) - new Date(a.date));
-    
+
     // Adicionar desenhos ao grid
     drawings.forEach(drawing => {
         const drawingCard = createDrawingCard(drawing);
@@ -47,14 +47,14 @@ function createDrawingCard(drawing) {
     card.dataset.title = drawing.title.toLowerCase();
     card.dataset.favorite = drawing.favorite;
     card.dataset.date = drawing.date;
-    
+
     // Calcular dias desde a criação
     const createdDate = new Date(drawing.date);
     const today = new Date();
     const diffTime = Math.abs(today - createdDate);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     const isRecent = diffDays <= 7;
-    
+
     card.innerHTML = `
         <div class="drawing-image">
             <img src="${drawing.image}" alt="${drawing.title}">
@@ -90,37 +90,37 @@ function createDrawingCard(drawing) {
             </div>
         </div>
     `;
-    
+
     // Adicionar event listeners
     const favoriteBtn = card.querySelector('.action-btn[title*="Favoritar"]');
     const shareBtn = card.querySelector('.action-btn[title="Compartilhar"]');
     const optionsBtn = card.querySelector('.action-btn[title="Mais opções"]');
     const viewBtn = card.querySelector('.view-drawing-btn');
-    
+
     favoriteBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         toggleFavorite(drawing.id);
     });
-    
+
     shareBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         shareDrawing(drawing.id);
     });
-    
+
     optionsBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         showDrawingOptions(drawing);
     });
-    
+
     viewBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         viewDrawing(drawing);
     });
-    
+
     card.addEventListener('click', () => {
         showDrawingOptions(drawing);
     });
-    
+
     return card;
 }
 
@@ -128,7 +128,7 @@ function createDrawingCard(drawing) {
 function toggleFavorite(drawingId) {
     let drawings = JSON.parse(localStorage.getItem('artflow-drawings')) || [];
     const drawingIndex = drawings.findIndex(d => d.id === drawingId);
-    
+
     if (drawingIndex !== -1) {
         drawings[drawingIndex].favorite = !drawings[drawingIndex].favorite;
         localStorage.setItem('artflow-drawings', JSON.stringify(drawings));
@@ -140,11 +140,11 @@ function toggleFavorite(drawingId) {
 function shareDrawing(drawingId) {
     let drawings = JSON.parse(localStorage.getItem('artflow-drawings')) || [];
     const drawingIndex = drawings.findIndex(d => d.id === drawingId);
-    
+
     if (drawingIndex !== -1) {
         drawings[drawingIndex].shared = true;
         localStorage.setItem('artflow-drawings', JSON.stringify(drawings));
-        
+
         // Simular compartilhamento
         alert(`Desenho "${drawings[drawingIndex].title}" compartilhado com sucesso!`);
         loadDrawings(); // Recarregar a lista
@@ -157,16 +157,16 @@ function showDrawingOptions(drawing) {
     const modalTitle = document.getElementById('modalTitle');
     const modalImage = document.getElementById('modalImage');
     const modalDescription = document.getElementById('modalDescription');
-    
+
     modalTitle.textContent = drawing.title;
     modalImage.src = drawing.image;
     modalDescription.textContent = `Criado em: ${formatDate(drawing.date)} | Tamanho: ${drawing.size}`;
-    
+
     // Configurar botões do modal
     document.getElementById('viewDrawingBtn').onclick = () => viewDrawing(drawing);
     document.getElementById('shareDrawingBtn').onclick = () => shareDrawing(drawing.id);
     document.getElementById('deleteDrawingBtn').onclick = () => deleteDrawing(drawing.id);
-    
+
     modal.classList.add('active');
 }
 
@@ -182,7 +182,7 @@ function deleteDrawing(drawingId) {
         let drawings = JSON.parse(localStorage.getItem('artflow-drawings')) || [];
         drawings = drawings.filter(d => d.id !== drawingId);
         localStorage.setItem('artflow-drawings', JSON.stringify(drawings));
-        
+
         // Fechar modal e recarregar a lista
         document.getElementById('drawingModal').classList.remove('active');
         loadDrawings();
@@ -194,9 +194,9 @@ function filterDrawings(filter) {
     const drawings = document.querySelectorAll('.drawing-card');
     const emptyState = document.getElementById('emptyState');
     let visibleCount = 0;
-    
+
     drawings.forEach(drawing => {
-        if (filter === 'all' || 
+        if (filter === 'all' ||
             (filter === 'favorites' && drawing.dataset.favorite === 'true') ||
             (filter === 'recent' && isRecent(drawing.dataset.date)) ||
             (filter === 'shared' && drawing.querySelector('.badge-shared'))) {
@@ -206,7 +206,7 @@ function filterDrawings(filter) {
             drawing.style.display = 'none';
         }
     });
-    
+
     if (visibleCount === 0) {
         emptyState.style.display = 'block';
     } else {
@@ -228,7 +228,7 @@ function searchDrawings(query) {
     const drawings = document.querySelectorAll('.drawing-card');
     const emptyState = document.getElementById('emptyState');
     let visibleCount = 0;
-    
+
     drawings.forEach(drawing => {
         const title = drawing.dataset.title;
         if (title.includes(query.toLowerCase())) {
@@ -238,7 +238,7 @@ function searchDrawings(query) {
             drawing.style.display = 'none';
         }
     });
-    
+
     if (visibleCount === 0) {
         emptyState.style.display = 'block';
     } else {
@@ -250,7 +250,7 @@ function searchDrawings(query) {
 function sortDrawings(criteria) {
     const grid = document.getElementById('drawingsGrid');
     const drawings = Array.from(grid.querySelectorAll('.drawing-card'));
-    
+
     drawings.sort((a, b) => {
         switch (criteria) {
             case 'title':
@@ -262,7 +262,7 @@ function sortDrawings(criteria) {
                 return new Date(b.dataset.date) - new Date(a.dataset.date);
         }
     });
-    
+
     drawings.forEach(drawing => grid.appendChild(drawing));
 }
 
@@ -315,7 +315,7 @@ function initializeSampleData() {
                 shared: false
             }
         ];
-        
+
         localStorage.setItem('artflow-drawings', JSON.stringify(sampleDrawings));
     }
 }
@@ -324,10 +324,10 @@ function initializeSampleData() {
 document.addEventListener('DOMContentLoaded', function () {
     // Inicializar dados de exemplo
     initializeSampleData();
-    
+
     // Carregar desenhos
     loadDrawings();
-    
+
     // Filtros
     document.querySelectorAll('.filter-tab').forEach(tab => {
         tab.addEventListener('click', function () {
@@ -336,17 +336,17 @@ document.addEventListener('DOMContentLoaded', function () {
             filterDrawings(this.dataset.filter);
         });
     });
-    
+
     // Pesquisa
     document.getElementById('searchInput').addEventListener('input', function () {
         searchDrawings(this.value);
     });
-    
+
     // Ordenação
     document.getElementById('sortSelect').addEventListener('change', function () {
         sortDrawings(this.value);
     });
-    
+
     // Visualização
     document.querySelectorAll('.view-btn').forEach(btn => {
         btn.addEventListener('click', function () {
@@ -355,21 +355,21 @@ document.addEventListener('DOMContentLoaded', function () {
             toggleView(this.dataset.view);
         });
     });
-    
+
     // Modal
     const modal = document.getElementById('drawingModal');
     const closeModal = document.querySelector('.close-modal');
-    
+
     closeModal.addEventListener('click', () => {
         modal.classList.remove('active');
     });
-    
+
     modal.addEventListener('click', (e) => {
         if (e.target === modal) {
             modal.classList.remove('active');
         }
     });
-    
+
     // Botão para começar a desenhar
     document.getElementById('startDrawingBtn').addEventListener('click', function () {
         window.location.href = '../Drawing/drawing.html';

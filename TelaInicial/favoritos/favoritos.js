@@ -82,12 +82,12 @@ const favoriteData = {
 function initFavoritesPage() {
     // Configurar tabs
     setupFavoritesTabs();
-    
+
     // Carregar dados
     loadFavoriteStories();
     loadFavoriteDrawings();
     loadFavoriteArtists();
-    
+
     // Configurar ordenação
     setupSorting();
 }
@@ -95,20 +95,20 @@ function initFavoritesPage() {
 // Configurar as abas de favoritos
 function setupFavoritesTabs() {
     const tabs = document.querySelectorAll('.favorites-tab');
-    
+
     tabs.forEach(tab => {
         tab.addEventListener('click', () => {
             // Remover classe active de todas as tabs
             tabs.forEach(t => t.classList.remove('active'));
-            
+
             // Adicionar classe active à tab clicada
             tab.classList.add('active');
-            
+
             // Esconder todos os conteúdos
             document.querySelectorAll('.favorites-content').forEach(content => {
                 content.classList.remove('active');
             });
-            
+
             // Mostrar o conteúdo correspondente
             const tabId = tab.getAttribute('data-tab');
             document.getElementById(`${tabId}-content`).classList.add('active');
@@ -119,11 +119,11 @@ function setupFavoritesTabs() {
 // Carregar histórias favoritas
 function loadFavoriteStories(sortBy = 'recent') {
     const container = document.getElementById('favorite-stories');
-    
+
     // Ordenar histórias
     let sortedStories = [...favoriteData.stories];
-    
-    switch(sortBy) {
+
+    switch (sortBy) {
         case 'recent':
             sortedStories.sort((a, b) => new Date(b.addedDate) - new Date(a.addedDate));
             break;
@@ -134,10 +134,10 @@ function loadFavoriteStories(sortBy = 'recent') {
             sortedStories.sort((a, b) => b.likes - a.likes);
             break;
     }
-    
+
     // Limpar container
     container.innerHTML = '';
-    
+
     // Verificar se há histórias
     if (sortedStories.length === 0) {
         container.innerHTML = `
@@ -150,7 +150,7 @@ function loadFavoriteStories(sortBy = 'recent') {
         `;
         return;
     }
-    
+
     // Adicionar histórias ao container
     sortedStories.forEach(story => {
         const storyElement = document.createElement('div');
@@ -171,17 +171,17 @@ function loadFavoriteStories(sortBy = 'recent') {
                 </div>
             </div>
         `;
-        
+
         // Adicionar evento de clique para abrir a história
         storyElement.addEventListener('click', (e) => {
             if (!e.target.closest('.favorite-item-remove')) {
                 showStoryModal(story.title, story.author, story.image);
             }
         });
-        
+
         container.appendChild(storyElement);
     });
-    
+
     // Adicionar eventos de remoção
     setupRemoveButtons();
 }
@@ -189,11 +189,11 @@ function loadFavoriteStories(sortBy = 'recent') {
 // Carregar desenhos favoritos
 function loadFavoriteDrawings(sortBy = 'recent') {
     const container = document.getElementById('favorite-drawings');
-    
+
     // Ordenar desenhos
     let sortedDrawings = [...favoriteData.drawings];
-    
-    switch(sortBy) {
+
+    switch (sortBy) {
         case 'recent':
             sortedDrawings.sort((a, b) => new Date(b.addedDate) - new Date(a.addedDate));
             break;
@@ -204,10 +204,10 @@ function loadFavoriteDrawings(sortBy = 'recent') {
             sortedDrawings.sort((a, b) => b.likes - a.likes);
             break;
     }
-    
+
     // Limpar container
     container.innerHTML = '';
-    
+
     // Verificar se há desenhos
     if (sortedDrawings.length === 0) {
         container.innerHTML = `
@@ -220,7 +220,7 @@ function loadFavoriteDrawings(sortBy = 'recent') {
         `;
         return;
     }
-    
+
     // Adicionar desenhos ao container
     sortedDrawings.forEach(drawing => {
         const drawingElement = document.createElement('div');
@@ -238,10 +238,10 @@ function loadFavoriteDrawings(sortBy = 'recent') {
                 </div>
             </div>
         `;
-        
+
         container.appendChild(drawingElement);
     });
-    
+
     // Adicionar eventos de remoção
     setupRemoveButtons();
 }
@@ -249,10 +249,10 @@ function loadFavoriteDrawings(sortBy = 'recent') {
 // Carregar artistas favoritos
 function loadFavoriteArtists() {
     const container = document.getElementById('favorite-artists');
-    
+
     // Limpar container
     container.innerHTML = '';
-    
+
     // Verificar se há artistas
     if (favoriteData.artists.length === 0) {
         container.innerHTML = `
@@ -265,7 +265,7 @@ function loadFavoriteArtists() {
         `;
         return;
     }
-    
+
     // Adicionar artistas ao container
     favoriteData.artists.forEach(artist => {
         const artistElement = document.createElement('div');
@@ -289,10 +289,10 @@ function loadFavoriteArtists() {
                 </button>
             </div>
         `;
-        
+
         container.appendChild(artistElement);
     });
-    
+
     // Adicionar eventos de seguir/deixar de seguir
     setupFollowButtons();
 }
@@ -300,26 +300,26 @@ function loadFavoriteArtists() {
 // Configurar botões de remoção
 function setupRemoveButtons() {
     const removeButtons = document.querySelectorAll('.favorite-item-remove');
-    
+
     removeButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
+        button.addEventListener('click', function (e) {
             e.stopPropagation();
-            
+
             const type = this.getAttribute('data-type');
             const id = parseInt(this.getAttribute('data-id'));
-            
+
             // Confirmar remoção
             if (confirm(`Tem certeza que deseja remover este item dos favoritos?`)) {
                 // Remover item dos favoritos
                 removeFromFavorites(type, id);
-                
+
                 // Recarregar a seção
                 if (type === 'story') {
                     loadFavoriteStories(document.getElementById('stories-sort').value);
                 } else if (type === 'drawing') {
                     loadFavoriteDrawings(document.getElementById('drawings-sort').value);
                 }
-                
+
                 // Mostrar notificação
                 showNotification('Item removido dos favoritos!');
             }
@@ -330,15 +330,15 @@ function setupRemoveButtons() {
 // Configurar botões de seguir
 function setupFollowButtons() {
     const followButtons = document.querySelectorAll('.artist-follow');
-    
+
     followButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             const artistId = parseInt(this.getAttribute('data-id'));
             const artist = favoriteData.artists.find(a => a.id === artistId);
-            
+
             if (artist) {
                 artist.isFollowing = !artist.isFollowing;
-                
+
                 if (artist.isFollowing) {
                     this.textContent = 'Seguindo';
                     this.classList.add('following');
@@ -347,7 +347,7 @@ function setupFollowButtons() {
                     this.textContent = 'Seguir';
                     this.classList.remove('following');
                     showNotification(`Você parou de seguir ${artist.name}.`);
-                    
+
                     // Se não está mais seguindo, remover da lista após um tempo
                     setTimeout(() => {
                         favoriteData.artists = favoriteData.artists.filter(a => a.id !== artistId);
@@ -363,15 +363,15 @@ function setupFollowButtons() {
 function setupSorting() {
     const storySort = document.getElementById('stories-sort');
     const drawingSort = document.getElementById('drawings-sort');
-    
+
     if (storySort) {
-        storySort.addEventListener('change', function() {
+        storySort.addEventListener('change', function () {
             loadFavoriteStories(this.value);
         });
     }
-    
+
     if (drawingSort) {
-        drawingSort.addEventListener('change', function() {
+        drawingSort.addEventListener('change', function () {
             loadFavoriteDrawings(this.value);
         });
     }
@@ -387,14 +387,14 @@ function removeFromFavorites(type, id) {
 }
 
 // Inicializar a página quando o DOM estiver carregado
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     initFavoritesPage();
-    
+
     // Garantir que as bolinhas flutuantes sejam criadas
     if (typeof createFloatingShapes === 'function') {
         createFloatingShapes();
     }
-    
+
     // Configurar acessibilidade
     if (typeof setupAccessibility === 'function') {
         setupAccessibility();

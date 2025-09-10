@@ -195,14 +195,12 @@ function createStoryCard(story) {
 
   card.innerHTML = `
       <div class="story-cover">
-          <img src="${story.cover || "../img/default-cover.png"}" alt="${
-    story.title
-  }" />
+          <img src="${story.cover || "../img/default-cover.png"}" alt="${story.title
+    }" />
           <div class="story-status ${statusClass}">${statusText}</div>
           <div class="story-progress">
-              <div class="progress-bar" style="width: ${
-                story.progress
-              }%"></div>
+              <div class="progress-bar" style="width: ${story.progress
+    }%"></div>
           </div>
       </div>
       <div class="story-info">
@@ -214,24 +212,21 @@ function createStoryCard(story) {
               </div>
               <div class="story-pages">
                   <i class="fas fa-book-open"></i>
-                  <span>${story.currentPage || 0}/${
-    story.pagesCount
-  } páginas</span>
+                  <span>${story.currentPage || 0}/${story.pagesCount
+    } páginas</span>
               </div>
           </div>
           <p class="story-description">
-              ${
-                story.category
-                  ? `Categoria: ${story.category}`
-                  : "História criada por você"
-              }
+              ${story.category
+      ? `Categoria: ${story.category}`
+      : "História criada por você"
+    }
           </p>
           <div class="story-actions">
               <div class="action-buttons">
                   <button class="action-btn" title="Favoritar">
-                      <i class="${
-                        story.favorite ? "fas" : "far"
-                      } fa-heart"></i>
+                      <i class="${story.favorite ? "fas" : "far"
+    } fa-heart"></i>
                   </button>
                   <button class="action-btn" title="Compartilhar">
                       <i class="fas fa-share"></i>
@@ -240,13 +235,12 @@ function createStoryCard(story) {
                       <i class="fas fa-ellipsis-v"></i>
                   </button>
               </div>
-              <button class="continue-btn">${
-                story.status === "new"
-                  ? "Começar"
-                  : story.status === "completed"
-                  ? "Reler"
-                  : "Continuar"
-              }</button>
+              <button class="continue-btn">${story.status === "new"
+      ? "Começar"
+      : story.status === "completed"
+        ? "Reler"
+        : "Continuar"
+    }</button>
           </div>
       </div>
   `;

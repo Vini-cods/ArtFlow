@@ -30,8 +30,7 @@ followButtons.forEach((button) => {
 
       // Notificação de sucesso
       showNotification(
-        `Agora você está seguindo ${
-          this.parentElement.querySelector(".artist-name").textContent
+        `Agora você está seguindo ${this.parentElement.querySelector(".artist-name").textContent
         }`
       );
     } else {
@@ -358,9 +357,8 @@ function createFloatingShapes() {
         shape.style.opacity = "0.8";
 
         setTimeout(() => {
-          shape.style.animation = `float ${
-            8 + Math.random() * 4
-          }s ease-in-out infinite`;
+          shape.style.animation = `float ${8 + Math.random() * 4
+            }s ease-in-out infinite`;
           shape.style.transform = "scale(1)";
           shape.style.opacity = "0.6";
         }, 500);
