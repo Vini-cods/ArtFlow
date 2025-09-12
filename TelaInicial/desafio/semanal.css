@@ -1,48 +1,74 @@
-/* Estilos específicos para a página de desafio */
 .challenge-container {
-    max-width: 1200px;
+    max-width: 1600px;
     margin: 0 auto;
     padding: 20px;
 }
 
 .challenge-header {
     text-align: center;
-    margin-bottom: 40px;
-    padding: 20px;
+    margin-bottom: 30px;
+    padding: 25px;
     background: linear-gradient(135deg, rgba(107, 47, 160, 0.7), rgba(74, 31, 122, 0.7));
     border-radius: 20px;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 215, 0, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
 .challenge-title {
     font-size: 2.5rem;
     color: #ffd700;
     margin-bottom: 15px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .challenge-theme {
     font-size: 1.5rem;
     margin-bottom: 20px;
+    color: #ffffff;
 }
 
 .countdown-timer {
     font-size: 1.2rem;
     background: rgba(255, 215, 0, 0.2);
-    padding: 10px 20px;
+    padding: 12px 25px;
     border-radius: 25px;
     display: inline-block;
     margin-bottom: 20px;
+    color: #ffd700;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.challenge-description {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 25px;
+    border: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+.challenge-description h3 {
+    color: #ffd700;
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.challenge-description h3 i {
+    font-size: 1.2rem;
 }
 
 .challenge-content {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 2fr;
     gap: 30px;
     margin-bottom: 40px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 992px) {
     .challenge-content {
         grid-template-columns: 1fr;
     }
@@ -54,6 +80,7 @@
     border-radius: 20px;
     padding: 25px;
     border: 1px solid rgba(255, 215, 0, 0.2);
+    height: fit-content;
 }
 
 .detail-section {
@@ -64,6 +91,13 @@
     color: #ffd700;
     margin-bottom: 15px;
     font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.detail-section h3 i {
+    font-size: 1.1rem;
 }
 
 .prizes-list {
@@ -71,7 +105,7 @@
 }
 
 .prizes-list li {
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -79,6 +113,7 @@
 
 .prizes-list i {
     color: #ffd700;
+    width: 20px;
 }
 
 .rules-list {
@@ -88,192 +123,288 @@
 
 .rules-list li {
     margin-bottom: 10px;
+    line-height: 1.5;
 }
 
-.submission-area {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    padding: 25px;
-    border: 1px solid rgba(255, 215, 0, 0.2);
-}
-
-.drawing-canvas-container {
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 15px;
+/* Área de desenho melhorada - TAMANHO AUMENTADO */
+.drawing-area-improved {
+    background: rgba(45, 21, 84, 0.7);
+    border-radius: 12px;
     padding: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    height: 850px;
+}
+
+.drawing-header {
     margin-bottom: 20px;
     text-align: center;
 }
 
-#drawing-canvas {
-    background: white;
-    border-radius: 10px;
-    margin-bottom: 15px;
-    cursor: crosshair;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    max-width: 600px;
-    height: 500px;
+.drawing-title {
+    font-size: 1.8rem;
+    color: var(--accent-color);
+    margin-bottom: 10px;
 }
 
-.drawing-tools {
+.drawing-container {
     display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 15px;
-    flex-wrap: wrap;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    overflow: hidden;
+    flex: 1;
+    margin-bottom: 20px;
+    height: 650px;
+}
+
+/* Painel de ferramentas (TAMANHO AUMENTADO) */
+.tools-panel {
+    width: 80px;
+    background: rgba(45, 21, 84, 0.8);
+    padding: 15px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    border-right: 1px solid var(--border-color);
+    flex-shrink: 0;
+    overflow-y: auto;
+    max-height: 100%;
 }
 
 .tool-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
     background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 215, 0, 0.3);
-    color: white;
-    cursor: pointer;
+    border: 1px solid var(--border-color);
+    color: var(--accent-color);
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 1.2rem;
+    position: relative;
 }
 
 .tool-btn.active {
     background: rgba(255, 215, 0, 0.3);
-    color: #ffd700;
-    border-color: #ffd700;
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.4);
 }
 
 .tool-btn:hover {
+    background: rgba(255, 215, 0, 0.2);
     transform: scale(1.1);
 }
 
-.tool-options {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 15px;
-    flex-wrap: wrap;
-}
-
-.tool-option {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 8px 12px;
-    border-radius: 20px;
-}
-
-.tool-option label {
+.tool-btn::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
     color: white;
-    font-size: 0.9rem;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+    z-index: 101;
 }
 
-.tool-option input[type="range"] {
-    width: 80px;
-}
-
-.tool-option span {
-    color: white;
-    font-size: 0.9rem;
-    min-width: 35px;
+.tool-btn:hover::after {
+    opacity: 1;
+    visibility: visible;
 }
 
 .color-palette {
     display: flex;
+    flex-direction: column;
     gap: 8px;
-    justify-content: center;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-    align-items: center;
+    margin-top: 15px;
 }
 
 .color-btn {
-    width: 25px;
-    height: 25px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.3);
     cursor: pointer;
-    border: 2px solid transparent;
-    transition: all 0.3s ease;
+    transition: var(--transition);
 }
 
 .color-btn.active {
-    border-color: white;
+    transform: scale(1.3);
+    box-shadow: 0 0 8px white;
+}
+
+.color-btn:hover {
     transform: scale(1.2);
 }
 
-.color-picker-container {
+#color-picker-btn {
+    margin-top: 15px;
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+}
+
+/* Container do canvas (TAMANHO AUMENTADO) */
+.canvas-container {
+    flex: 1;
     position: relative;
-    display: inline-block;
+    background: white;
+    overflow: hidden;
+    border-radius: 0 8px 8px 0;
 }
 
-#color-picker {
+#drawing-canvas {
     position: absolute;
-    opacity: 0;
-    width: 25px;
-    height: 25px;
-    cursor: pointer;
-    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: crosshair;
 }
 
-.color-picker-label {
-    display: inline-block;
-    width: 25px;
-    height: 25px;
+/* Opções de ferramentas (TAMANHO AUMENTADO) */
+.tool-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 15px;
+    width: 100%;
+    padding: 0 8px;
+}
+
+.tool-option {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.tool-option label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    text-align: center;
+    font-weight: 500;
+}
+
+.tool-option input[type="range"] {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    outline: none;
+}
+
+.tool-option input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
-    background: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet);
+    background: var(--accent-color);
     cursor: pointer;
+    border: 2px solid white;
+}
+
+.tool-option span {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    text-align: center;
+    font-weight: 500;
+}
+
+/* Opções de formas (TAMANHO AUMENTADO) */
+.shape-options {
+    display: none;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 15px;
+    width: 100%;
+}
+
+.shape-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--border-color);
+    color: var(--accent-color);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
-    font-size: 12px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 1.1rem;
 }
 
-.action-buttons {
+.shape-btn.active {
+    background: rgba(255, 215, 0, 0.3);
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.4);
+}
+
+.shape-btn:hover {
+    background: rgba(255, 215, 0, 0.2);
+    transform: scale(1.1);
+}
+
+/* Controles de desenho (TAMANHO AUMENTADO) */
+.drawing-controls {
     display: flex;
-    gap: 10px;
     justify-content: center;
+    gap: 15px;
+    flex-shrink: 0;
     flex-wrap: wrap;
+    margin-top: 10px;
 }
 
-.action-btn {
-    padding: 10px 20px;
+.control-btn {
+    background: linear-gradient(45deg, var(--accent-color), var(--accent-secondary));
+    color: #1a0f3a;
     border: none;
+    padding: 12px 25px;
     border-radius: 25px;
     font-weight: bold;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: var(--transition);
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+    font-size: 1rem;
+    min-width: 140px;
+    justify-content: center;
 }
 
-.btn-submit {
-    background: linear-gradient(45deg, #ffd700, #f6ad55);
-    color: #1a0f3a;
-}
-
-.btn-clear {
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.btn-undo, .btn-redo {
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    padding: 10px 15px;
-}
-
-.action-btn:hover {
+.control-btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 20px rgba(255, 215, 0, 0.5);
 }
 
+.control-btn:active {
+    transform: translateY(0);
+}
+
+.control-btn.secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--accent-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.control-btn.secondary:hover {
+    background: rgba(255, 215, 0, 0.2);
+}
+
+/* Galeria de submissões */
 .submission-gallery {
     margin-top: 50px;
 }
@@ -347,34 +478,146 @@
     opacity: 0.8;
 }
 
-.shape-options {
-    display: none;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 15px;
-    flex-wrap: wrap;
+/* Responsividade */
+@media (max-width: 992px) {
+    .drawing-container {
+        flex-direction: column;
+    }
+
+    .tools-panel {
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        padding: 10px;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        overflow-x: auto;
+        justify-content: center;
+    }
+
+    .color-palette {
+        flex-direction: row;
+        margin-top: 0;
+        margin-left: 10px;
+    }
+
+    .tool-options {
+        flex-direction: row;
+        align-items: center;
+        margin-top: 0;
+        width: auto;
+        margin-left: 10px;
+    }
+
+    .tool-option {
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .tool-option label {
+        white-space: nowrap;
+    }
+
+    .tool-option input[type="range"] {
+        width: 100px;
+    }
+
+    .canvas-container {
+        height: 500px;
+        border-radius: 0 0 8px 8px;
+    }
 }
 
-.shape-options.active {
-    display: flex;
+@media (max-width: 768px) {
+    .challenge-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .drawing-area-improved {
+        height: auto;
+        min-height: 800px;
+    }
+    
+    .drawing-container {
+        height: 500px;
+    }
+    
+    .drawing-controls {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .control-btn {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .tool-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1.1rem;
+    }
 }
 
-.shape-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 215, 0, 0.3);
-    color: white;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
+@media (max-width: 576px) {
+    .challenge-title {
+        font-size: 2rem;
+    }
+
+    .challenge-theme {
+        font-size: 1.2rem;
+    }
+    
+    .drawing-area-improved {
+        padding: 15px;
+    }
+    
+    .tools-panel {
+        gap: 10px;
+        padding: 8px;
+    }
+
+    .tool-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    .color-btn {
+        width: 24px;
+        height: 24px;
+    }
+
+    .tool-option input[type="range"] {
+        width: 80px;
+    }
+
+    .shape-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
+    
+    .control-btn {
+        padding: 10px 20px;
+        min-width: 120px;
+        font-size: 0.9rem;
+    }
 }
 
-.shape-btn.active {
-    background: rgba(255, 215, 0, 0.3);
-    color: #ffd700;
-    border-color: #ffd700;
+/* Variáveis CSS */
+:root {
+    --primary-bg: linear-gradient(135deg, #0f0820 0%, #1a0f3a 50%, #2d1554 100%);
+    --header-bg: rgba(45, 21, 84, 0.95);
+    --sidebar-bg: rgba(45, 21, 84, 0.9);
+    --container-bg: rgba(45, 21, 84, 0.7);
+    --accent-color: #ffd700;
+    --accent-secondary: #f6ad55;
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.8);
+    --border-color: rgba(255, 215, 0, 0.2);
+    --shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    --transition: all 0.3s ease;
+    --border-radius: 12px;
 }
