@@ -20,7 +20,7 @@ categories.forEach((category) => {
 });
 
 // Interatividade dos botões de seguir artista
-const followButtons = document.querySelectorAll(".artist-follow");
+const followButtons = document.querySelectorAll(".follow-btn");
 followButtons.forEach((button) => {
   button.addEventListener("click", function (e) {
     e.stopPropagation();
@@ -30,7 +30,7 @@ followButtons.forEach((button) => {
 
       // Notificação de sucesso
       showNotification(
-        `Agora você está seguindo ${this.parentElement.querySelector(".artist-name").textContent
+        `Agora você está seguindo ${this.parentElement.querySelector("h4").textContent
         }`
       );
     } else {
@@ -83,6 +83,17 @@ featuredItems.forEach((item) => {
 
     // Abrir modal com informações detalhadas
     showStoryModal(title, artist, imageSrc);
+  });
+});
+
+// Interatividade das atividades
+const activityCards = document.querySelectorAll(".activity-card");
+activityCards.forEach((card) => {
+  card.addEventListener("click", () => {
+    card.style.transform = "scale(0.95)";
+    setTimeout(() => {
+      card.style.transform = "";
+    }, 200);
   });
 });
 
@@ -148,7 +159,7 @@ function getStoryInfo(title) {
     },
     "O Castelo Mágico": {
       description:
-        "Em um reino distante, uma jovem princesa descobre um castelo encantado cheio de segredos e criaturas fantásticas que precisam de sua ajuda.",
+        "Em um reino distante, uma jovem princesa descobre um castelo encantado cheio de segredos and criaturas fantásticas que precisam de sua ajuda.",
       pages: 10,
       category: "Fantasia, Aventura",
       ageRange: "4-8 anos",
@@ -162,22 +173,22 @@ function getStoryInfo(title) {
       category: "Ficção Científica",
       ageRange: "6-12 anos",
       authorBio:
-        "Ana Costa é uma ex-cientista da NASA que agora dedica seu tempo a escrever livros infantis que tornam a ciência divertida e acessível para todas as crianças.",
+        "Ana Costa é uma ex-cientista da NASA que agora dedica seu tempo a escrever livros infantis que tornam a ciência divertida and acessível para todas as crianças.",
     },
     "O Tesouro Perdido": {
       description:
-        "Um mapa misterioso leva três irmãos em uma caça ao tesouro cheia de enigmas, desafios e descobertas sobre trabalho em equipe.",
+        "Um mapa misterioso leva três irmãos em uma caça ao tesouro cheia de enigmas, desafios and descobertas sobre trabalho em equipe.",
       pages: 16,
       category: "Aventura, Mistério",
       ageRange: "7-12 anos",
       authorBio:
-        "Miguel Santos é um arqueólogo que transforma suas experiências em aventuras emocionantes para jovens leitores. Seus livros incentivam a curiosidade e a resolução de problemas.",
+        "Miguel Santos é um arqueólogo que transforma suas experiências em aventuras emocionantes para jovens leitores. Seus livros incentivam a curiosidade and a resolução de problemas.",
     },
   };
 
   return (
     stories[title] || {
-      description: "Uma história emocionante cheia de aventuras e aprendizado.",
+      description: "Uma história emocionante cheia de aventuras and aprendizado.",
       pages: 10,
       category: "Aventura",
       ageRange: "5-10 anos",
@@ -319,7 +330,7 @@ function createFloatingShapes() {
   // Limpar shapes existentes
   container.innerHTML = "";
 
-  // Criar diferentes tamanhos e cores de bolinhas
+  // Criar diferentes tamanhos and cores de bolinhas
   const shapeConfigs = [
     { size: 60, color: "purple", count: 8 },
     { size: 40, color: "gold", count: 6 },
@@ -466,11 +477,11 @@ function initCarousel() {
 
   // Função para mostrar um slide específico
   function showSlide(index) {
-    // Remover a classe active de todos os slides e dots
+    // Remover a classe active de todos os slides and dots
     slides.forEach((slide) => slide.classList.remove("active"));
     dots.forEach((dot) => dot.classList.remove("active"));
 
-    // Adicionar a classe active ao slide e dot atual
+    // Adicionar a classe active ao slide and dot atual
     slides[index].classList.add("active");
     dots[index].classList.add("active");
 
@@ -558,6 +569,84 @@ function setupAccessibility() {
   });
 }
 
+// Contador regressivo para o desafio semanal
+function setupChallengeCountdown() {
+  const countdownElement = document.getElementById("challenge-countdown");
+  if (!countdownElement) return;
+
+  // Definir data de término (5 dias a partir de agora)
+  const endDate = new Date();
+  endDate.setDate(endDate.getDate() + 5);
+
+  function updateCountdown() {
+    const now = new Date();
+    const timeRemaining = endDate - now;
+
+    if (timeRemaining <= 0) {
+      countdownElement.textContent = "Desafio encerrado!";
+      return;
+    }
+
+    // Calcular dias, horas, minutos
+    const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+
+    countdownElement.textContent = `Termina em: ${days}d ${hours}h ${minutes}m`;
+  }
+
+  // Atualizar a cada minuto
+  updateCountdown();
+  setInterval(updateCountdown, 60000);
+}
+
+// Efeito de digitação para as atualizações
+function setupTypingEffects() {
+  const updateItems = document.querySelectorAll(".update-content h4");
+  updateItems.forEach((item, index) => {
+    const originalText = item.textContent;
+    item.textContent = "";
+    
+    setTimeout(() => {
+      let i = 0;
+      function typeWriter() {
+        if (i < originalText.length) {
+          item.textContent += originalText.charAt(i);
+          i++;
+          setTimeout(typeWriter, 50);
+        }
+      }
+      typeWriter();
+    }, index * 300);
+  });
+}
+
+// Efeito de aparição para elementos ao rolar a página
+function setupScrollAnimations() {
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: "0px 0px -50px 0px"
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = "1";
+        entry.target.style.transform = "translateY(0)";
+      }
+    });
+  }, observerOptions);
+
+  // Observar elementos para animação
+  const animatedElements = document.querySelectorAll(".featured-section, .activity-card, .young-artist");
+  animatedElements.forEach(el => {
+    el.style.opacity = "0";
+    el.style.transform = "translateY(20px)";
+    el.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+    observer.observe(el);
+  });
+}
+
 // Inicializar quando o DOM estiver carregado
 document.addEventListener("DOMContentLoaded", function () {
   // Criar bolinhas flutuantes
@@ -571,11 +660,14 @@ document.addEventListener("DOMContentLoaded", function () {
   setupNewsletter();
   setupAccessibility();
   setupImageLoading();
+  setupChallengeCountdown();
+  setupTypingEffects();
+  setupScrollAnimations();
 
   // Inicializar o carrossel
   initCarousel();
 
-  // Adicionar estilos para alto contraste e fonte legível
+  // Adicionar estilos para alto contraste and fonte legível
   const style = document.createElement("style");
   style.textContent = `
         .high-contrast {

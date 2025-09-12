@@ -45,16 +45,20 @@ body {
 }
 
 @keyframes float {
+
   0%,
   100% {
     transform: translateY(0) rotate(0deg);
   }
+
   25% {
     transform: translateY(-20px) rotate(5deg);
   }
+
   50% {
     transform: translateY(0) rotate(0deg);
   }
+
   75% {
     transform: translateY(20px) rotate(-5deg);
   }
@@ -316,17 +320,15 @@ body {
   transition: margin-left 0.3s ease;
 }
 
-.sidebar:hover ~ .main-content {
+.sidebar:hover~.main-content {
   margin-left: 220px;
 }
 
 /* Banner de boas-vindas */
 .welcome-banner {
-  background: linear-gradient(
-    135deg,
-    rgba(74, 31, 122, 0.7),
-    rgba(107, 47, 160, 0.7)
-  );
+  background: linear-gradient(135deg,
+      rgba(74, 31, 122, 0.7),
+      rgba(107, 47, 160, 0.7));
   border-radius: 20px;
   padding: 25px;
   margin-bottom: 30px;
@@ -707,16 +709,14 @@ body {
   box-shadow: 0 5px 15px rgba(255, 215, 0, 0.1);
 }
 
-/* Grid de miniaturas melhorado - MELHORIAS PARA AS CAPAS */
 .thumbnail-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
   margin-top: 20px;
 }
 
 .thumbnail {
-  aspect-ratio: 3/4;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   border-radius: 15px;
@@ -725,16 +725,16 @@ body {
   cursor: pointer;
   overflow: hidden;
   position: relative;
-  width: 100%;
-  height: 100%;
+  height: 420px;
+  /* Altura aumentada */
 }
 
 .thumbnail-img {
   width: 100%;
-  height: 75%;
+  height: 250px;
+  /* Altura aumentada */
   object-fit: cover;
   object-position: center top;
-  /* Foca no topo da imagem */
 }
 
 .story-badge {
@@ -743,43 +743,52 @@ body {
   right: 10px;
   background: rgba(255, 215, 0, 0.9);
   color: #1a0f3a;
-  padding: 5px 10px;
+  padding: 5px 12px;
   border-radius: 15px;
   font-size: 0.8rem;
   font-weight: bold;
 }
 
 .thumbnail-info {
-  padding: 15px;
-  height: 25%;
+  padding: 20px;
   display: flex;
   flex-direction: column;
+  height: 180px;
+  /* Altura ajustada */
   justify-content: space-between;
 }
 
 .thumbnail-title {
-  font-size: 1rem;
-  font-weight: 500;
-  margin-bottom: 5px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
   color: #ffd700;
+  line-height: 1.3;
 }
 
 .thumbnail-artist {
-  font-size: 0.8rem;
-  opacity: 0.8;
+  font-size: 0.9rem;
+  opacity: 0.9;
+  margin-bottom: 15px;
+  line-height: 1.4;
 }
 
 .thumbnail-actions {
   display: flex;
   justify-content: space-between;
-  margin-top: 10px;
+  gap: 20px;
+  /* Espaçamento aumentado entre os ícones */
 }
 
 .thumbnail-action {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.95rem;
   transition: color 0.3s ease;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  /* Espaçamento entre ícone e número */
 }
 
 .thumbnail-action:hover {
@@ -1196,7 +1205,7 @@ body {
     padding: 20px;
   }
 
-  .sidebar:hover ~ .main-content {
+  .sidebar:hover~.main-content {
     margin-left: 0;
   }
 
@@ -1287,8 +1296,10 @@ body {
 }
 
 .main-content {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE/Edge */
 }
 
 /* Garantir que outros elementos scrolláveis também tenham scroll oculto */
@@ -1303,4 +1314,370 @@ body {
 .modal-content {
   scrollbar-width: none;
   -ms-overflow-style: none;
+}
+
+/* NOVOS ESTILOS ADICIONADOS */
+
+/* Desafio Semanal */
+.weekly-challenge {
+  background: linear-gradient(135deg, rgba(107, 47, 160, 0.7), rgba(74, 31, 122, 0.7));
+  border-radius: 20px;
+  padding: 25px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  margin-bottom: 30px;
+}
+
+.challenge-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.countdown {
+  background: rgba(255, 215, 0, 0.2);
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-weight: bold;
+  color: #ffd700;
+  font-size: 0.9rem;
+}
+
+.challenge-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+  align-items: center;
+}
+
+.challenge-theme h4 {
+  color: #ffd700;
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+}
+
+.challenge-theme p {
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.5;
+}
+
+.challenge-prizes {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 15px;
+}
+
+.challenge-prizes h5 {
+  color: #ffd700;
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.challenge-prizes ul {
+  list-style: none;
+}
+
+.challenge-prizes li {
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+.challenge-prizes i {
+  color: #ffd700;
+}
+
+.participate-btn {
+  grid-column: 1 / -1;
+  background: linear-gradient(45deg, #ffd700, #f6ad55);
+  color: #1a0f3a;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 25px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+  justify-self: center;
+  margin-top: 15px;
+}
+
+.participate-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+}
+
+/* Artistas Mirins */
+.featured-artists {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.young-artist {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.young-artist:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 215, 0, 0.5);
+}
+
+.artist-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgba(255, 215, 0, 0.5);
+}
+
+.artist-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.artist-info {
+  flex: 1;
+}
+
+.artist-info h4 {
+  color: #ffd700;
+  margin-bottom: 5px;
+}
+
+.artist-info p {
+  font-size: 0.8rem;
+  opacity: 0.8;
+  margin-bottom: 8px;
+}
+
+.artist-specialty {
+  display: flex;
+  gap: 8px;
+}
+
+.specialty-tag {
+  background: rgba(255, 215, 0, 0.2);
+  color: #ffd700;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+}
+
+.follow-btn {
+  background: transparent;
+  color: #ffd700;
+  border: 1px solid rgba(255, 215, 0, 0.5);
+  padding: 8px 15px;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.8rem;
+}
+
+.follow-btn:hover {
+  background: rgba(255, 215, 0, 0.2);
+}
+
+/* Atividades Interativas */
+.activities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.activity-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 25px 20px;
+  text-align: center;
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.activity-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 215, 0, 0.5);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.activity-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(255, 215, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 15px;
+  font-size: 1.5rem;
+  color: #ffd700;
+}
+
+.activity-card h4 {
+  color: #ffd700;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+.activity-card p {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* Atualizações */
+.updates-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.update-item {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 20px;
+  display: flex;
+  gap: 15px;
+  border: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+.update-date {
+  background: rgba(255, 215, 0, 0.2);
+  color: #ffd700;
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  height: fit-content;
+  font-weight: bold;
+}
+
+.update-content h4 {
+  color: #ffd700;
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+}
+
+.update-content p {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  line-height: 1.5;
+}
+
+/* Conquistas */
+.achievements-preview {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 25px;
+  border: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+.badges-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+}
+
+.badge.earned {
+  opacity: 1;
+}
+
+.badge-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: rgba(255, 215, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  color: #ffd700;
+}
+
+.badge.locked .badge-icon {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.badge p {
+  font-size: 0.8rem;
+  text-align: center;
+  max-width: 80px;
+}
+
+/* Responsividade para os novos elementos */
+@media (max-width: 768px) {
+  .challenge-content {
+    grid-template-columns: 1fr;
+  }
+
+  .featured-artists {
+    grid-template-columns: 1fr;
+  }
+
+  .activities-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .update-item {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .badges-container {
+    gap: 15px;
+  }
+
+  .badge-icon {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .activities-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .badges-container {
+    gap: 10px;
+  }
+
+  .badge-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+  }
+
+  .badge p {
+    font-size: 0.7rem;
+  }
 }
