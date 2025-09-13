@@ -1,8 +1,8 @@
 /* drawing.css - Estilo para a página de desenho - VERSÃO OTIMIZADA E ATUALIZADA */
 :root {
   --primary-bg: linear-gradient(135deg, #0f0820 0%, #1a0f3a 50%, #2d1554 100%);
-  --header-bg: rgba(45, 21, 84, 0.95);
-  --sidebar-bg: rgba(45, 21, 84, 0.9);
+  --header-bg: transparent;
+  --sidebar-bg: transparent;
   --container-bg: rgba(45, 21, 84, 0.7);
   --accent-color: #ffd700;
   --accent-secondary: #f6ad55;
