@@ -37,7 +37,7 @@ const favoriteData = {
             id: 1,
             title: "Meu Dragão Amigo",
             artist: "João, 8 anos",
-            image: "https://images.unsplash.com/photo-1515405295579-ba7b45403062?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=80",
+            image: "../img/Meu Dragão Amigo.png",
             likes: 42,
             addedDate: "2023-10-28"
         },
@@ -45,7 +45,7 @@ const favoriteData = {
             id: 2,
             title: "Castelo Colorido",
             artist: "Maria, 7 anos",
-            image: "https://images.unsplash.com/photo-1515405295579-ba7b45403062?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=80",
+            image: "../img/castelo colorido.png",
             likes: 37,
             addedDate: "2023-11-12"
         }
