@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz - ArtFlow Kids</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="quiz.css">
+</head>
+<body>
+    <div class="quiz-container">
+        <a href="../index.html" class="back-button">
+            <i class="fas fa-arrow-left"></i> Voltar ao Início
+        </a>
+
+        <div class="quiz-header">
+            <h1>Quiz das Histórias</h1>
+            <p>Teste seu conhecimento sobre as histórias do ArtFlow Kids!</p>
+        </div>
+
+        <div class="quiz-grid">
+            <!-- Quiz 1: Aventura na Floresta -->
+            <div class="quiz-card" data-quiz="1">
+                <div class="quiz-image" style="background-image: url('../img/Aventura\ na\ Floresta.png');"></div>
+                <div class="quiz-content">
+                    <h3>Aventura na Floresta</h3>
+                    <p>10 perguntas sobre a emocionante jornada na floresta</p>
+                    <div class="quiz-difficulty">
+                        <span class="difficulty-label">Dificuldade:</span>
+                        <div class="difficulty-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                    </div>
+                    <button class="start-quiz-btn" data-quiz="1">Iniciar Quiz</button>
+                </div>
+            </div>
+
+            <!-- Quiz 2: O Castelo Mágico -->
+            <div class="quiz-card" data-quiz="2">
+                <div class="quiz-image" style="background-image: url('../img/O\ castelo\ magico.png');"></div>
+                <div class="quiz-content">
+                    <h3>O Castelo Mágico</h3>
+                    <p>8 perguntas sobre o reino encantado</p>
+                    <div class="quiz-difficulty">
+                        <span class="difficulty-label">Dificuldade:</span>
+                        <div class="difficulty-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                    </div>
+                    <button class="start-quiz-btn" data-quiz="2">Iniciar Quiz</button>
+                </div>
+            </div>
+
+            <!-- Quiz 3: Viagem ao Espaço -->
+            <div class="quiz-card" data-quiz="3">
+                <div class="quiz-image" style="background-image: url('../img/Viagem\ ao\ espaço.png');"></div>
+                <div class="quiz-content">
+                    <h3>Viagem ao Espaço</h3>
+                    <p>12 perguntas sobre a missão espacial</p>
+                    <div class="quiz-difficulty">
+                        <span class="difficulty-label">Dificuldade:</span>
+                        <div class="difficulty-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <button class="start-quiz-btn" data-quiz="3">Iniciar Quiz</button>
+                </div>
+            </div>
+
+            <!-- Quiz 4: O Tesouro Perdido -->
+            <div class="quiz-card" data-quiz="4">
+                <div class="quiz-image" style="background-image: url('../img/O\ tesouro\ perdido.png');"></div>
+                <div class="quiz-content">
+                    <h3>O Tesouro Perdido</h3>
+                    <p>15 perguntas sobre a caça ao tesouro</p>
+                    <div class="quiz-difficulty">
+                        <span class="difficulty-label">Dificuldade:</span>
+                        <div class="difficulty-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <button class="start-quiz-btn" data-quiz="4">Iniciar Quiz</button>
+                </div>
+            </div>
+
+            <!-- Quiz 5: O Pequeno Príncipe -->
+            <div class="quiz-card" data-quiz="5">
+                <div class="quiz-image" style="background-image: url('../img/O\ pequeno\ principe.png');"></div>
+                <div class="quiz-content">
+                    <h3>O Pequeno Príncipe</h3>
+                    <p>10 perguntas sobre o clássico infantil</p>
+                    <div class="quiz-difficulty">
+                        <span class="difficulty-label">Dificuldade:</span>
+                        <div class="difficulty-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                    </div>
+                    <button class="start-quiz-btn" data-quiz="5">Iniciar Quiz</button>
+                </div>
+            </div>
+
+            <!-- Quiz 6: A Menina e o Dragão -->
+            <div class="quiz-card" data-quiz="6">
+                <div class="quiz-image" style="background-image: url('../img/a\ menina\ e\ o\ dragão.webp');"></div>
+                <div class="quiz-content">
+                    <h3>A Menina e o Dragão</h3>
+                    <p>7 perguntas sobre essa amizade inusitada</p>
+                    <div class="quiz-difficulty">
+                        <span class="difficulty-label">Dificuldade:</span>
+                        <div class="difficulty-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                    </div>
+                    <button class="start-quiz-btn" data-quiz="6">Iniciar Quiz</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Quiz -->
+    <div class="quiz-modal" id="quizModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="quizTitle">Quiz Title</h2>
+                <div class="quiz-progress">
+                    <span id="currentQuestion">1</span> de <span id="totalQuestions">10</span>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <div class="question" id="questionText">
+                    Pergunta será exibida aqui
+                </div>
+                <div class="options-container" id="optionsContainer">
+                    <!-- Opções serão inseridas via JavaScript -->
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="score-container">
+                    Pontuação: <span id="score">0</span> pontos
+                </div>
+                <button class="next-question-btn" id="nextQuestionBtn">Próxima Pergunta</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Resultado -->
+    <div class="result-modal" id="resultModal">
+        <div class="result-content">
+            <div class="result-header">
+                <i class="fas fa-trophy"></i>
+                <h2>Quiz Concluído!</h2>
+            </div>
+            <div class="result-body">
+                <div class="score-display">
+                    Você fez <span id="finalScore">0</span> pontos!
+                </div>
+                <div class="result-message" id="resultMessage">
+                    Mensagem de resultado
+                </div>
+            </div>
+            <div class="result-footer">
+                <button class="restart-quiz-btn" id="restartQuizBtn">Fazer Novamente</button>
+                <button class="back-to-quizzes-btn" id="backToQuizzesBtn">Voltar aos Quizzes</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="quiz.js"></script>
+</body>
+</html>

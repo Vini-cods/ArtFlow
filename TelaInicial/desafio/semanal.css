@@ -533,16 +533,16 @@
     .challenge-content {
         grid-template-columns: 1fr;
     }
-    
+
     .drawing-area-improved {
         height: auto;
         min-height: 800px;
     }
-    
+
     .drawing-container {
         height: 500px;
     }
-    
+
     .drawing-controls {
         flex-direction: column;
         align-items: center;
@@ -552,7 +552,7 @@
         width: 100%;
         max-width: 300px;
     }
-    
+
     .tool-btn {
         width: 45px;
         height: 45px;
@@ -568,11 +568,11 @@
     .challenge-theme {
         font-size: 1.2rem;
     }
-    
+
     .drawing-area-improved {
         padding: 15px;
     }
-    
+
     .tools-panel {
         gap: 10px;
         padding: 8px;
@@ -598,7 +598,7 @@
         height: 35px;
         font-size: 1rem;
     }
-    
+
     .control-btn {
         padding: 10px 20px;
         min-width: 120px;
@@ -620,4 +620,78 @@
     --shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
     --transition: all 0.3s ease;
     --border-radius: 12px;
+}
+
+/* Estilização da barra de scroll - igual ao drawing.css */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 215, 0, 0.3);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 215, 0, 0.5);
+}
+
+/* Para Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 215, 0, 0.3) rgba(255, 255, 255, 0.05);
+}
+
+/* Aplicar scroll personalizado apenas nos elementos que precisam */
+.challenge-container,
+.drawing-area-improved,
+.tools-panel,
+.submissions-grid {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 215, 0, 0.3) rgba(255, 255, 255, 0.05);
+}
+
+/* Garantir que a área de desenho tenha scroll personalizado */
+.drawing-area-improved::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.drawing-area-improved::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.drawing-area-improved::-webkit-scrollbar-thumb {
+    background: rgba(255, 215, 0, 0.3);
+    border-radius: 10px;
+}
+
+.drawing-area-improved::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 215, 0, 0.5);
+}
+
+/* Para a galeria de submissões */
+.submissions-grid::-webkit-scrollbar {
+    height: 6px;
+}
+
+.submissions-grid::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.submissions-grid::-webkit-scrollbar-thumb {
+    background: rgba(255, 215, 0, 0.3);
+    border-radius: 10px;
+}
+
+.submissions-grid::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 215, 0, 0.5);
 }
