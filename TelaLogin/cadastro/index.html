@@ -3,11 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ArtFlow Kids</title>
+    <title>Cadastro - ArtFlow Kids</title>
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="../loading.css" />
     <link rel="stylesheet" href="styles.css" />
-    <link rel="stylesheet" href="loading.css" />
-    <link rel="icon" href="./img/favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="./img/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="../img/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon" />
   </head>
 
   <body>
@@ -16,12 +17,22 @@
       <div class="large-blob blob-2"></div>
     </div>
 
-    <!-- Tela de Login -->
-    <div class="container" id="loginContainer">
-      <div class="login-card">
+    <!-- Tela de Cadastro -->
+    <div class="container" id="signupContainer">
+      <div class="login-card signup-card">
         <h1 class="logo">artflow</h1>
-        <p class="subtitle">Sua plataforma de arte digital</p>
-        <form id="loginForm">
+        <p class="subtitle">Crie sua conta na plataforma de arte digital</p>
+        <form id="signupForm">
+          <div class="input-group">
+            <input
+              type="text"
+              class="input-field"
+              id="name"
+              placeholder="Nome completo"
+              required
+            />
+            <span class="input-error" id="name-error"></span>
+          </div>
           <div class="input-group">
             <input
               type="email"
@@ -42,38 +53,47 @@
             />
             <span class="input-error" id="password-error"></span>
           </div>
+          <div class="input-group">
+            <input
+              type="password"
+              class="input-field"
+              id="confirmPassword"
+              placeholder="Confirmar senha"
+              required
+            />
+            <span class="input-error" id="confirm-password-error"></span>
+          </div>
           <div class="remember-forgot">
             <label class="remember-me">
-              <input type="checkbox" id="remember" />
+              <input type="checkbox" id="terms" required />
               <span class="checkmark"></span>
-              Lembrar-me
+              Aceito os termos e condições
             </label>
-            <a href="#" class="forgot-password">Esqueceu a senha?</a>
           </div>
-          <button type="submit" class="login-btn" id="loginButton">
-            <span class="btn-text">Entrar</span>
+          <button type="submit" class="login-btn signup-btn" id="signupButton">
+            <span class="btn-text">Cadastrar</span>
             <div class="btn-spinner" style="display: none">
               <div class="spinner"></div>
             </div>
           </button>
         </form>
         <p class="signup-link">
-          Não tem uma conta? <a href="./cadastro/index.html">Cadastre-se</a>
+          Já tem uma conta? <a href="../index.html">Faça login</a>
         </p>
       </div>
     </div>
 
-    <!-- Tela de Transição Melhorada com Múltiplos Loaders -->
+    <!-- Tela de Transição Melhorada com Múltiplos Loaders (igual à de login) -->
     <div class="transition-screen" id="transitionScreen">
       <div class="transition-content">
         <div class="mascot-container">
           <img
-            src="./img/octo-mascote.png"
+            src="../img/octo-mascote.png"
             alt="Octo, o mascote ArtFlow"
             class="mascot"
           />
         </div>
-        <div class="welcome-text">Bem Vindo</div>
+        <div class="welcome-text">Cadastro Realizado</div>
 
         <!-- Container para os diferentes loaders -->
         <div class="loader-container">
@@ -106,12 +126,13 @@
           <div class="progress-bar">
             <div class="progress-fill"></div>
           </div>
-          <div class="progress-text">Inicializando ambiente...</div>
+          <div class="progress-text">Redirecionando para login...</div>
         </div>
       </div>
     </div>
 
+    <script src="../script.js"></script>
+    <script src="../loading.js"></script>
     <script src="script.js"></script>
-    <script src="loading.js"></script>
   </body>
 </html>
