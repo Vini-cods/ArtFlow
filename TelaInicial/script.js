@@ -30,7 +30,8 @@ followButtons.forEach((button) => {
 
       // Notificação de sucesso
       showNotification(
-        `Agora você está seguindo ${this.parentElement.querySelector("h4").textContent
+        `Agora você está seguindo ${
+          this.parentElement.querySelector("h4").textContent
         }`
       );
     } else {
@@ -155,11 +156,11 @@ function getStoryInfo(title) {
       category: "Aventura, Natureza",
       ageRange: "5-10 anos",
       authorBio:
-        "Sofia Mendes é uma educadora e escritora apaixonada por natureza. Com mais de 15 livros infantis publicados, ela busca inspirar as crianças a explorarem e protegerem o meio ambiente.",
+        "Sofia Mendes é uma educadora e escritora apaixonada por natureza. Com mais de 15 livros infantis published, ela busca inspirar as crianças a explorarem e protegerem o meio ambiente.",
     },
     "O Castelo Mágico": {
       description:
-        "Em um reino distante, uma jovem princesa descobre um castelo encantado cheio de segredos and criaturas fantásticas que precisam de sua ajuda.",
+        "Em um reino distante, uma jovem princesa descobre um castelo encantado cheio de segredos e criaturas fantásticas que precisam de sua ajuda.",
       pages: 10,
       category: "Fantasia, Aventura",
       ageRange: "4-8 anos",
@@ -173,22 +174,22 @@ function getStoryInfo(title) {
       category: "Ficção Científica",
       ageRange: "6-12 anos",
       authorBio:
-        "Ana Costa é uma ex-cientista da NASA que agora dedica seu tempo a escrever livros infantis que tornam a ciência divertida and acessível para todas as crianças.",
+        "Ana Costa é uma ex-cientista da NASA que agora dedica seu tempo a escrever livros infantis que tornam a ciência divertida e acessível para todas as crianças.",
     },
     "O Tesouro Perdido": {
       description:
-        "Um mapa misterioso leva três irmãos em uma caça ao tesouro cheia de enigmas, desafios and descobertas sobre trabalho em equipe.",
+        "Um mapa misterioso leva três irmãos em uma caça ao tesouro cheia de enigmas, desafios e descobertas sobre trabalho em equipe.",
       pages: 16,
       category: "Aventura, Mistério",
       ageRange: "7-12 anos",
       authorBio:
-        "Miguel Santos é um arqueólogo que transforma suas experiências em aventuras emocionantes para jovens leitores. Seus livros incentivam a curiosidade and a resolução de problemas.",
+        "Miguel Santos é um arqueólogo que transforma suas experiências em aventuras emocionantes para jovens leitores. Seus livros incentivam a curiosidade e a resolução de problemas.",
     },
   };
 
   return (
     stories[title] || {
-      description: "Uma história emocionante cheia de aventuras and aprendizado.",
+      description: "Uma história emocionante cheia de aventuras e aprendizado.",
       pages: 10,
       category: "Aventura",
       ageRange: "5-10 anos",
@@ -330,7 +331,7 @@ function createFloatingShapes() {
   // Limpar shapes existentes
   container.innerHTML = "";
 
-  // Criar diferentes tamanhos and cores de bolinhas
+  // Criar diferentes tamanhos e cores de bolinhas
   const shapeConfigs = [
     { size: 60, color: "purple", count: 8 },
     { size: 40, color: "gold", count: 6 },
@@ -368,8 +369,9 @@ function createFloatingShapes() {
         shape.style.opacity = "0.8";
 
         setTimeout(() => {
-          shape.style.animation = `float ${8 + Math.random() * 4
-            }s ease-in-out infinite`;
+          shape.style.animation = `float ${
+            8 + Math.random() * 4
+          }s ease-in-out infinite`;
           shape.style.transform = "scale(1)";
           shape.style.opacity = "0.6";
         }, 500);
@@ -477,11 +479,11 @@ function initCarousel() {
 
   // Função para mostrar um slide específico
   function showSlide(index) {
-    // Remover a classe active de todos os slides and dots
+    // Remover a classe active de todos os slides e dots
     slides.forEach((slide) => slide.classList.remove("active"));
     dots.forEach((dot) => dot.classList.remove("active"));
 
-    // Adicionar a classe active ao slide and dot atual
+    // Adicionar a classe active ao slide e dot atual
     slides[index].classList.add("active");
     dots[index].classList.add("active");
 
@@ -589,8 +591,12 @@ function setupChallengeCountdown() {
 
     // Calcular dias, horas, minutos
     const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+    const hours = Math.floor(
+      (timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    const minutes = Math.floor(
+      (timeRemaining % (1000 * 60 * 60)) / (1000 * 60)
+    );
 
     countdownElement.textContent = `Termina em: ${days}d ${hours}h ${minutes}m`;
   }
@@ -606,7 +612,7 @@ function setupTypingEffects() {
   updateItems.forEach((item, index) => {
     const originalText = item.textContent;
     item.textContent = "";
-    
+
     setTimeout(() => {
       let i = 0;
       function typeWriter() {
@@ -625,11 +631,11 @@ function setupTypingEffects() {
 function setupScrollAnimations() {
   const observerOptions = {
     threshold: 0.1,
-    rootMargin: "0px 0px -50px 0px"
+    rootMargin: "0px 0px -50px 0px",
   };
 
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
+    entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.style.opacity = "1";
         entry.target.style.transform = "translateY(0)";
@@ -638,12 +644,358 @@ function setupScrollAnimations() {
   }, observerOptions);
 
   // Observar elementos para animação
-  const animatedElements = document.querySelectorAll(".featured-section, .activity-card, .young-artist");
-  animatedElements.forEach(el => {
+  const animatedElements = document.querySelectorAll(
+    ".featured-section, .activity-card, .young-artist"
+  );
+  animatedElements.forEach((el) => {
     el.style.opacity = "0";
     el.style.transform = "translateY(20px)";
     el.style.transition = "opacity 0.5s ease, transform 0.5s ease";
     observer.observe(el);
+  });
+}
+
+// Dados de exemplo para artistas
+const artistsData = {
+  "Marina, 8 anos": {
+    age: 8,
+    followers: 23,
+    drawings: 15,
+    specialties: ["Animais", "Fantasias", "Natureza"],
+    bio: "Marina adora desenhar animais fantásticos e cenários de fantasia. Sua imaginação não tem limites e ela está sempre criando novas criaturas mágicas.",
+    gallery: [
+      "./img/Meu Dragão Amigo.png",
+      "./img/familia de ursos.png",
+      "./img/castelo colorido.png",
+    ],
+  },
+  "Breno, 7 anos": {
+    age: 7,
+    followers: 45,
+    drawings: 22,
+    specialties: ["Espaço", "Robôs", "Ficção Científica"],
+    bio: "Breno é fascinado por espaço e tecnologia. Seus desenhos frequentemente apresentam naves espacial, robôs e planetas distantes.",
+    gallery: [
+      "./img/Viagem ao espaço.png",
+      "./img/robos.png",
+      "./img/foguete.png",
+    ],
+  },
+  "Ana, 9 anos": {
+    age: 9,
+    followers: 32,
+    drawings: 18,
+    specialties: ["Princesas", "Natureza", "Contos de Fada"],
+    bio: "Ana cria mundos encantados cheios de princesas, fadas e criaturas mágicas. Seus desenhos são conhecidos por suas cores vibrantes e detalhes delicados.",
+    gallery: [
+      "./img/princesa floresta.png",
+      "./img/castelo magico.png",
+      "./img/fada poeira.png",
+    ],
+  },
+};
+
+// Dados de exemplo para desenhos
+const drawingsData = {
+  "Meu Dragão Amigo": {
+    artist: "João, 8 anos",
+    artistImg: "./img/img/kid12.png",
+    likes: 42,
+    views: 128,
+    date: "3 dias atrás",
+    description:
+      "Desenhei meu dragão de estimação chamado Faísca. Ele cospe fogo colorido e adora brincar comigo no parque.",
+    tags: ["Dragão", "Animal de Estimação", "Fantasia", "Cores"],
+  },
+  "Castelo Colorido": {
+    artist: "Maria, 7 anos",
+    artistImg: "./img/img/kid17.png",
+    likes: 37,
+    views: 95,
+    date: "5 dias atrás",
+    description:
+      "Este é o castelo onde a princesa Aurora mora. Tem quartos coloridos e um jardim com flores que cantam.",
+    tags: ["Castelo", "Princesa", "Cores", "Fantasia"],
+  },
+  "Família de Ursos": {
+    artist: "Pedro, 6 anos",
+    artistImg: "./img/img/kid18.png",
+    likes: 29,
+    views: 76,
+    date: "1 semana atrás",
+    description:
+      "A família urso em seu picnic na floresta. Eles estão comendo mel and frutas silvestres.",
+    tags: ["Ursos", "Família", "Natureza", "Animais"],
+  },
+};
+
+// Dados de exemplo para histórias recentes
+const recentStoriesData = {
+  "O Pequeno Príncipe": {
+    author: "Antoine de Saint-Exupéry",
+    description:
+      "A clássica história de um pequeno príncipe que viaja de planeta em planeta, encontrando personagens peculiares e aprendendo valiosas lições sobre amor e amizade.",
+    pages: 10,
+    category: "Aventura, Fantasia",
+    ageRange: "6-12 anos",
+    authorBio:
+      "Antoine de Saint-Exupéry foi um escritor, ilustrador e piloto francês. Escreveu 'O Pequeno Príncipe' durante seu exílio nos Estados Unidos, e a obra se tornou um dos livros mais traduzidos do mundo.",
+  },
+  "A Menina e o Dragão": {
+    author: "Eva Furnari",
+    description:
+      "Uma menina corajosa faz amizade with um dragão que é mal compreendido por todos. Juntos, eles mostram à vila que as aparências enganam.",
+    pages: 8,
+    category: "Fantasia, Amizade",
+    ageRange: "5-10 anos",
+    authorBio:
+      "Eva Furnari é uma autora e ilustradora brasileira de livros infantis. Suas obras são conhecidas por promover valores como amizade, coragem e aceitação das diferenças.",
+  },
+  "No Fundo do Mar": {
+    author: "Booksmile",
+    description:
+      "Uma aventura submarina onde duas crianças exploram o fundo do mar, descobrindo criaturas incríveis e aprendendo sobre a importância de preservar os oceanos.",
+    pages: 12,
+    category: "Aventura, Natureza",
+    ageRange: "4-8 anos",
+    authorBio:
+      "Booksmile é uma editora especializada em livros infantis educativos e divertidos. Seus livros combinam histórias cativantes com aprendizagem sobre o mundo natural.",
+  },
+  "O Circo Mágico": {
+    author: "Alexandre Brito",
+    description:
+      "Quando um circo misterioso chega à cidade, três amigos descobrem que os artistas têm talentos verdadeiramente mágicos e embarcam em uma aventura inesquecível.",
+    pages: 6,
+    category: "Aventura, Fantasia",
+    ageRange: "5-9 anos",
+    authorBio:
+      "Alexandre Brito é um contador de histórias brasileiro que se especializa em narrativas mágicas e cheias de imaginação. Seus livros transportam os leitores para mundos extraordinários.",
+  },
+};
+
+// Função para mostrar modal do artista
+function showArtistModal(artistName) {
+  const artistData = artistsData[artistName];
+  if (!artistData) return;
+
+  const modal = document.getElementById("artist-modal");
+  const modalArtistName = document.getElementById("modal-artist-name");
+  const modalArtistImg = document.getElementById("modal-artist-img");
+  const modalArtistAge = document.getElementById("modal-artist-age");
+  const modalArtistFollowers = document.getElementById(
+    "modal-artist-followers"
+  );
+  const modalArtistDrawings = document.getElementById("modal-artist-drawings");
+  const modalArtistSpecialties = document.getElementById(
+    "modal-artist-specialties"
+  );
+  const modalArtistBio = document.getElementById("modal-artist-bio");
+  const modalArtistGallery = document.getElementById("modal-artist-gallery");
+  const followButton = document.getElementById("follow-artist-btn");
+
+  // Preencher dados do modal
+  modalArtistName.textContent = artistName;
+  modalArtistImg.src = document.querySelector(
+    `.young-artist:has(h4:contains("${artistName}")) img`
+  ).src;
+  modalArtistAge.textContent = artistData.age + " anos";
+  modalArtistFollowers.textContent = artistData.followers;
+  modalArtistDrawings.textContent = artistData.drawings;
+  modalArtistBio.textContent = artistData.bio;
+
+  // Preencher especialidades
+  modalArtistSpecialties.innerHTML = "";
+  artistData.specialties.forEach((specialty) => {
+    const tag = document.createElement("span");
+    tag.className = "specialty-tag-modal";
+    tag.textContent = specialty;
+    modalArtistSpecialties.appendChild(tag);
+  });
+
+  // Preencher galeria
+  modalArtistGallery.innerHTML = "";
+  artistData.gallery.forEach((imgSrc) => {
+    const img = document.createElement("img");
+    img.src = imgSrc;
+    img.alt = "Obra de " + artistName;
+    img.onclick = () => {
+      // Aqui você pode implementar uma visualização maior da imagem
+      alert("Visualização ampliada da imagem: " + imgSrc);
+    };
+    modalArtistGallery.appendChild(img);
+  });
+
+  // Configurar botão de seguir
+  followButton.classList.toggle(
+    "following",
+    followButton.textContent === "Seguindo"
+  );
+  followButton.onclick = function () {
+    const isFollowing = this.textContent === "Seguindo";
+    this.textContent = isFollowing ? "Seguir" : "Seguindo";
+    this.classList.toggle("following", !isFollowing);
+
+    // Atualizar contador de seguidores
+    const followersElement = document.getElementById("modal-artist-followers");
+    let followersCount = parseInt(followersElement.textContent);
+    followersCount = isFollowing ? followersCount - 1 : followersCount + 1;
+    followersElement.textContent = followersCount;
+  };
+
+  // Mostrar modal
+  modal.style.display = "flex";
+
+  // Adicionar evento para fechar o modal
+  const closeModal = modal.querySelector(".close-modal");
+  closeModal.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.style.display = "none";
+    }
+  });
+}
+
+// Função para mostrar modal do desenho
+function showDrawingModal(drawingTitle) {
+  const drawingData = drawingsData[drawingTitle];
+  if (!drawingData) return;
+
+  const modal = document.getElementById("drawing-modal");
+  const modalDrawingTitle = document.getElementById("modal-drawing-title");
+  const modalDrawingImg = document.getElementById("modal-drawing-img");
+  const modalDrawingArtistImg = document.getElementById(
+    "modal-drawing-artist-img"
+  );
+  const modalDrawingArtistName = document.getElementById(
+    "modal-drawing-artist-name"
+  );
+  const modalDrawingArtistAge = document.getElementById(
+    "modal-drawing-artist-age"
+  );
+  const modalDrawingLikes = document.getElementById("modal-drawing-likes");
+  const modalDrawingViews = document.getElementById("modal-drawing-views");
+  const modalDrawingDate = document.getElementById("modal-drawing-date");
+  const modalDrawingDescription = document.getElementById(
+    "modal-drawing-description"
+  );
+  const modalDrawingTags = document.getElementById("modal-drawing-tags");
+  const likeButton = document.getElementById("like-drawing-btn");
+
+  // Preencher dados do modal
+  modalDrawingTitle.textContent = drawingTitle;
+  modalDrawingImg.src = document.querySelector(
+    `.drawing-item:has(h4:contains("${drawingTitle}")) img`
+  ).src;
+  modalDrawingArtistImg.src = drawingData.artistImg;
+  modalDrawingArtistName.textContent = drawingData.artist;
+  modalDrawingArtistAge.textContent = drawingData.artist.split(", ")[1];
+  modalDrawingLikes.textContent = drawingData.likes;
+  modalDrawingViews.textContent = drawingData.views;
+  modalDrawingDate.textContent = drawingData.date;
+  modalDrawingDescription.textContent = drawingData.description;
+
+  // Preencher tags
+  modalDrawingTags.innerHTML = "";
+  drawingData.tags.forEach((tag) => {
+    const tagElement = document.createElement("span");
+    tagElement.className = "drawing-tag";
+    tagElement.textContent = tag;
+    modalDrawingTags.appendChild(tagElement);
+  });
+
+  // Configurar botão de curtir
+  likeButton.classList.toggle(
+    "liked",
+    likeButton.querySelector("i").classList.contains("fas")
+  );
+  likeButton.onclick = function () {
+    const isLiked = this.querySelector("i").classList.contains("fas");
+    this.querySelector("i").className = isLiked
+      ? "far fa-heart"
+      : "fas fa-heart";
+    this.classList.toggle("liked", !isLiked);
+
+    // Atualizar contador de curtidas
+    const likesElement = document.getElementById("modal-drawing-likes");
+    let likesCount = parseInt(likesElement.textContent);
+    likesCount = isLiked ? likesCount - 1 : likesCount + 1;
+    likesElement.textContent = likesCount;
+  };
+
+  // Mostrar modal
+  modal.style.display = "flex";
+
+  // Adicionar evento para fechar o modal
+  const closeModal = modal.querySelector(".close-modal");
+  closeModal.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.style.display = "none";
+    }
+  });
+}
+
+// Função para ver perfil completo do artista
+function viewArtistProfile() {
+  const artistName = document.getElementById("modal-artist-name").textContent;
+  alert(`Redirecionando para o perfil completo de ${artistName}`);
+  // Em uma implementação real, você redirecionaria para a página do artista
+}
+
+// Função para baixar desenho
+function downloadDrawing() {
+  const drawingTitle = document.getElementById(
+    "modal-drawing-title"
+  ).textContent;
+  alert(`Iniciando download do desenho: ${drawingTitle}`);
+  // Em uma implementação real, você iniciaria o download da imagem
+}
+
+// Função para desenhar inspirado
+function drawInspired() {
+  const drawingTitle = document.getElementById(
+    "modal-drawing-title"
+  ).textContent;
+  alert(`Abrindo editor para criar um desenho inspirado em: ${drawingTitle}`);
+  // Em uma implementação real, você abriria o editor de desenhos
+}
+
+// Adicionar event listeners aos elementos das seções
+function setupInteractiveSections() {
+  // Adicionar event listeners para Artistas Mirins
+  document.querySelectorAll(".young-artist").forEach((artist) => {
+    artist.addEventListener("click", function () {
+      const artistName = this.querySelector("h4").textContent;
+      showArtistModal(artistName);
+    });
+  });
+
+  // Adicionar event listeners para Desenhos da Comunidade
+  document.querySelectorAll(".drawing-item").forEach((drawing) => {
+    drawing.addEventListener("click", function () {
+      const drawingTitle = this.querySelector("h4").textContent;
+      showDrawingModal(drawingTitle);
+    });
+  });
+
+  // Adicionar event listeners para Histórias Recentes
+  document.querySelectorAll(".thumbnail").forEach((story) => {
+    story.addEventListener("click", function () {
+      const storyTitle = this.querySelector(".thumbnail-title").textContent;
+      const storyAuthor = this.querySelector(
+        ".thumbnail-artist"
+      ).textContent.replace("Por: ", "");
+      const storyImage = this.querySelector(".thumbnail-img").src;
+
+      // Usar o modal de história existente
+      showStoryModal(storyTitle, storyAuthor, storyImage);
+    });
   });
 }
 
@@ -663,11 +1015,12 @@ document.addEventListener("DOMContentLoaded", function () {
   setupChallengeCountdown();
   setupTypingEffects();
   setupScrollAnimations();
+  setupInteractiveSections();
 
   // Inicializar o carrossel
   initCarousel();
 
-  // Adicionar estilos para alto contraste and fonte legível
+  // Adicionar estilos para alto contraste e fonte legível
   const style = document.createElement("style");
   style.textContent = `
         .high-contrast {

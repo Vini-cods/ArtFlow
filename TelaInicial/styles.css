@@ -1679,4 +1679,204 @@ body {
   .badge p {
     font-size: 0.7rem;
   }
+
+  /* Estilos para os novos modais */
+  .artist-modal-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 25px;
+  }
+
+  .artist-modal-avatar {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .artist-modal-avatar img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255, 215, 0, 0.5);
+  }
+
+  .artist-modal-details {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .artist-modal-info p {
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+  }
+
+  .artist-modal-info strong {
+    color: #ffd700;
+  }
+
+  .specialties-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .specialty-tag-modal {
+    background: rgba(255, 215, 0, 0.2);
+    color: #ffd700;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+  }
+
+  .artist-modal-bio p {
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .artist-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .artist-gallery img {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  .artist-gallery img:hover {
+    transform: scale(1.05);
+  }
+
+  .drawing-modal-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+  }
+
+  .drawing-modal-image img {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  .drawing-artist-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+
+  .drawing-artist-avatar img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 215, 0, 0.5);
+  }
+
+  .drawing-stats {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+
+  .stat-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 5px 10px;
+    border-radius: 15px;
+  }
+
+  .stat-item i {
+    color: #ffd700;
+  }
+
+  .drawing-description p {
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 15px;
+  }
+
+  .tags-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .drawing-tag {
+    background: rgba(107, 47, 160, 0.3);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+  }
+
+  /* Botões dos modais */
+  .follow-btn-modal {
+    background: transparent;
+    color: #ffd700;
+    border: 1px solid rgba(255, 215, 0, 0.5);
+  }
+
+  .follow-btn-modal.following {
+    background: rgba(255, 215, 0, 0.2);
+  }
+
+  .view-profile-btn {
+    background: linear-gradient(45deg, #6b2fa0, #8a4cbf);
+    color: white;
+  }
+
+  .like-btn {
+    background: transparent;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .like-btn.liked {
+    background: rgba(255, 105, 97, 0.2);
+    color: #ff6961;
+    border-color: #ff6961;
+  }
+
+  .download-btn {
+    background: linear-gradient(45deg, #4caf50, #66bb6a);
+    color: white;
+  }
+
+  .draw-inspired {
+    background: linear-gradient(45deg, #ff6b6b, #ff9e7d);
+    color: white;
+  }
+
+  /* Responsividade para os modais */
+  @media (max-width: 768px) {
+
+    .artist-modal-container,
+    .drawing-modal-container {
+      grid-template-columns: 1fr;
+    }
+
+    .artist-modal-avatar {
+      justify-self: center;
+    }
+
+    .artist-gallery {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .modal-actions {
+      flex-direction: column;
+    }
+  }
 }

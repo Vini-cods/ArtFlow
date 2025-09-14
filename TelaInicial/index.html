@@ -1,535 +1,633 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ArtFlow Kids</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="./img/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="./img/favicon.ico" type="image/x-icon">
-</head>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" href="./img/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./img/favicon.ico" type="image/x-icon" />
+  </head>
 
-<body>
+  <body>
     <!-- Bolinhas flutuantes interativas -->
     <div class="floating-shapes"></div>
 
     <!-- Header -->
     <div class="header">
-        <div class="nav-left">
-            <div class="nav-menu">
-                <a href="#" class="nav-item">POPULAR</a>
-                <a href="#" class="nav-item">HISTÓRIAS</a>
-                <a href="#" class="nav-item">DESENHOS</a>
-                <a href="#" class="nav-item">ARTISTAS</a>
-            </div>
+      <div class="nav-left">
+        <div class="nav-menu">
+          <a href="#" class="nav-item">POPULAR</a>
+          <a href="#" class="nav-item">HISTÓRIAS</a>
+          <a href="#" class="nav-item">DESENHOS</a>
+          <a href="#" class="nav-item">ARTISTAS</a>
         </div>
+      </div>
 
-        <div class="search-bar">
-            <span class="search-icon"><i class="fas fa-search"></i></span>
-            <input type="text" class="search-input" placeholder="Pesquisar histórias...">
-        </div>
+      <div class="search-bar">
+        <span class="search-icon"><i class="fas fa-search"></i></span>
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Pesquisar histórias..."
+        />
+      </div>
 
-        <div class="nav-right">
-            <div class="logo-header">artflow</div>
-            <div class="profile-container">
-                <div class="notifications">
-                    <i class="far fa-bell"></i>
-                </div>
-                <a href="../TelaPerfil/index.html" class="profile-icon">
-                    <img src="./img/img/kid12.png"
-                        alt="Perfil">
-                </a>
-            </div>
+      <div class="nav-right">
+        <div class="logo-header">artflow</div>
+        <div class="profile-container">
+          <div class="notifications">
+            <i class="far fa-bell"></i>
+          </div>
+          <a href="../TelaPerfil/index.html" class="profile-icon">
+            <img src="./img/img/kid12.png" alt="Perfil" />
+          </a>
         </div>
+      </div>
     </div>
 
     <!-- Sidebar -->
     <div class="sidebar">
-        <div class="sidebar-icon active">
-            <i class="fas fa-home"></i>
-            <span>Início</span>
-        </div>
-        <a href="minhas-historias/index.html" class="sidebar-icon">
-            <i class="fas fa-book"></i>
-            <span>Minhas Histórias</span>
-        </a>
-        <a href="meus-desenhos/meus-desenhos.html" class="sidebar-icon">
-            <i class="fas fa-paint-brush"></i>
-            <span>Meus Desenhos</span>
-        </a>
-        <a href="favoritos/favoritos.html" class="sidebar-icon">
-            <i class="fas fa-heart"></i>
-            <span>Favoritos</span>
-        </a>
-        <a href="conquistas/conquistas.html" class="sidebar-icon">
-            <i class="fas fa-trophy"></i>
-            <span>Conquistas</span>
-        </a>
-        <a href="configuracoes/configuracoes.html" class="sidebar-icon">
-            <i class="fas fa-cog"></i>
-            <span>Configurações</span>
-        </a>
+      <div class="sidebar-icon active">
+        <i class="fas fa-home"></i>
+        <span>Início</span>
+      </div>
+      <a href="minhas-historias/index.html" class="sidebar-icon">
+        <i class="fas fa-book"></i>
+        <span>Minhas Histórias</span>
+      </a>
+      <a href="meus-desenhos/meus-desenhos.html" class="sidebar-icon">
+        <i class="fas fa-paint-brush"></i>
+        <span>Meus Desenhos</span>
+      </a>
+      <a href="favoritos/favoritos.html" class="sidebar-icon">
+        <i class="fas fa-heart"></i>
+        <span>Favoritos</span>
+      </a>
+      <a href="conquistas/conquistas.html" class="sidebar-icon">
+        <i class="fas fa-trophy"></i>
+        <span>Conquistas</span>
+      </a>
+      <a href="configuracoes/configuracoes.html" class="sidebar-icon">
+        <i class="fas fa-cog"></i>
+        <span>Configurações</span>
+      </a>
     </div>
 
     <!-- Conteúdo Principal -->
     <div class="main-content">
-        <div class="carousel-section">
-            <div class="carousel-container">
-                <div class="carousel-slide active">
-                    <img src="./img/banner (2).png" alt="Criança lendo um livro">
-                    <div class="carousel-content">
-                        <h3>Descubra Novas Aventuras</h3>
-                        <p>Mergulhe em histórias incríveis e deixe sua imaginação voar!</p>
-                    </div>
-                </div>
-                <div class="carousel-slide">
-                    <img src="./img/criatividade.png"
-                        alt="Crianças desenhando">
-                    <div class="carousel-content">
-                        <h3>Solte sua Criatividade</h3>
-                        <p>Desenhe personagens e cenas das suas histórias favoritas!</p>
-                    </div>
-                </div>
-                <div class="carousel-slide">
-                    <img src="./img/comunidade.png"
-                        alt="Comunidade ArtFlow">
-                    <div class="carousel-content">
-                        <h3>Junte-se à Comunidade</h3>
-                        <p>Compartilhe suas criações com outros jovens artistas!</p>
-                    </div>
-                </div>
-
-                <button class="carousel-prev">&lt;</button>
-                <button class="carousel-next">&gt;</button>
-
-                <div class="carousel-dots">
-                    <span class="dot active" data-slide="0"></span>
-                    <span class="dot" data-slide="1"></span>
-                    <span class="dot" data-slide="2"></span>
-                </div>
+      <div class="carousel-section">
+        <div class="carousel-container">
+          <div class="carousel-slide active">
+            <img src="./img/banner (2).png" alt="Criança lendo um livro" />
+            <div class="carousel-content">
+              <h3>Descubra Novas Aventuras</h3>
+              <p>
+                Mergulhe em histórias incríveis e deixe sua imaginação voar!
+              </p>
             </div>
+          </div>
+          <div class="carousel-slide">
+            <img src="./img/criatividade.png" alt="Crianças desenhando" />
+            <div class="carousel-content">
+              <h3>Solte sua Criatividade</h3>
+              <p>Desenhe personagens e cenas das suas histórias favoritas!</p>
+            </div>
+          </div>
+          <div class="carousel-slide">
+            <img src="./img/comunidade.png" alt="Comunidade ArtFlow" />
+            <div class="carousel-content">
+              <h3>Junte-se à Comunidade</h3>
+              <p>Compartilhe suas criações com outros jovens artistas!</p>
+            </div>
+          </div>
+
+          <button class="carousel-prev">&lt;</button>
+          <button class="carousel-next">&gt;</button>
+
+          <div class="carousel-dots">
+            <span class="dot active" data-slide="0"></span>
+            <span class="dot" data-slide="1"></span>
+            <span class="dot" data-slide="2"></span>
+          </div>
         </div>
-        
-        <!-- Banner de boas-vindas -->
-        <div class="welcome-banner">
-            <div class="welcome-text">
-                <h2>Bem-vindo ao ArtFlow!</h2>
-                <p>Leia histórias incríveis e desenhe o que você imagina. Um mundo de diversão e criatividade te espera!
-                </p>
-            </div>
-            <div class="welcome-cta">
-                <button onclick="window.location.href='ArtFlow-Criar-Historia/Historia.html'">Começar História</button>
-                <button class="btn-draw" onclick="window.location.href='Drawing/drawing.html'">Desenhar Agora</button>
-            </div>
+      </div>
+
+      <!-- Banner de boas-vindas -->
+      <div class="welcome-banner">
+        <div class="welcome-text">
+          <h2>Bem-vindo ao ArtFlow!</h2>
+          <p>
+            Leia histórias incríveis e desenhe o que você imagina. Um mundo de
+            diversão e criatividade te espera!
+          </p>
         </div>
-
-        <!-- Desafio Semanal -->
-        <div class="featured-section">
-            <div class="weekly-challenge">
-                <div class="challenge-header">
-                    <h3 class="section-title">Desafio da Semana</h3>
-                    <div class="countdown" id="challenge-countdown">Termina em: 5 dias</div>
-                </div>
-                <div class="challenge-content">
-                    <div class="challenge-theme">
-                        <h4>Desenhe um animal fantástico!</h4>
-                        <p>Crie uma criatura mágica que vive na floresta encantada</p>
-                    </div>
-                    <div class="challenge-prizes">
-                        <h5>Prêmios:</h5>
-                        <ul>
-                            <li><i class="fas fa-trophy"></i> Emblema especial</li>
-                            <li><i class="fas fa-star"></i> Destaque na página inicial</li>
-                        </ul>
-                    </div>
-                    <button class="participate-btn" onclick="window.location.href='desafio/semanal.html'">Participar</button>
-                </div>
-            </div>
+        <div class="welcome-cta">
+          <button
+            onclick="window.location.href='ArtFlow-Criar-Historia/Historia.html'"
+          >
+            Começar História
+          </button>
+          <button
+            class="btn-draw"
+            onclick="window.location.href='Drawing/drawing.html'"
+          >
+            Desenhar Agora
+          </button>
         </div>
+      </div>
 
-        <!-- Histórias em destaque -->
-        <div class="featured-section">
-            <div class="section-header">
-                <h3 class="section-title">Histórias em Destaque</h3>
-                <a href="minhas-historias.html" class="view-all">Ver tudo</a>
+      <!-- Desafio Semanal -->
+      <div class="featured-section">
+        <div class="weekly-challenge">
+          <div class="challenge-header">
+            <h3 class="section-title">Desafio da Semana</h3>
+            <div class="countdown" id="challenge-countdown">
+              Termina em: 5 dias
             </div>
-
-            <div class="featured-carousel">
-                <div class="featured-item"
-                    onclick="showStoryModal('Aventura na Floresta', 'Por: Sofia Mendes', './img/Aventura na Floresta.png')">
-                    <img src="./img/Aventura na Floresta.png" alt="Obra de arte" class="art-image">
-                    <div class="art-overlay">
-                        <h4 class="art-title">Aventura na Floresta</h4>
-                        <p class="art-artist">Por: Sofia Mendes</p>
-                        <div class="art-stats">
-                            <span class="art-stat"><i class="fas fa-heart"></i> 248</span>
-                            <span class="art-stat"><i class="fas fa-book-reader"></i> 1.2K</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="featured-item"
-                    onclick="showStoryModal('O Castelo Mágico', 'Por: Carlos Silva', './img/O castelo magico.png')">
-                    <img src="./img/O castelo magico.png" alt="Obra de arte" class="art-image">
-                    <div class="art-overlay">
-                        <h4 class="art-title">O Castelo Mágico</h4>
-                        <p class="art-artist">Por: Carlos Silva</p>
-                        <div class="art-stats">
-                            <span class="art-stat"><i class="fas fa-heart"></i> 312</span>
-                            <span class="art-stat"><i class="fas fa-book-reader"></i> 2.4K</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="featured-item"
-                    onclick="showStoryModal('Viagem ao Espaço', 'Por: Ana Costa', './img/Viagem ao espaço.png')">
-                    <img src="./img/Viagem ao espaço.png" alt="Obra de arte" class="art-image">
-                    <div class="art-overlay">
-                        <h4 class="art-title">Viagem ao Espaço</h4>
-                        <p class="art-artist">Por: Ana Costa</p>
-                        <div class="art-stats">
-                            <span class="art-stat"><i class="fas fa-heart"></i> 187</span>
-                            <span class="art-stat"><i class="fas fa-book-reader"></i> 1.8K</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="featured-item"
-                    onclick="showStoryModal('O Tesouro Perdido', 'Por: Miguel Santos', './img/O tesouro perdido.png')">
-                    <img src="./img/O tesouro perdido.png" alt="Obra de arte" class="art-image">
-                    <div class="art-overlay">
-                        <h4 class="art-title">O Tesouro Perdido</h4>
-                        <p class="art-artist">Por: Miguel Santos</p>
-                        <div class="art-stats">
-                            <span class="art-stat"><i class="fas fa-heart"></i> 421</span>
-                            <span class="art-stat"><i class="fas fa-book-reader"></i> 3.1K</span>
-                        </div>
-                    </div>
-                </div>
+          </div>
+          <div class="challenge-content">
+            <div class="challenge-theme">
+              <h4>Desenhe um animal fantástico!</h4>
+              <p>Crie uma criatura mágica que vive na floresta encantada</p>
             </div>
+            <div class="challenge-prizes">
+              <h5>Prêmios:</h5>
+              <ul>
+                <li><i class="fas fa-trophy"></i> Emblema especial</li>
+                <li><i class="fas fa-star"></i> Destaque na página inicial</li>
+              </ul>
+            </div>
+            <button
+              class="participate-btn"
+              onclick="window.location.href='desafio/semanal.html'"
+            >
+              Participar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Histórias em destaque -->
+      <div class="featured-section">
+        <div class="section-header">
+          <h3 class="section-title">Histórias em Destaque</h3>
+          <a href="minhas-historias.html" class="view-all">Ver tudo</a>
         </div>
 
-        <!-- Artistas Mirins em Destaque -->
-        <div class="featured-section">
-            <div class="section-header">
-                <h3 class="section-title">Artistas Mirins</h3>
-                <a href="#" class="view-all">Ver todos</a>
+        <div class="featured-carousel">
+          <div
+            class="featured-item"
+            onclick="showStoryModal('Aventura na Floresta', 'Por: Sofia Mendes', './img/Aventura na Floresta.png')"
+          >
+            <img
+              src="./img/Aventura na Floresta.png"
+              alt="Obra de arte"
+              class="art-image"
+            />
+            <div class="art-overlay">
+              <h4 class="art-title">Aventura na Floresta</h4>
+              <p class="art-artist">Por: Sofia Mendes</p>
+              <div class="art-stats">
+                <span class="art-stat"><i class="fas fa-heart"></i> 248</span>
+                <span class="art-stat"
+                  ><i class="fas fa-book-reader"></i> 1.2K</span
+                >
+              </div>
             </div>
-            <div class="featured-artists">
-                <div class="young-artist">
-                    <div class="artist-avatar">
-                        <img src="./img/img/kid11.png" alt="Jovem artista">
-                    </div>
-                    <div class="artist-info">
-                        <h4>Marina, 8 anos</h4>
-                        <p>15 desenhos | 23 seguidores</p>
-                        <div class="artist-specialty">
-                            <span class="specialty-tag">Animais</span>
-                            <span class="specialty-tag">Fantasias</span>
-                        </div>
-                    </div>
-                    <button class="follow-btn">Seguir</button>
-                </div>
-                <div class="young-artist">
-                    <div class="artist-avatar">
-                        <img src="./img/img/kid18.png" alt="Jovem artista">
-                    </div>
-                    <div class="artist-info">
-                        <h4>Breno, 7 anos</h4>
-                        <p>22 desenhos | 45 seguidores</p>
-                        <div class="artist-specialty">
-                            <span class="specialty-tag">Espaço</span>
-                            <span class="specialty-tag">Robôs</span>
-                        </div>
-                    </div>
-                    <button class="follow-btn">Seguir</button>
-                </div>
-                <div class="young-artist">
-                    <div class="artist-avatar">
-                        <img src="./img/img/kid17.png" alt="Jovem artista">
-                    </div>
-                    <div class="artist-info">
-                        <h4>Ana, 9 anos</h4>
-                        <p>18 desenhos | 32 seguidores</p>
-                        <div class="artist-specialty">
-                            <span class="specialty-tag">Princesas</span>
-                            <span class="specialty-tag">Natureza</span>
-                        </div>
-                    </div>
-                    <button class="follow-btn">Seguir</button>
-                </div>
+          </div>
+
+          <div
+            class="featured-item"
+            onclick="showStoryModal('O Castelo Mágico', 'Por: Carlos Silva', './img/O castelo magico.png')"
+          >
+            <img
+              src="./img/O castelo magico.png"
+              alt="Obra de arte"
+              class="art-image"
+            />
+            <div class="art-overlay">
+              <h4 class="art-title">O Castelo Mágico</h4>
+              <p class="art-artist">Por: Carlos Silva</p>
+              <div class="art-stats">
+                <span class="art-stat"><i class="fas fa-heart"></i> 312</span>
+                <span class="art-stat"
+                  ><i class="fas fa-book-reader"></i> 2.4K</span
+                >
+              </div>
             </div>
+          </div>
+
+          <div
+            class="featured-item"
+            onclick="showStoryModal('Viagem ao Espaço', 'Por: Ana Costa', './img/Viagem ao espaço.png')"
+          >
+            <img
+              src="./img/Viagem ao espaço.png"
+              alt="Obra de arte"
+              class="art-image"
+            />
+            <div class="art-overlay">
+              <h4 class="art-title">Viagem ao Espaço</h4>
+              <p class="art-artist">Por: Ana Costa</p>
+              <div class="art-stats">
+                <span class="art-stat"><i class="fas fa-heart"></i> 187</span>
+                <span class="art-stat"
+                  ><i class="fas fa-book-reader"></i> 1.8K</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="featured-item"
+            onclick="showStoryModal('O Tesouro Perdido', 'Por: Miguel Santos', './img/O tesouro perdido.png')"
+          >
+            <img
+              src="./img/O tesouro perdido.png"
+              alt="Obra de arte"
+              class="art-image"
+            />
+            <div class="art-overlay">
+              <h4 class="art-title">O Tesouro Perdido</h4>
+              <p class="art-artist">Por: Miguel Santos</p>
+              <div class="art-stats">
+                <span class="art-stat"><i class="fas fa-heart"></i> 421</span>
+                <span class="art-stat"
+                  ><i class="fas fa-book-reader"></i> 3.1K</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Artistas Mirins em Destaque -->
+      <div class="featured-section">
+        <div class="section-header">
+          <h3 class="section-title">Artistas Mirins</h3>
+          <a href="#" class="view-all">Ver todos</a>
+        </div>
+        <div class="featured-artists">
+          <div class="young-artist">
+            <div class="artist-avatar">
+              <img src="./img/img/kid11.png" alt="Jovem artista" />
+            </div>
+            <div class="artist-info">
+              <h4>Marina, 8 anos</h4>
+              <p>15 desenhos | 23 seguidores</p>
+              <div class="artist-specialty">
+                <span class="specialty-tag">Animais</span>
+                <span class="specialty-tag">Fantasias</span>
+              </div>
+            </div>
+            <button class="follow-btn">Seguir</button>
+          </div>
+          <div class="young-artist">
+            <div class="artist-avatar">
+              <img src="./img/img/kid18.png" alt="Jovem artista" />
+            </div>
+            <div class="artist-info">
+              <h4>Breno, 7 anos</h4>
+              <p>22 desenhos | 45 seguidores</p>
+              <div class="artist-specialty">
+                <span class="specialty-tag">Espaço</span>
+                <span class="specialty-tag">Robôs</span>
+              </div>
+            </div>
+            <button class="follow-btn">Seguir</button>
+          </div>
+          <div class="young-artist">
+            <div class="artist-avatar">
+              <img src="./img/img/kid17.png" alt="Jovem artista" />
+            </div>
+            <div class="artist-info">
+              <h4>Ana, 9 anos</h4>
+              <p>18 desenhos | 32 seguidores</p>
+              <div class="artist-specialty">
+                <span class="specialty-tag">Princesas</span>
+                <span class="specialty-tag">Natureza</span>
+              </div>
+            </div>
+            <button class="follow-btn">Seguir</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Atividades Interativas -->
+      <div class="featured-section">
+        <div class="section-header">
+          <h3 class="section-title">Atividades Divertidas</h3>
+        </div>
+        <div class="activities-grid">
+          <div
+            class="activity-card"
+            onclick="window.location.href='atividades/quiz.html'"
+          >
+            <div class="activity-icon">
+              <i class="fas fa-question-circle"></i>
+            </div>
+            <h4>Quiz de Personagens</h4>
+            <p>Teste seu conhecimento</p>
+          </div>
+          <div
+            class="activity-card"
+            onclick="window.location.href='atividades/memoria.html'"
+          >
+            <div class="activity-icon">
+              <i class="fas fa-brain"></i>
+            </div>
+            <h4>Jogo da Memória</h4>
+            <p>Encontre os pares iguais</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Categorias -->
+      <div class="featured-section">
+        <div class="section-header">
+          <h3 class="section-title">Categorias</h3>
         </div>
 
-        <!-- Atividades Interativas -->
-        <div class="featured-section">
-            <div class="section-header">
-                <h3 class="section-title">Atividades Divertidas</h3>
-            </div>
-            <div class="activities-grid">
-                <div class="activity-card" onclick="window.location.href='atividades/quiz.html'">
-                    <div class="activity-icon">
-                        <i class="fas fa-question-circle"></i>
-                    </div>
-                    <h4>Quiz de Personagens</h4>
-                    <p>Teste seu conhecimento</p>
-                </div>
-                <div class="activity-card" onclick="window.location.href='atividades/memoria.html'">
-                    <div class="activity-icon">
-                        <i class="fas fa-brain"></i>
-                    </div>
-                    <h4>Jogo da Memória</h4>
-                    <p>Encontre os pares iguais</p>
-                </div>
-            </div>
+        <div class="categories">
+          <div class="category active">Todas</div>
+          <div class="category">Aventura</div>
+          <div class="category">Fantasia</div>
+          <div class="category">Animais</div>
+          <div class="category">Amizade</div>
+          <div class="category">Mistério</div>
+          <div class="category">Divertidas</div>
+        </div>
+      </div>
+
+      <!-- Galeria de histórias -->
+      <div class="featured-section">
+        <div class="section-header">
+          <h3 class="section-title">Histórias Recentes</h3>
+          <a href="minhas-historias.html" class="view-all">Ver tudo</a>
         </div>
 
-        <!-- Categorias -->
-        <div class="featured-section">
-            <div class="section-header">
-                <h3 class="section-title">Categorias</h3>
+        <div class="thumbnail-grid">
+          <div class="thumbnail">
+            <img
+              src="./img/O pequeno principe.png"
+              alt="História"
+              class="thumbnail-img"
+            />
+            <div class="story-badge">10 páginas</div>
+            <div class="thumbnail-info">
+              <h4 class="thumbnail-title">O Pequeno Príncipe</h4>
+              <p class="thumbnail-artist">Por: Antoine de Saint-Exupéry</p>
+              <div class="thumbnail-actions">
+                <span class="thumbnail-action"
+                  ><i class="far fa-heart"></i> 124</span
+                >
+                <span class="thumbnail-action"
+                  ><i class="far fa-bookmark"></i> 18</span
+                >
+              </div>
             </div>
+          </div>
 
-            <div class="categories">
-                <div class="category active">Todas</div>
-                <div class="category">Aventura</div>
-                <div class="category">Fantasia</div>
-                <div class="category">Animais</div>
-                <div class="category">Amizade</div>
-                <div class="category">Mistério</div>
-                <div class="category">Divertidas</div>
+          <div class="thumbnail">
+            <img
+              src="./img/a menina e o dragão.webp"
+              alt="História"
+              class="thumbnail-img"
+            />
+            <div class="story-badge">8 páginas</div>
+            <div class="thumbnail-info">
+              <h4 class="thumbnail-title">A Menina e o Dragão</h4>
+              <p class="thumbnail-artist">Por: Eva Furnari</p>
+              <div class="thumbnail-actions">
+                <span class="thumbnail-action"
+                  ><i class="far fa-heart"></i> 89</span
+                >
+                <span class="thumbnail-action"
+                  ><i class="far fa-bookmark"></i> 7</span
+                >
+              </div>
             </div>
+          </div>
+
+          <div class="thumbnail">
+            <img
+              src="./img/no fundo do mar.webp"
+              alt="História"
+              class="thumbnail-img"
+            />
+            <div class="story-badge">12 páginas</div>
+            <div class="thumbnail-info">
+              <h4 class="thumbnail-title">No Fundo do Mar</h4>
+              <p class="thumbnail-artist">Por: Booksmile</p>
+              <div class="thumbnail-actions">
+                <span class="thumbnail-action"
+                  ><i class="far fa-heart"></i> 201</span
+                >
+                <span class="thumbnail-action"
+                  ><i class="far fa-bookmark"></i> 32</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="thumbnail">
+            <img
+              src="./img/circo magico.jpg"
+              alt="História"
+              class="thumbnail-img"
+            />
+            <div class="story-badge">6 páginas</div>
+            <div class="thumbnail-info">
+              <h4 class="thumbnail-title">O Circo Mágico</h4>
+              <p class="thumbnail-artist">Por: Alexandre Brito</p>
+              <div class="thumbnail-actions">
+                <span class="thumbnail-action"
+                  ><i class="far fa-heart"></i> 156</span
+                >
+                <span class="thumbnail-action"
+                  ><i class="far fa-bookmark"></i> 24</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Área de desenho em destaque -->
+      <div class="featured-section">
+        <div class="section-header">
+          <h3 class="section-title">Desenhos da Comunidade</h3>
+          <a href="#" class="view-all">Ver tudo</a>
         </div>
 
-        <!-- Galeria de histórias -->
-        <div class="featured-section">
-            <div class="section-header">
-                <h3 class="section-title">Histórias Recentes</h3>
-                <a href="minhas-historias.html" class="view-all">Ver tudo</a>
+        <div class="drawing-showcase">
+          <div class="drawing-item">
+            <img src="./img/Meu Dragão Amigo.png" alt="Desenho" />
+            <div class="drawing-info">
+              <h4>Meu Dragão Amigo</h4>
+              <p>Por: João, 8 anos</p>
             </div>
+          </div>
 
-            <div class="thumbnail-grid">
-                <div class="thumbnail">
-                    <img src="./img/O pequeno principe.png" alt="História" class="thumbnail-img">
-                    <div class="story-badge">10 páginas</div>
-                    <div class="thumbnail-info">
-                        <h4 class="thumbnail-title">O Pequeno Príncipe</h4>
-                        <p class="thumbnail-artist">Por: Antoine de Saint-Exupéry</p>
-                        <div class="thumbnail-actions">
-                            <span class="thumbnail-action"><i class="far fa-heart"></i> 124</span>
-                            <span class="thumbnail-action"><i class="far fa-bookmark"></i> 18</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="thumbnail">
-                    <img src="./img/a menina e o dragão.webp"
-                        alt="História" class="thumbnail-img">
-                    <div class="story-badge">8 páginas</div>
-                    <div class="thumbnail-info">
-                        <h4 class="thumbnail-title">A Menina e o Dragão</h4>
-                        <p class="thumbnail-artist">Por: Eva Furnari</p>
-                        <div class="thumbnail-actions">
-                            <span class="thumbnail-action"><i class="far fa-heart"></i> 89</span>
-                            <span class="thumbnail-action"><i class="far fa-bookmark"></i> 7</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="thumbnail">
-                    <img src="./img/no fundo do mar.webp"
-                        alt="História" class="thumbnail-img">
-                    <div class="story-badge">12 páginas</div>
-                    <div class="thumbnail-info">
-                        <h4 class="thumbnail-title">No Fundo do Mar</h4>
-                        <p class="thumbnail-artist">Por: Booksmile</p>
-                        <div class="thumbnail-actions">
-                            <span class="thumbnail-action"><i class="far fa-heart"></i> 201</span>
-                            <span class="thumbnail-action"><i class="far fa-bookmark"></i> 32</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="thumbnail">
-                    <img src="./img/circo magico.jpg"
-                        alt="História" class="thumbnail-img">
-                    <div class="story-badge">6 páginas</div>
-                    <div class="thumbnail-info">
-                        <h4 class="thumbnail-title">O Circo Mágico</h4>
-                        <p class="thumbnail-artist">Por: Alexandre Brito</p>
-                        <div class="thumbnail-actions">
-                            <span class="thumbnail-action"><i class="far fa-heart"></i> 156</span>
-                            <span class="thumbnail-action"><i class="far fa-bookmark"></i> 24</span>
-                        </div>
-                    </div>
-                </div>
+          <div class="drawing-item">
+            <img src="./img/castelo colorido.png" alt="Desenho" />
+            <div class="drawing-info">
+              <h4>Castelo Colorido</h4>
+              <p>Por: Maria, 7 anos</p>
             </div>
+          </div>
+
+          <div class="drawing-item">
+            <img src="./img/familia de ursos.png" alt="Desenho" />
+            <div class="drawing-info">
+              <h4>Família de Ursos</h4>
+              <p>Por: Pedro, 6 anos</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Novidades e Atualizações -->
+      <div class="featured-section">
+        <div class="section-header">
+          <h3 class="section-title">O que há de novo?</h3>
+        </div>
+        <div class="updates-timeline">
+          <div class="update-item">
+            <div class="update-date">Hoje</div>
+            <div class="update-content">
+              <h4>Nova ferramenta de desenho: Pincel Arco-Íris</h4>
+              <p>Agora você pode criar com cores ainda mais vibrantes!</p>
+            </div>
+          </div>
+          <div class="update-item">
+            <div class="update-date">2 dias atrás</div>
+            <div class="update-content">
+              <h4>10 novas histórias adicionadas</h4>
+              <p>Venha explorar as novas aventuras na seção de Fantasia</p>
+            </div>
+          </div>
+          <div class="update-item">
+            <div class="update-date">5 dias atrás</div>
+            <div class="update-content">
+              <h4>Concurso de desenho de verão</h4>
+              <p>Participe do nosso concurso com o tema "Férias na Praia"</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Área de Conquistas e Recompensas -->
+      <div class="featured-section">
+        <div class="achievements-preview">
+          <div class="section-header">
+            <h3 class="section-title">Suas Conquistas</h3>
+            <a href="conquistas/conquistas.html" class="view-all">Ver todas</a>
+          </div>
+          <div class="badges-container">
+            <div class="badge earned">
+              <div class="badge-icon">
+                <i class="fas fa-book"></i>
+              </div>
+              <p>Primeira Leitura</p>
+            </div>
+            <div class="badge earned">
+              <div class="badge-icon">
+                <i class="fas fa-paint-brush"></i>
+              </div>
+              <p>Artista Iniciante</p>
+            </div>
+            <div class="badge locked">
+              <div class="badge-icon">
+                <i class="fas fa-trophy"></i>
+              </div>
+              <p>Leitor Ávido</p>
+            </div>
+            <div class="badge locked">
+              <div class="badge-icon">
+                <i class="fas fa-star"></i>
+              </div>
+              <p>Comentarista</p>
+            </div>
+            <div class="badge locked">
+              <div class="badge-icon">
+                <i class="fas fa-heart"></i>
+              </div>
+              <p>Fã de Histórias</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer">
+        <div class="footer-content">
+          <div class="footer-column">
+            <h4 class="footer-title">ArtFlow Kids</h4>
+            <p>
+              Despertando a imaginação de crianças através de histórias e
+              desenhos.
+            </p>
+            <div class="social-links">
+              <a href="#" class="social-link"
+                ><i class="fab fa-facebook-f"></i
+              ></a>
+              <a href="#" class="social-link"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="social-link"
+                ><i class="fab fa-pinterest"></i
+              ></a>
+            </div>
+          </div>
+
+          <div class="footer-column">
+            <h4 class="footer-title">Links Rápidos</h4>
+            <ul class="footer-links">
+              <li><a href="#">Sobre Nós</a></li>
+              <li><a href="#">Para Pais</a></li>
+              <li><a href="#">Para Educadores</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">Contato</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-column">
+            <h4 class="footer-title">Recursos</h4>
+            <ul class="footer-links">
+              <li><a href="#">Central de Ajuda</a></li>
+              <li><a href="#">Segurança</a></li>
+              <li><a href="#">Privacidade Infantil</a></li>
+              <li><a href="#">Diretrizes da Comunidade</a></li>
+              <li><a href="#">Acessibilidade</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-column">
+            <h4 class="footer-title">Inscreva-se</h4>
+            <p>Receba novidades e atividades para crianças.</p>
+            <form class="footer-form">
+              <input
+                type="email"
+                placeholder="Email dos pais"
+                class="footer-input"
+              />
+              <button type="submit" class="footer-button">Inscrever</button>
+            </form>
+          </div>
         </div>
 
-        <!-- Área de desenho em destaque -->
-        <div class="featured-section">
-            <div class="section-header">
-                <h3 class="section-title">Desenhos da Comunidade</h3>
-                <a href="#" class="view-all">Ver tudo</a>
-            </div>
-
-            <div class="drawing-showcase">
-                <div class="drawing-item">
-                    <img src="./img/Meu Dragão Amigo.png"
-                        alt="Desenho">
-                    <div class="drawing-info">
-                        <h4>Meu Dragão Amigo</h4>
-                        <p>Por: João, 8 anos</p>
-                    </div>
-                </div>
-
-                <div class="drawing-item">
-                    <img src="./img/castelo colorido.png"
-                        alt="Desenho">
-                    <div class="drawing-info">
-                        <h4>Castelo Colorido</h4>
-                        <p>Por: Maria, 7 anos</p>
-                    </div>
-                </div>
-
-                <div class="drawing-item">
-                    <img src="./img/familia de ursos.png"
-                        alt="Desenho">
-                    <div class="drawing-info">
-                        <h4>Família de Ursos</h4>
-                        <p>Por: Pedro, 6 anos</p>
-                    </div>
-                </div>
-            </div>
+        <div class="copyright">
+          &copy; 2025 ArtFlow Kids. Todos os direitos reservados.
         </div>
-
-        <!-- Novidades e Atualizações -->
-        <div class="featured-section">
-            <div class="section-header">
-                <h3 class="section-title">O que há de novo?</h3>
-            </div>
-            <div class="updates-timeline">
-                <div class="update-item">
-                    <div class="update-date">Hoje</div>
-                    <div class="update-content">
-                        <h4>Nova ferramenta de desenho: Pincel Arco-Íris</h4>
-                        <p>Agora você pode criar com cores ainda mais vibrantes!</p>
-                    </div>
-                </div>
-                <div class="update-item">
-                    <div class="update-date">2 dias atrás</div>
-                    <div class="update-content">
-                        <h4>10 novas histórias adicionadas</h4>
-                        <p>Venha explorar as novas aventuras na seção de Fantasia</p>
-                    </div>
-                </div>
-                <div class="update-item">
-                    <div class="update-date">5 dias atrás</div>
-                    <div class="update-content">
-                        <h4>Concurso de desenho de verão</h4>
-                        <p>Participe do nosso concurso com o tema "Férias na Praia"</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Área de Conquistas e Recompensas -->
-        <div class="featured-section">
-            <div class="achievements-preview">
-                <div class="section-header">
-                    <h3 class="section-title">Suas Conquistas</h3>
-                    <a href="conquistas/conquistas.html" class="view-all">Ver todas</a>
-                </div>
-                <div class="badges-container">
-                    <div class="badge earned">
-                        <div class="badge-icon">
-                            <i class="fas fa-book"></i>
-                        </div>
-                        <p>Primeira Leitura</p>
-                    </div>
-                    <div class="badge earned">
-                        <div class="badge-icon">
-                            <i class="fas fa-paint-brush"></i>
-                        </div>
-                        <p>Artista Iniciante</p>
-                    </div>
-                    <div class="badge locked">
-                        <div class="badge-icon">
-                            <i class="fas fa-trophy"></i>
-                        </div>
-                        <p>Leitor Ávido</p>
-                    </div>
-                    <div class="badge locked">
-                        <div class="badge-icon">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <p>Comentarista</p>
-                    </div>
-                    <div class="badge locked">
-                        <div class="badge-icon">
-                            <i class="fas fa-heart"></i>
-                        </div>
-                        <p>Fã de Histórias</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="footer">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h4 class="footer-title">ArtFlow Kids</h4>
-                    <p>Despertando a imaginação de crianças através de histórias e desenhos.</p>
-                    <div class="social-links">
-                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-pinterest"></i></a>
-                    </div>
-                </div>
-
-                <div class="footer-column">
-                    <h4 class="footer-title">Links Rápidos</h4>
-                    <ul class="footer-links">
-                        <li><a href="#">Sobre Nós</a></li>
-                        <li><a href="#">Para Pais</a></li>
-                        <li><a href="#">Para Educadores</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Contato</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-column">
-                    <h4 class="footer-title">Recursos</h4>
-                    <ul class="footer-links">
-                        <li><a href="#">Central de Ajuda</a></li>
-                        <li><a href="#">Segurança</a></li>
-                        <li><a href="#">Privacidade Infantil</a></li>
-                        <li><a href="#">Diretrizes da Comunidade</a></li>
-                        <li><a href="#">Acessibilidade</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-column">
-                    <h4 class="footer-title">Inscreva-se</h4>
-                    <p>Receba novidades e atividades para crianças.</p>
-                    <form class="footer-form">
-                        <input type="email" placeholder="Email dos pais" class="footer-input">
-                        <button type="submit" class="footer-button">Inscrever</button>
-                    </form>
-                </div>
-            </div>
-
-            <div class="copyright">
-                &copy; 2025 ArtFlow Kids. Todos os direitos reservados.
-            </div>
-        </div>
+      </div>
     </div>
-
     <script src="script.js"></script>
-</body>
-
+  </body>
 </html>
