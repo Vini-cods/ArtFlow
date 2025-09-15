@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Histórias - ArtFlow Kids</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="historias-styles.css" />
+    <link rel="icon" href="../TelaInicial/img/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="../TelaInicial/img/favicon.ico" type="image/x-icon" />
+</head>
+
+<body>
+    <!-- Bolinhas flutuantes interativas -->
+    <div class="floating-shapes"></div>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="nav-left">
+            <div class="nav-menu">
+                <a href="../Popular/popular.html" class="nav-item">POPULAR</a>
+                <a href="historias.html" class="nav-item active">HISTÓRIAS</a>
+                <a href="#" class="nav-item">DESENHOS</a>
+                <a href="#" class="nav-item">ARTISTAS</a>
+            </div>
+        </div>
+
+        <div class="search-bar">
+            <span class="search-icon"><i class="fas fa-search"></i></span>
+            <input type="text" class="search-input" placeholder="Pesquisar histórias..." id="searchInput" />
+        </div>
+
+        <div class="nav-right">
+            <div class="logo-header">artflow</div>
+            <div class="profile-container">
+                <div class="notifications">
+                    <i class="far fa-bell"></i>
+                </div>
+                <a href="../TelaPerfil/index.html" class="profile-icon">
+                    <img src="./img/img/kid12.png" alt="Perfil" />
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <a href="../TelaInicial/index.html" class="sidebar-icon">
+            <i class="fas fa-home"></i>
+            <span>Início</span>
+        </a>
+        <a href="../TelaInicial/minhas-historias/index.html" class="sidebar-icon">
+            <i class="fas fa-book"></i>
+            <span>Minhas Histórias</span>
+        </a>
+        <a href="../TelaInicial/meus-desenhos/meus-desenhos.html" class="sidebar-icon">
+            <i class="fas fa-paint-brush"></i>
+            <span>Meus Desenhos</span>
+        </a>
+        <a href="../TelaInicial/favoritos/favoritos.html" class="sidebar-icon">
+            <i class="fas fa-heart"></i>
+            <span>Favoritos</span>
+        </a>
+        <a href="../TelaInicial/conquistas/conquistas.html" class="sidebar-icon">
+            <i class="fas fa-trophy"></i>
+            <span>Conquistas</span>
+        </a>
+        <a href="../TelaInicial/configuracoes/configuracoes.html" class="sidebar-icon">
+            <i class="fas fa-cog"></i>
+            <span>Configurações</span>
+        </a>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <div class="main-content">
+        <!-- Banner de Cabeçalho -->
+        <div class="stories-header">
+            <div class="header-content">
+                <h1>Mundo de Histórias</h1>
+                <p>Descubra aventuras mágicas dos seus personagens favoritos!</p>
+            </div>
+            <div class="header-illustration">
+                <img src="./img/octo-mascote.png" alt="Personagens de histórias" />
+            </div>
+        </div>
+
+        <!-- Filtros e Ordenação -->
+        <div class="filters-section">
+            <div class="filters-header">
+                <h2>Explorar Histórias</h2>
+                <div class="sort-filter">
+                    <select id="sortStories">
+                        <option value="popular">Mais Populares</option>
+                        <option value="recent">Mais Recentes</option>
+                        <option value="az">A-Z</option>
+                        <option value="za">Z-A</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="filters-container">
+                <div class="filter-group">
+                    <h3>Marcas</h3>
+                    <div class="filter-options">
+                        <div class="filter-option active" data-filter="all">Todas</div>
+                        <div class="filter-option" data-filter="disney">Disney</div>
+                        <div class="filter-option" data-filter="dreamworks">DreamWorks</div>
+                        <div class="filter-option" data-filter="pixar">Pixar</div>
+                        <div class="filter-option" data-filter="universal">Universal</div>
+                        <div class="filter-option" data-filter="other">Outras</div>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h3>Categorias</h3>
+                    <div class="filter-options">
+                        <div class="filter-option active" data-category="all">Todas</div>
+                        <div class="filter-option" data-category="adventure">Aventura</div>
+                        <div class="filter-option" data-category="fantasy">Fantasia</div>
+                        <div class="filter-option" data-category="comedy">Comédia</div>
+                        <div class="filter-option" data-category="educational">Educativo</div>
+                        <div class="filter-option" data-category="classic">Clássicos</div>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h3>Idade</h3>
+                    <div class="filter-options">
+                        <div class="filter-option active" data-age="all">Todas</div>
+                        <div class="filter-option" data-age="3-5">3-5 anos</div>
+                        <div class="filter-option" data-age="6-8">6-8 anos</div>
+                        <div class="filter-option" data-age="9-12">9-12 anos</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contador de Resultados -->
+        <div class="results-counter">
+            <span id="resultsCount">128</span> histórias encontradas
+        </div>
+
+        <!-- Grid de Histórias -->
+        <div class="stories-grid" id="storiesGrid">
+            <!-- As histórias serão carregadas via JavaScript -->
+        </div>
+
+        <!-- Botão Carregar Mais -->
+        <div class="load-more-container">
+            <button id="loadMoreBtn" class="load-more-btn">Carregar Mais Histórias</button>
+        </div>
+
+        <!-- Newsletter para Novas Histórias -->
+        <div class="stories-newsletter">
+            <div class="newsletter-content">
+                <h3>Quer receber novas histórias?</h3>
+                <p>Cadastre-se e seja o primeiro a conhecer as novidades!</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Email dos pais" required />
+                    <button type="submit">Inscrever-se</button>
+                </form>
+            </div>
+            <div class="newsletter-illustration">
+                <img src="./img/octo-mascote.png" alt="Receba novidades" />
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4 class="footer-title">ArtFlow Kids</h4>
+                    <p>
+                        Despertando a imaginação de crianças através de histórias e
+                        desenhos.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="footer-title">Links Rápidos</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Sobre Nós</a></li>
+                        <li><a href="#">Para Pais</a></li>
+                        <li><a href="#">Para Educadores</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Contato</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="footer-title">Recursos</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Central de Ajuda</a></li>
+                        <li><a href="#">Segurança</a></li>
+                        <li><a href="#">Privacidade Infantil</a></li>
+                        <li><a href="#">Diretrizes da Comunidade</a></li>
+                        <li><a href="#">Acessibilidade</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="footer-title">Inscreva-se</h4>
+                    <p>Receba novidades e atividades para crianças.</p>
+                    <form class="footer-form">
+                        <input type="email" placeholder="Email dos pais" class="footer-input" />
+                        <button type="submit" class="footer-button">Inscrever</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="copyright">
+                &copy; 2025 ArtFlow Kids. Todos os direitos reservados.
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Detalhes da História -->
+    <div class="modal-overlay" id="storyModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalStoryTitle">Título da História</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="story-cover-container">
+                    <img id="modalStoryImage" src="" alt="Capa da história" class="story-cover-large">
+                    <div class="story-badge-modal" id="modalStoryBadge">Disney</div>
+                </div>
+                <div class="story-details">
+                    <div class="story-author">
+                        <p><strong>Autor:</strong> <span id="modalStoryAuthor"></span></p>
+                    </div>
+                    <div class="story-description">
+                        <h4>Sinopse</h4>
+                        <p id="modalStoryDescription"></p>
+                    </div>
+                    <div class="story-stats">
+                        <p><strong>Páginas:</strong> <span id="modalStoryPages"></span></p>
+                        <p><strong>Categoria:</strong> <span id="modalStoryCategory"></span></p>
+                        <p><strong>Idade recomendada:</strong> <span id="modalStoryAge"></span></p>
+                        <p><strong>Marca:</strong> <span id="modalStoryBrand"></span></p>
+                    </div>
+                    <div class="story-actions">
+                        <button class="modal-button read-btn" id="modalReadBtn">Ler História</button>
+                        <button class="modal-button favorite-btn" id="modalFavoriteBtn">
+                            <i class="far fa-heart"></i> Favoritar
+                        </button>
+                        <button class="modal-button share-btn" id="modalShareBtn">
+                            <i class="fas fa-share-alt"></i> Compartilhar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="historias-script.js"></script>
+</body>
+
+</html>
