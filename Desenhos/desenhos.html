@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Desenhos - ArtFlow Kids</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="desenhos-styles.css" />
+    <link rel="icon" href="../TelaInicial/img/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="../TelaInicial/img/favicon.ico" type="image/x-icon" />
+</head>
+
+<body>
+    <!-- Bolinhas flutuantes interativas -->
+    <div class="floating-shapes"></div>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="nav-left">
+            <div class="nav-menu">
+                <a href="../Popular/popular.html" class="nav-item">POPULAR</a>
+                <a href="../Historias/historias.html" class="nav-item">HISTÓRIAS</a>
+                <a href="../Desenhos/desenhos.html" class="nav-item active">DESENHOS</a>
+                <a href="#" class="nav-item">ARTISTAS</a>
+            </div>
+        </div>
+
+        <div class="search-bar">
+            <span class="search-icon"><i class="fas fa-search"></i></span>
+            <input type="text" class="search-input" placeholder="Pesquisar desenhos..." id="searchInput" />
+        </div>
+
+        <div class="nav-right">
+            <div class="logo-header">artflow</div>
+            <div class="profile-container">
+                <div class="notifications">
+                    <i class="far fa-bell"></i>
+                </div>
+                <a href="../TelaPerfil/index.html" class="profile-icon">
+                    <img src="./img/img/kid12.png" alt="Perfil" />
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <a href="../TelaInicial/index.html" class="sidebar-icon">
+            <i class="fas fa-home"></i>
+            <span>Início</span>
+        </a>
+        <a href="../TelaInicial/minhas-historias/index.html" class="sidebar-icon">
+            <i class="fas fa-book"></i>
+            <span>Minhas Histórias</span>
+        </a>
+        <a href="../TelaInicial/meus-desenhos/meus-desenhos.html" class="sidebar-icon">
+            <i class="fas fa-paint-brush"></i>
+            <span>Meus Desenhos</span>
+        </a>
+        <a href="../TelaInicial/favoritos/favoritos.html" class="sidebar-icon">
+            <i class="fas fa-heart"></i>
+            <span>Favoritos</span>
+        </a>
+        <a href="../TelaInicial/conquistas/conquistas.html" class="sidebar-icon">
+            <i class="fas fa-trophy"></i>
+            <span>Conquistas</span>
+        </a>
+        <a href="../TelaInicial/configuracoes/configuracoes.html" class="sidebar-icon">
+            <i class="fas fa-cog"></i>
+            <span>Configurações</span>
+        </a>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <div class="main-content">
+        <!-- Banner de Cabeçalho -->
+        <div class="drawings-header">
+            <div class="header-content">
+                <h1>Galeria de Desenhos</h1>
+                <p>Explore e compartilhe suas criações artísticas!</p>
+                <button class="draw-now-btn" onclick="window.location.href='../TelaInicial/Drawing/drawing.html'">
+                    <i class="fas fa-paint-brush"></i> Desenhar Agora
+                </button>
+            </div>
+            <div class="header-illustration">
+                <img src="./img/octo-mascote.png" alt="Crianças desenhando" />
+            </div>
+        </div>
+
+        <!-- Filtros e Ordenação -->
+        <div class="filters-section">
+            <div class="filters-header">
+                <h2>Explorar Desenhos</h2>
+                <div class="sort-filter">
+                    <select id="sortDrawings">
+                        <option value="recent">Mais Recentes</option>
+                        <option value="popular">Mais Populares</option>
+                        <option value="likes">Mais Curtidos</option>
+                        <option value="az">A-Z</option>
+                        <option value="za">Z-A</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="filters-container">
+                <div class="filter-group">
+                    <h3>Categorias</h3>
+                    <div class="filter-options">
+                        <div class="filter-option active" data-category="all">Todas</div>
+                        <div class="filter-option" data-category="animals">Animais</div>
+                        <div class="filter-option" data-category="fantasy">Fantasia</div>
+                        <div class="filter-option" data-category="people">Pessoas</div>
+                        <div class="filter-option" data-category="nature">Natureza</div>
+                        <div class="filter-option" data-category="objects">Objetos</div>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h3>Cores</h3>
+                    <div class="color-filters">
+                        <div class="color-filter active" data-color="all">
+                            <div class="color-box all-colors"></div>
+                            <span>Todas</span>
+                        </div>
+                        <div class="color-filter" data-color="red">
+                            <div class="color-box red"></div>
+                            <span>Vermelho</span>
+                        </div>
+                        <div class="color-filter" data-color="blue">
+                            <div class="color-box blue"></div>
+                            <span>Azul</span>
+                        </div>
+                        <div class="color-filter" data-color="green">
+                            <div class="color-box green"></div>
+                            <span>Verde</span>
+                        </div>
+                        <div class="color-filter" data-color="yellow">
+                            <div class="color-box yellow"></div>
+                            <span>Amarelo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h3>Ordenar por</h3>
+                    <div class="filter-options">
+                        <div class="filter-option" data-sort="recent">Mais Recentes</div>
+                        <div class="filter-option" data-sort="popular">Mais Populares</div>
+                        <div class="filter-option" data-sort="likes">Mais Curtidos</div>
+                        <div class="filter-option" data-sort="views">Mais Vistos</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contador de Resultados -->
+        <div class="results-counter">
+            <span id="resultsCount">86</span> desenhos encontrados
+        </div>
+
+        <!-- Grid de Desenhos -->
+        <div class="drawings-grid" id="drawingsGrid">
+            <!-- Os desenhos serão carregados via JavaScript -->
+        </div>
+
+        <!-- Botão Carregar Mais -->
+        <div class="load-more-container">
+            <button id="loadMoreBtn" class="load-more-btn">Carregar Mais Desenhos</button>
+        </div>
+
+        <!-- Seção de Desafios de Desenho -->
+        <div class="drawing-challenges">
+            <div class="section-header">
+                <h3 class="section-title">Desafios de Desenho</h3>
+                <a href="../TelaInicial/index.html" class="view-all">Ver todos</a>
+            </div>
+
+            <div class="challenges-grid">
+                <div class="challenge-card">
+                    <div class="challenge-image">
+                        <img src="./img/fantastico.jpg" alt="Desafio de desenho" />
+                        <div class="time-left">5 dias restantes</div>
+                    </div>
+                    <div class="challenge-info">
+                        <h4>Desenhe um Animal Fantástico</h4>
+                        <p>Crie uma criatura mágica que vive na floresta encantada</p>
+                        <a href="../TelaInicial/desafio/semanal.html" class="participate-btn">Participar</a>
+                    </div>
+                </div>
+
+                <div class="challenge-card">
+                    <div class="challenge-image">
+                        <img src="./img/heroi.jpg" alt="Desafio de desenho" />
+                        <div class="time-left">2 dias restantes</div>
+                    </div>
+                    <div class="challenge-info">
+                        <h4>Meu Herói Favorito</h4>
+                        <p>Desenhe o super-herói que mais admira</p>
+                        <button class="participate-btn">Participar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4 class="footer-title">ArtFlow Kids</h4>
+                    <p>
+                        Despertando a imaginação de crianças através de histórias e
+                        desenhos.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="footer-title">Links Rápidos</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Sobre Nós</a></li>
+                        <li><a href="#">Para Pais</a></li>
+                        <li><a href="#">Para Educadores</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Contato</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="footer-title">Recursos</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Central de Ajuda</a></li>
+                        <li><a href="#">Segurança</a></li>
+                        <li><a href="#">Privacidade Infantil</a></li>
+                        <li><a href="#">Diretrizes da Comunidade</a></li>
+                        <li><a href="#">Acessibilidade</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="footer-title">Inscreva-se</h4>
+                    <p>Receba novidades e atividades para crianças.</p>
+                    <form class="footer-form">
+                        <input type="email" placeholder="Email dos pais" class="footer-input" />
+                        <button type="submit" class="footer-button">Inscrever</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="copyright">
+                &copy; 2025 ArtFlow Kids. Todos os direitos reservados.
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Detalhes do Desenho -->
+    <div class="modal-overlay" id="drawingModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalDrawingTitle">Título do Desenho</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="drawing-image-container">
+                    <img id="modalDrawingImage" src="" alt="Desenho" class="drawing-image-large">
+                    <div class="drawing-actions">
+                        <button class="action-btn like-btn" id="modalLikeBtn">
+                            <i class="far fa-heart"></i>
+                            <span id="modalLikesCount">0</span>
+                        </button>
+                        <button class="action-btn download-btn" id="modalDownloadBtn">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <button class="action-btn share-btn" id="modalShareBtn">
+                            <i class="fas fa-share-alt"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="drawing-details">
+                    <div class="artist-info">
+                        <div class="artist-avatar">
+                            <img id="modalArtistImage" src="" alt="Artista">
+                        </div>
+                        <div class="artist-details">
+                            <h4 id="modalArtistName"></h4>
+                            <p id="modalArtistAge"></p>
+                        </div>
+                        <button class="follow-btn-modal" id="modalFollowBtn">Seguir</button>
+                    </div>
+
+                    <div class="drawing-stats">
+                        <div class="stat">
+                            <i class="fas fa-eye"></i>
+                            <span id="modalViewsCount">0</span> visualizações
+                        </div>
+                        <div class="stat">
+                            <i class="fas fa-heart"></i>
+                            <span id="modalLikesCount2">0</span> curtidas
+                        </div>
+                        <div class="stat">
+                            <i class="fas fa-calendar"></i>
+                            Publicado <span id="modalDate"></span>
+                        </div>
+                    </div>
+
+                    <div class="drawing-description">
+                        <h4>Descrição</h4>
+                        <p id="modalDrawingDescription"></p>
+                    </div>
+
+                    <div class="drawing-tags">
+                        <h4>Tags</h4>
+                        <div class="tags-list" id="modalTagsList"></div>
+                    </div>
+
+                    <div class="drawing-actions-full">
+                        <button class="modal-button draw-inspired-btn" id="modalDrawInspiredBtn">
+                            <i class="fas fa-magic"></i> Desenhar Inspirado
+                        </button>
+                        <button class="modal-button comment-btn" id="modalCommentBtn">
+                            <i class="fas fa-comment"></i> Comentar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="desenhos-script.js"></script>
+</body>
+
+</html>
