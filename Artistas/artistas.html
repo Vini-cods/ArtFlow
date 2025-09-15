@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Artistas - ArtFlow Kids</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="artistas-styles.css" />
+    <link rel="icon" href="../TelaInicial/img/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="../TelaInicial/img/favicon.ico" type="image/x-icon" />
+</head>
+
+<body>
+    <!-- Bolinhas flutuantes interativas -->
+    <div class="floating-shapes"></div>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="nav-left">
+            <div class="nav-menu">
+                <a href="../Popular/popular.html" class="nav-item">POPULAR</a>
+                <a href="../Historias/historias.html" class="nav-item">HISTÓRIAS</a>
+                <a href="../Desenhos/desenhos.html" class="nav-item">DESENHOS</a>
+                <a href="artistas.html" class="nav-item active">ARTISTAS</a>
+            </div>
+        </div>
+
+        <div class="search-bar">
+            <span class="search-icon"><i class="fas fa-search"></i></span>
+            <input type="text" class="search-input" placeholder="Pesquisar artistas..." id="searchInput" />
+        </div>
+
+        <div class="nav-right">
+            <div class="logo-header">artflow</div>
+            <div class="profile-container">
+                <div class="notifications">
+                    <i class="far fa-bell"></i>
+                </div>
+                <a href="../TelaPerfil/index.html" class="profile-icon">
+                    <img src="./img/img/kid12.png" alt="Perfil" />
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <a href="../TelaInicial/index.html" class="sidebar-icon">
+            <i class="fas fa-home"></i>
+            <span>Início</span>
+        </a>
+        <a href="../TelaInicial/minhas-historias/index.html" class="sidebar-icon">
+            <i class="fas fa-book"></i>
+            <span>Minhas Histórias</span>
+        </a>
+        <a href="../TelaInicial/meus-desenhos/meus-desenhos.html" class="sidebar-icon">
+            <i class="fas fa-paint-brush"></i>
+            <span>Meus Desenhos</span>
+        </a>
+        <a href="../TelaInicial/favoritos/favoritos.html" class="sidebar-icon">
+            <i class="fas fa-heart"></i>
+            <span>Favoritos</span>
+        </a>
+        <a href="../TelaInicial/conquistas/conquistas.html" class="sidebar-icon">
+            <i class="fas fa-trophy"></i>
+            <span>Conquistas</span>
+        </a>
+        <a href="../TelaInicial/configuracoes/configuracoes.html" class="sidebar-icon">
+            <i class="fas fa-cog"></i>
+            <span>Configurações</span>
+        </a>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <div class="main-content">
+        <!-- Banner de Cabeçalho -->
+        <div class="artists-header">
+            <div class="header-content">
+                <h1>Comunidade de Artistas</h1>
+                <p>Descubra talentos incríveis e inspire-se com suas criações!</p>
+            </div>
+            <div class="header-illustration">
+                <img src="./img/octo-mascote.png" alt="Comunidade de artistas" />
+            </div>
+        </div>
+
+        <!-- Filtros e Categorias -->
+        <div class="filters-section">
+            <div class="filters-header">
+                <h2>Explorar Artistas</h2>
+                <div class="sort-filter">
+                    <select id="sortArtists">
+                        <option value="popular">Mais Populares</option>
+                        <option value="recent">Mais Recentes</option>
+                        <option value="kids">Artistas Kids</option>
+                        <option value="pro">Artistas Profissionais</option>
+                        <option value="az">A-Z</option>
+                        <option value="za">Z-A</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="filters-container">
+                <div class="filter-group">
+                    <h3>Tipo de Artista</h3>
+                    <div class="filter-options">
+                        <div class="filter-option active" data-type="all">Todos</div>
+                        <div class="filter-option" data-type="kids">Artistas Kids</div>
+                        <div class="filter-option" data-type="pro">Profissionais</div>
+                        <div class="filter-option" data-type="educators">Educadores</div>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h3>Especialidades</h3>
+                    <div class="filter-options">
+                        <div class="filter-option active" data-specialty="all">Todas</div>
+                        <div class="filter-option" data-specialty="illustration">Ilustração</div>
+                        <div class="filter-option" data-specialty="painting">Pintura</div>
+                        <div class="filter-option" data-specialty="digital">Arte Digital</div>
+                        <div class="filter-option" data-specialty="cartoon">Cartoon</div>
+                        <div class="filter-option" data-specialty="storytelling">Contadores de História</div>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h3>Idade</h3>
+                    <div class="filter-options">
+                        <div class="filter-option active" data-age="all">Todas</div>
+                        <div class="filter-option" data-age="3-6">3-6 anos</div>
+                        <div class="filter-option" data-age="7-10">7-10 anos</div>
+                        <div class="filter-option" data-age="11-13">11-13 anos</div>
+                        <div class="filter-option" data-age="adult">Adultos</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contador de Resultados -->
+        <div class="results-counter">
+            <span id="resultsCount">42</span> artistas encontrados
+        </div>
+
+        <!-- Grid de Artistas -->
+        <div class="artists-grid" id="artistsGrid">
+            <!-- Os artistas serão carregados via JavaScript -->
+        </div>
+
+        <!-- Botão Carregar Mais -->
+        <div class="load-more-container">
+            <button id="loadMoreBtn" class="load-more-btn">Carregar Mais Artistas</button>
+        </div>
+
+        <!-- Seção de Artistas em Destaque -->
+        <div class="featured-artists">
+            <div class="section-header">
+                <h3 class="section-title">Artistas em Destaque</h3>
+                <a href="#" class="view-all">Ver todos</a>
+            </div>
+
+            <div class="featured-grid">
+                <div class="featured-card">
+                    <div class="featured-badge">Destaque do Mês</div>
+                    <img src="./img/featured-artist1.jpg" alt="Artista em destaque" class="featured-image" />
+                    <div class="featured-content">
+                        <h4>Ana Silva</h4>
+                        <p>Ilustradora profissional especializada em livros infantis</p>
+                        <div class="featured-stats">
+                            <span>+15K seguidores</span>
+                            <span>+200 obras</span>
+                        </div>
+                        <button class="featured-btn">Ver Perfil</button>
+                    </div>
+                </div>
+
+                <div class="featured-card">
+                    <div class="featured-badge">Artista Revelação</div>
+                    <img src="./img/featured-artist2.jpg" alt="Artista em destaque" class="featured-image" />
+                    <div class="featured-content">
+                        <h4>Pedro, 8 anos</h4>
+                        <p>Especialista em desenhos de dinossauros e aventuras espaciais</p>
+                        <div class="featured-stats">
+                            <span>+2.5K seguidores</span>
+                            <span>+45 obras</span>
+                        </div>
+                        <button class="featured-btn">Ver Perfil</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4 class="footer-title">ArtFlow Kids</h4>
+                    <p>
+                        Despertando a imaginação de crianças através de histórias e
+                        desenhos.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="footer-title">Links Rápidos</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Sobre Nós</a></li>
+                        <li><a href="#">Para Pais</a></li>
+                        <li><a href="#">Para Educadores</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Contato</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="footer-title">Recursos</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Central de Ajuda</a></li>
+                        <li><a href="#">Segurança</a></li>
+                        <li><a href="#">Privacidade Infantil</a></li>
+                        <li><a href="#">Diretrizes da Comunidade</a></li>
+                        <li><a href="#">Acessibilidade</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="footer-title">Inscreva-se</h4>
+                    <p>Receba novidades e atividades para crianças.</p>
+                    <form class="footer-form">
+                        <input type="email" placeholder="Email dos pais" class="footer-input" />
+                        <button type="submit" class="footer-button">Inscrever</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="copyright">
+                &copy; 2025 ArtFlow Kids. Todos os direitos reservados.
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Perfil do Artista -->
+    <div class="modal-overlay" id="artistModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalArtistName">Nome do Artista</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="artist-profile-header">
+                    <div class="artist-avatar-large">
+                        <img id="modalArtistImage" src="" alt="Artista">
+                    </div>
+                    <div class="artist-info-main">
+                        <div class="artist-type-badge" id="modalArtistType">Artista Kids</div>
+                        <p id="modalArtistSpecialty">Especialidade</p>
+                        <div class="artist-stats-main">
+                            <div class="stat-item">
+                                <span class="stat-number" id="modalFollowers">0</span>
+                                <span class="stat-label">Seguidores</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" id="modalWorks">0</span>
+                                <span class="stat-label">Obras</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" id="modalLikes">0</span>
+                                <span class="stat-label">Curtidas</span>
+                            </div>
+                        </div>
+                        <div class="artist-actions">
+                            <button class="modal-button follow-btn-modal" id="modalFollowBtn">
+                                <i class="fas fa-plus"></i> Seguir
+                            </button>
+                            <button class="modal-button message-btn">
+                                <i class="fas fa-envelope"></i> Mensagem
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="artist-bio">
+                    <h4>Biografia</h4>
+                    <p id="modalArtistBio">Biografia do artista...</p>
+                </div>
+
+                <div class="artist-gallery">
+                    <h4>Galeria de Trabalhos</h4>
+                    <div class="gallery-grid" id="modalGallery">
+                        <!-- Galeria será preenchida via JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="artistas-script.js"></script>
+</body>
+
+</html>
