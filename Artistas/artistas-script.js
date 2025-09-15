@@ -2,11 +2,11 @@
 const artistsData = [
     {
         id: 1,
-        name: "Ana Silva",
+        name: "Carol Lima",
         age: 32,
         type: "pro",
         specialty: "illustration",
-        avatar: "./img/artists/artist1.jpg",
+        avatar: "./img/anaSilva.png",
         cover: "./img/covers/cover1.jpg",
         bio: "Ilustradora profissional com mais de 10 anos de experiência, especializada em livros infantis. Formada em Belas Artes e apaixonada por criar mundos mágicos para crianças.",
         followers: 15234,
