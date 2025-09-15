@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Popular - ArtFlow Kids</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="popular-styles.css" />
+    <link rel="icon" href="../TelaInicial/img/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="../TelaInicial/img/favicon.ico" type="image/x-icon" />
+</head>
+
+<body>
+    <!-- Bolinhas flutuantes interativas -->
+    <div class="floating-shapes"></div>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="nav-left">
+            <div class="nav-menu">
+                <a href="#" class="nav-item active">POPULAR</a>
+                <a href="#" class="nav-item">HISTÓRIAS</a>
+                <a href="#" class="nav-item">DESENHOS</a>
+                <a href="#" class="nav-item">ARTISTAS</a>
+            </div>
+        </div>
+
+        <div class="search-bar">
+            <span class="search-icon"><i class="fas fa-search"></i></span>
+            <input type="text" class="search-input" placeholder="Pesquisar histórias..." />
+        </div>
+
+        <div class="nav-right">
+            <div class="logo-header">artflow</div>
+            <div class="profile-container">
+                <div class="notifications">
+                    <i class="far fa-bell"></i>
+                </div>
+                <a href="../TelaPerfil/index.html" class="profile-icon">
+                    <img src="./img/img/kid12.png" alt="Perfil" />
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <a href="../TelaInicial/index.html" class="sidebar-icon">
+            <i class="fas fa-home"></i>
+            <span>Início</span>
+        </a>
+        <a href="../TelaInicial/minhas-historias/index.html" class="sidebar-icon">
+            <i class="fas fa-book"></i>
+            <span>Minhas Histórias</span>
+        </a>
+        <a href="../TelaInicial/meus-desenhos/meus-desenhos.html" class="sidebar-icon">
+            <i class="fas fa-paint-brush"></i>
+            <span>Meus Desenhos</span>
+        </a>
+        <a href="../TelaInicial/favoritos/favoritos.html" class="sidebar-icon">
+            <i class="fas fa-heart"></i>
+            <span>Favoritos</span>
+        </a>
+        <a href="../TelaInicial/conquistas/conquistas.html" class="sidebar-icon">
+            <i class="fas fa-trophy"></i>
+            <span>Conquistas</span>
+        </a>
+        <a href="../TelaInicial/configuracoes/configuracoes.html" class="sidebar-icon">
+            <i class="fas fa-cog"></i>
+            <span>Configurações</span>
+        </a>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <div class="main-content">
+        <!-- Banner de tendências -->
+        <div class="trending-banner">
+            <div class="trending-content">
+                <h2> Em Alta Esta Semana! </h2>
+                <p>Descubra as histórias e desenhos que estão fazendo sucesso!</p>
+            </div>
+        </div>
+
+        <!-- Histórias em tendência -->
+        <div class="featured-section">
+            <div class="section-header">
+                <h3 class="section-title">Histórias em Alta</h3>
+                <div class="time-filter">
+                    <span class="filter active">Hoje</span>
+                    <span class="filter">Esta semana</span>
+                    <span class="filter">Este mês</span>
+                </div>
+            </div>
+
+            <div class="trending-grid">
+                <div class="trending-item trending-1">
+                    <div class="trending-badge">#1 Trending</div>
+                    <img src="./img/Aventura na Floresta.png" alt="História em alta" />
+                    <div class="trending-info">
+                        <h4>Aventura na Floresta</h4>
+                        <p>+2.4K visualizações</p>
+                        <div class="trending-stats">
+                            <span><i class="fas fa-fire"></i> 45% aumento</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="trending-item trending-2">
+                    <div class="trending-badge">#2 Trending</div>
+                    <img src="./img/O castelo magico.png" alt="História em alta" />
+                    <div class="trending-info">
+                        <h4>O Castelo Mágico</h4>
+                        <p>+1.8K visualizações</p>
+                        <div class="trending-stats">
+                            <span><i class="fas fa-fire"></i> 32% aumento</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="trending-item trending-3">
+                    <div class="trending-badge">#3 Trending</div>
+                    <img src="./img/Viagem ao espaço.png" alt="História em alta" />
+                    <div class="trending-info">
+                        <h4>Viagem ao Espaço</h4>
+                        <p>+1.5K visualizações</p>
+                        <div class="trending-stats">
+                            <span><i class="fas fa-fire"></i> 28% aumento</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Artistas em destaque -->
+        <div class="featured-section">
+            <div class="section-header">
+                <h3 class="section-title">Artistas em Ascensão</h3>
+                <a href="#" class="view-all">Ver todos</a>
+            </div>
+
+            <div class="artists-grid">
+                <div class="artist-card">
+                    <div class="artist-header">
+                        <img src="./img/img/kid11.png" alt="Artista" />
+                        <div class="artist-trending">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>+120 seguidores</span>
+                        </div>
+                    </div>
+                    <div class="artist-details">
+                        <h4>Marina, 8 anos</h4>
+                        <p>Especialista em animais fantásticos</p>
+                        <div class="artist-stats">
+                            <div class="stat">
+                                <span class="number">2.4K</span>
+                                <span class="label">Visualizações</span>
+                            </div>
+                            <div class="stat">
+                                <span class="number">356</span>
+                                <span class="label">Likes</span>
+                            </div>
+                        </div>
+                        <button class="follow-btn">Seguir</button>
+                    </div>
+                </div>
+
+                <div class="artist-card">
+                    <div class="artist-header">
+                        <img src="./img/img/kid18.png" alt="Artista" />
+                        <div class="artist-trending">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>+98 seguidores</span>
+                        </div>
+                    </div>
+                    <div class="artist-details">
+                        <h4>Breno, 7 anos</h4>
+                        <p>Especialista in robôs espaciais</p>
+                        <div class="artist-stats">
+                            <div class="stat">
+                                <span class="number">1.8K</span>
+                                <span class="label">Visualizações</span>
+                            </div>
+                            <div class="stat">
+                                <span class="number">289</span>
+                                <span class="label">Likes</span>
+                            </div>
+                        </div>
+                        <button class="follow-btn">Seguir</button>
+                    </div>
+                </div>
+
+                <div class="artist-card">
+                    <div class="artist-header">
+                        <img src="./img/img/kid17.png" alt="Artista" />
+                        <div class="artist-trending">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>+76 seguidores</span>
+                        </div>
+                    </div>
+                    <div class="artist-details">
+                        <h4>Ana, 9 anos</h4>
+                        <p>Especialista em reinos encantados</p>
+                        <div class="artist-stats">
+                            <div class="stat">
+                                <span class="number">3.1K</span>
+                                <span class="label">Visualizações</span>
+                            </div>
+                            <div class="stat">
+                                <span class="number">412</span>
+                                <span class="label">Likes</span>
+                            </div>
+                        </div>
+                        <button class="follow-btn">Seguir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Próximos lançamentos -->
+        <div class="featured-section">
+            <div class="section-header">
+                <h3 class="section-title">Próximos Lançamentos</h3>
+                <a href="#" class="view-all">Ver calendário completo</a>
+            </div>
+
+            <div class="releases-timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">
+                        <span class="day">15</span>
+                        <span class="month">SET</span>
+                    </div>
+                    <div class="timeline-content">
+                        <h4>O Mistério do Farol</h4>
+                        <p>Nova história de aventura por Lucas Mendes</p>
+                        <div class="timeline-badge">Em 3 dias</div>
+                    </div>
+                    <button class="remind-btn">
+                        <i class="far fa-bell"></i> Lembrar
+                    </button>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date">
+                        <span class="day">18</span>
+                        <span class="month">SET</span>
+                    </div>
+                    <div class="timeline-content">
+                        <h4>Festival de Desenhos de Outono</h4>
+                        <p>Competição com tema de outono para jovens artistas</p>
+                        <div class="timeline-badge">Em 6 dias</div>
+                    </div>
+                    <button class="remind-btn">
+                        <i class="far fa-bell"></i> Lembrar
+                    </button>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date">
+                        <span class="day">22</span>
+                        <span class="month">SET</span>
+                    </div>
+                    <div class="timeline-content">
+                        <h4>Novas Ferramentas de Desenho</h4>
+                        <p>Lançamento de pincéis e texturas especiais</p>
+                        <div class="timeline-badge">Em 10 dias</div>
+                    </div>
+                    <button class="remind-btn">
+                        <i class="far fa-bell"></i> Lembrar
+                    </button>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date">
+                        <span class="day">30</span>
+                        <span class="month">SET</span>
+                    </div>
+                    <div class="timeline-content">
+                        <h4>Coleção Especial de Halloween</h4>
+                        <p>Histórias e temas assustadores para o Halloween</p>
+                        <div class="timeline-badge">Em 18 dias</div>
+                    </div>
+                    <button class="remind-btn">
+                        <i class="far fa-bell"></i> Lembrar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calendário de Eventos -->
+        <div class="featured-section">
+            <div class="section-header">
+                <h3 class="section-title">Calendário de Eventos</h3>
+                <div class="calendar-nav">
+                    <button class="nav-btn"><i class="fas fa-chevron-left"></i></button>
+                    <span class="current-month">Setembro 2025</span>
+                    <button class="nav-btn"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+
+            <div class="calendar">
+                <div class="calendar-header">
+                    <div class="day-name">Dom</div>
+                    <div class="day-name">Seg</div>
+                    <div class="day-name">Ter</div>
+                    <div class="day-name">Qua</div>
+                    <div class="day-name">Qui</div>
+                    <div class="day-name">Sex</div>
+                    <div class="day-name">Sáb</div>
+                </div>
+
+                <div class="calendar-body">
+                    <!-- Dias vazios no início -->
+                    <div class="calendar-day empty"></div>
+                    <div class="calendar-day empty"></div>
+
+                    <!-- Dias de setembro -->
+                    <div class="calendar-day">
+                        <span class="day-number">1</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">2</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">3</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">4</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">5</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">6</span>
+                        <div class="event-dot" data-event="Início das aulas"></div>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">7</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">8</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">9</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">10</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">11</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">12</span>
+                        <div class="event-dot" data-event="Workshop de desenho"></div>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">13</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">14</span>
+                    </div>
+                    <div class="calendar-day current-day">
+                        <span class="day-number">15</span>
+                        <div class="event-dot" data-event="Lançamento: O Mistério do Farol"></div>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">16</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">17</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">18</span>
+                        <div class="event-dot" data-event="Festival de Desenhos"></div>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">19</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">20</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">21</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">22</span>
+                        <div class="event-dot" data-event="Novas Ferramentas"></div>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">23</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">24</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">25</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">26</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">27</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">28</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">29</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">30</span>
+                        <div class="event-dot" data-event="Coleção Halloween"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Desenhos populares -->
+        <div class="featured-section">
+            <div class="section-header">
+                <h3 class="section-title">Desenhos Populares</h3>
+                <a href="#" class="view-all">Ver todos</a>
+            </div>
+
+            <div class="drawings-grid">
+                <div class="drawing-card">
+                    <img src="./img/Meu Dragão Amigo.png" alt="Desenho popular" />
+                    <div class="drawing-overlay">
+                        <div class="drawing-stats">
+                            <span><i class="fas fa-heart"></i> 248</span>
+                            <span><i class="fas fa-eye"></i> 1.2K</span>
+                        </div>
+                        <h4>Meu Dragão Amigo</h4>
+                        <p>Por: João, 8 anos</p>
+                    </div>
+                    <div class="popular-badge">
+                        <i class="fas fa-fire"></i> Popular
+                    </div>
+                </div>
+
+                <div class="drawing-card">
+                    <img src="./img/castelo colorido.png" alt="Desenho popular" />
+                    <div class="drawing-overlay">
+                        <div class="drawing-stats">
+                            <span><i class="fas fa-heart"></i> 187</span>
+                            <span><i class="fas fa-eye"></i> 956</span>
+                        </div>
+                        <h4>Castelo Colorido</h4>
+                        <p>Por: Maria, 7 anos</p>
+                    </div>
+                </div>
+
+                <div class="drawing-card">
+                    <img src="./img/familia de ursos.png" alt="Desenho popular" />
+                    <div class="drawing-overlay">
+                        <div class="drawing-stats">
+                            <span><i class="fas fa-heart"></i> 312</span>
+                            <span><i class="fas fa-eye"></i> 1.5K</span>
+                        </div>
+                        <h4>Família de Ursos</h4>
+                        <p>Por: Pedro, 6 anos</p>
+                    </div>
+                    <div class="popular-badge">
+                        <i class="fas fa-arrow-up"></i> Em alta
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4 class="footer-title">ArtFlow Kids</h4>
+                    <p>
+                        Despertando a imaginação de crianças através de histórias e
+                        desenhos.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="footer-title">Links Rápidos</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Sobre Nós</a></li>
+                        <li><a href="#">Para Pais</a></li>
+                        <li><a href="#">Para Educadores</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Contato</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="footer-title">Recursos</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Central de Ajuda</a></li>
+                        <li><a href="#">Segurança</a></li>
+                        <li><a href="#">Privacidade Infantil</a></li>
+                        <li><a href="#">Diretrizes da Comunidade</a></li>
+                        <li><a href="#">Acessibilidade</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="footer-title">Inscreva-se</h4>
+                    <p>Receba novidades e atividades para crianças.</p>
+                    <form class="footer-form">
+                        <input type="email" placeholder="Email dos pais" class="footer-input" />
+                        <button type="submit" class="footer-button">Inscrever</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="copyright">
+                &copy; 2025 ArtFlow Kids. Todos os direitos reservados.
+            </div>
+        </div>
+    </div>
+    <script src="popular-script.js"></script>
+</body>
+
+</html>
