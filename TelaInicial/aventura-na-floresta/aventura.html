@@ -1,103 +1,438 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Aventura na Floresta - ArtFlow Kids</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="aventura.css">
-    <link rel="icon" href="../img/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
-</head>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="aventura.css" />
+    <link rel="icon" href="../img/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon" />
+  </head>
 
-<body>
+  <body>
     <!-- Bolinhas flutuantes de fundo -->
     <div class="floating-shapes"></div>
 
+    <!-- Modal de tela cheia -->
+    <div class="fullscreen-modal" id="fullscreen-modal">
+      <div class="fullscreen-header">
+        <button class="btn btn-exit-fullscreen" onclick="exitFullscreen()">
+          <i class="fas fa-compress"></i> Sair
+        </button>
+        <h3>Modo Desenho - Aventura na Floresta</h3>
+        <button class="btn btn-back" onclick="exitFullscreen()">
+          <i class="fas fa-arrow-left"></i> Voltar
+        </button>
+      </div>
+
+      <div class="fullscreen-content">
+        <div class="fullscreen-tools-panel">
+          <div class="tools-section">
+            <h4>Ferramentas</h4>
+            <div class="tool-buttons">
+              <button class="tool-btn active" data-tool="pencil" title="Lápis">
+                <i class="fas fa-pencil-alt"></i>
+              </button>
+              <button class="tool-btn" data-tool="brush" title="Pincel">
+                <i class="fas fa-paint-brush"></i>
+              </button>
+              <button class="tool-btn" data-tool="marker" title="Marcador">
+                <i class="fas fa-highlighter"></i>
+              </button>
+              <button class="tool-btn" data-tool="spray" title="Spray">
+                <i class="fas fa-spray-can"></i>
+              </button>
+              <button class="tool-btn" data-tool="eraser" title="Borracha">
+                <i class="fas fa-eraser"></i>
+              </button>
+              <button class="tool-btn" data-tool="fill" title="Preencher">
+                <i class="fas fa-fill-drip"></i>
+              </button>
+              <button class="tool-btn" data-tool="shapes" title="Formas">
+                <i class="fas fa-shapes"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="tools-section" id="fullscreen-shapes-section">
+            <h4>Formas</h4>
+            <div class="shape-options">
+              <button
+                class="shape-btn active"
+                data-shape="rectangle"
+                title="Retângulo"
+              >
+                <i class="fas fa-square"></i>
+              </button>
+              <button class="shape-btn" data-shape="circle" title="Círculo">
+                <i class="fas fa-circle"></i>
+              </button>
+              <button class="shape-btn" data-shape="triangle" title="Triângulo">
+                <i class="fas fa-play fa-rotate-270"></i>
+              </button>
+              <button class="shape-btn" data-shape="line" title="Linha">
+                <i class="fas fa-minus"></i>
+              </button>
+              <button class="shape-btn" data-shape="star" title="Estrela">
+                <i class="fas fa-star"></i>
+              </button>
+              <button class="shape-btn" data-shape="heart" title="Coração">
+                <i class="fas fa-heart"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="tools-section">
+            <h4>Cores</h4>
+            <div class="color-palette">
+              <div
+                class="color-option active"
+                style="background-color: #000000"
+                data-color="#000000"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #ff0000"
+                data-color="#ff0000"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #0000ff"
+                data-color="#0000ff"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #008000"
+                data-color="#008000"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #ffff00"
+                data-color="#ffff00"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #ffa500"
+                data-color="#ffa500"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #800080"
+                data-color="#800080"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #ffc0cb"
+                data-color="#ffc0cb"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #a52a2a"
+                data-color="#a52a2a"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #00ffff"
+                data-color="#00ffff"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #ff00ff"
+                data-color="#ff00ff"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #ffffff"
+                data-color="#ffffff"
+                style="border: 1px solid #ccc"
+              ></div>
+            </div>
+
+            <div class="custom-color">
+              <label for="fullscreen-color-picker">Cor personalizada:</label>
+              <input
+                type="color"
+                id="fullscreen-color-picker"
+                value="#000000"
+              />
+            </div>
+          </div>
+
+          <div class="tools-section">
+            <h4>Controles</h4>
+            <div class="tool-controls">
+              <div class="control-group">
+                <label for="fullscreen-brush-size"
+                  >Espessura:
+                  <span id="fullscreen-brush-size-value">5px</span></label
+                >
+                <input
+                  type="range"
+                  id="fullscreen-brush-size"
+                  min="1"
+                  max="50"
+                  value="5"
+                />
+              </div>
+
+              <div class="control-group">
+                <label for="fullscreen-opacity"
+                  >Opacidade:
+                  <span id="fullscreen-opacity-value">100%</span></label
+                >
+                <input
+                  type="range"
+                  id="fullscreen-opacity"
+                  min="10"
+                  max="100"
+                  value="100"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="tools-section">
+            <h4>Ações</h4>
+            <div class="action-buttons">
+              <button class="btn btn-clear" onclick="clearFullscreenCanvas()">
+                <i class="fas fa-eraser"></i> Limpar
+              </button>
+              <button class="btn btn-save" onclick="saveFullscreenDrawing()">
+                <i class="fas fa-save"></i> Salvar
+              </button>
+              <button
+                class="btn btn-undo"
+                onclick="undoFullscreen()"
+                id="fullscreen-undo"
+              >
+                <i class="fas fa-undo"></i> Desfazer
+              </button>
+              <button
+                class="btn btn-redo"
+                onclick="redoFullscreen()"
+                id="fullscreen-redo"
+              >
+                <i class="fas fa-redo"></i> Refazer
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="fullscreen-canvas-container">
+          <canvas id="fullscreen-canvas"></canvas>
+        </div>
+      </div>
+    </div>
+
     <div class="drawing-container">
-        <div class="header">
-            <div class="action-buttons">
-                <button class="btn btn-back" onclick="goBack()">
-                    <i class="fas fa-arrow-left"></i> Voltar
-                </button>
-            </div>
-            <div class="story-info">
-                <h1 class="story-title" id="story-title">Aventura na Floresta</h1>
-                <p class="story-author" id="story-author">Por: Sofia Mendes</p>
-            </div>
-            <div class="action-buttons">
-                <button class="btn btn-clear" onclick="clearCanvas()">
-                    <i class="fas fa-eraser"></i> Limpar
-                </button>
-                <button class="btn btn-save" onclick="saveDrawing()">
-                    <i class="fas fa-save"></i> Salvar
-                </button>
-            </div>
+      <div class="header">
+        <div class="action-buttons">
+          <button class="btn btn-back" onclick="goBack()">
+            <i class="fas fa-arrow-left"></i> Voltar
+          </button>
+        </div>
+        <div class="story-info">
+          <h1 class="story-title" id="story-title">Aventura na Floresta</h1>
+          <p class="story-author" id="story-author">Por: Sofia Mendes</p>
+        </div>
+        <div class="action-buttons">
+          <button class="btn btn-fullscreen" onclick="enterFullscreen()">
+            <i class="fas fa-expand"></i> Tela Cheia
+          </button>
+          <button class="btn btn-clear" onclick="clearCanvas()">
+            <i class="fas fa-eraser"></i> Limpar
+          </button>
+          <button class="btn btn-save" onclick="saveDrawing()">
+            <i class="fas fa-save"></i> Salvar
+          </button>
+        </div>
+      </div>
+
+      <div class="content-area">
+        <div class="book-section">
+          <div class="book-content" id="book-content">
+            <p>
+              Era uma vez, em uma floresta encantada, vivia um pequeno esquilo
+              chamado Zeke. Zeke era conhecido por sua curiosidade sem limites e
+              seu amor por aventuras.
+            </p>
+            <p>
+              Um dia, enquanto explorava a parte mais densa da floresta, Zeke
+              encontrou um mapa antigo escondido no oco de uma árvore
+              centenária. O mapa mostrava o caminho para a lendária Noz Dourada,
+              que diziam ter o poder de conceder um desejo a quem a encontrasse.
+            </p>
+            <p>
+              Animado com a descoberta, Zeke decidiu seguir o mapa. Seu primeiro
+              desafio foi cruzar o Rio das Correntes Prateadas. As águas eram
+              rápidas e profundas, mas Zeke avistou algumas pedras que formavam
+              um caminho através do rio. Com cuidado e equilíbrio, ele pulou de
+              pedra em pedra até chegar ao outro lado.
+            </p>
+            <p>
+              Em seguida, Zeke precisou escalar a Montanha dos Sussurros. O
+              vento soprava forte e sussurrava segredos antigos. Zeke se agarrou
+              às raízes e pedras, lembrando-se de que a coragem mora dentro de
+              cada um de nós.
+            </p>
+            <p>
+              Após muitas aventuras, Zeke finalmente chegou à clareira sagrada
+              onde a Noz Dourada brilhava suavemente. Ele fez seu desejo: que
+              todos os animais da floresta vivessem em harmonia e nunca
+              passassem fome.
+            </p>
+            <p>
+              Quando Zeke retornou para casa, descobriu que seu desejo havia se
+              realizado. A floresta estava mais verde, os frutos mais
+              abundantes, e todos os animais viviam em paz. Zeke havia aprendido
+              que a maior aventura é aquela que beneficia a todos.
+            </p>
+          </div>
+          <div class="page-controls">
+            <button class="page-btn" id="prev-page" disabled>
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <span class="page-indicator">Página 1 de 1</span>
+            <button class="page-btn" id="next-page" disabled>
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
         </div>
 
-        <div class="content-area">
-            <div class="book-section">
-                <div class="book-content" id="book-content">
-                    <p>Era uma vez, em uma floresta encantada, vivia um pequeno esquilo chamado Zeke. Zeke era conhecido
-                        por sua curiosidade sem limites e seu amor por aventuras.</p>
-                    <p>Um dia, enquanto explorava a parte mais densa da floresta, Zeke encontrou um mapa antigo
-                        escondido no oco de uma árvore centenária. O mapa mostrava o caminho para a lendária Noz
-                        Dourada, que diziam ter o poder de conceder um desejo a quem a encontrasse.</p>
-                    <p>Animado com a descoberta, Zeke decidiu seguir o mapa. Seu primeiro desafio foi cruzar o Rio das
-                        Correntes Prateadas. As águas eram rápidas e profundas, mas Zeke avistou algumas pedras que
-                        formavam um caminho através do rio. Com cuidado e equilíbrio, ele pulou de pedra em pedra até
-                        chegar ao outro lado.</p>
-                    <p>Em seguida, Zeke precisou escalar a Montanha dos Sussurros. O vento soprava forte e sussurrava
-                        segredos antigos. Zeke se agarrou às raízes e pedras, lembrando-se de que a coragem mora dentro
-                        de cada um de nós.</p>
-                    <p>Após muitas aventuras, Zeke finalmente chegou à clareira sagrada onde a Noz Dourada brilhava
-                        suavemente. Ele fez seu desejo: que todos os animais da floresta vivessem em harmonia e nunca
-                        passassem fome.</p>
-                    <p>Quando Zeke retornou para casa, descobriu que seu desejo havia se realizado. A floresta estava
-                        mais verde, os frutos mais abundantes, e todos os animais viviam em paz. Zeke havia aprendido
-                        que a maior aventura é aquela que beneficia a todos.</p>
-                </div>
-                <div class="page-controls">
-                    <button class="page-btn" id="prev-page" disabled>
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <span class="page-indicator">Página 1 de 1</span>
-                    <button class="page-btn" id="next-page" disabled>
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
+        <div class="drawing-section">
+          <div class="drawing-area">
+            <canvas id="drawing-canvas"></canvas>
+          </div>
+          <div class="tools-area">
+            <div class="drawing-tools">
+              <div class="tool-buttons">
+                <button
+                  class="tool-btn active"
+                  data-tool="pencil"
+                  title="Lápis"
+                >
+                  <i class="fas fa-pencil-alt"></i>
+                </button>
+                <button class="tool-btn" data-tool="brush" title="Pincel">
+                  <i class="fas fa-paint-brush"></i>
+                </button>
+                <button class="tool-btn" data-tool="eraser" title="Borracha">
+                  <i class="fas fa-eraser"></i>
+                </button>
+                <button class="tool-btn" data-tool="fill" title="Preencher">
+                  <i class="fas fa-fill-drip"></i>
+                </button>
+                <button class="tool-btn" data-tool="shapes" title="Formas">
+                  <i class="fas fa-shapes"></i>
+                </button>
+              </div>
+
+              <div class="shape-options" id="shape-options">
+                <button
+                  class="shape-btn active"
+                  data-shape="rectangle"
+                  title="Retângulo"
+                >
+                  <i class="fas fa-square"></i>
+                </button>
+                <button class="shape-btn" data-shape="circle" title="Círculo">
+                  <i class="fas fa-circle"></i>
+                </button>
+                <button
+                  class="shape-btn"
+                  data-shape="triangle"
+                  title="Triângulo"
+                >
+                  <i class="fas fa-play fa-rotate-270"></i>
+                </button>
+                <button class="shape-btn" data-shape="star" title="Estrela">
+                  <i class="fas fa-star"></i>
+                </button>
+              </div>
             </div>
 
-            <div class="drawing-section">
-                <div class="drawing-area">
-                    <canvas id="drawing-canvas"></canvas>
-                </div>
-                <div class="tools-area">
-                    <div class="color-palette">
-                        <div class="color-option active" style="background-color: #000000;" data-color="#000000"></div>
-                        <div class="color-option" style="background-color: #ff0000;" data-color="#ff0000"></div>
-                        <div class="color-option" style="background-color: #0000ff;" data-color="#0000ff"></div>
-                        <div class="color-option" style="background-color: #008000;" data-color="#008000"></div>
-                        <div class="color-option" style="background-color: #ffff00;" data-color="#ffff00"></div>
-                        <div class="color-option" style="background-color: #ffa500;" data-color="#ffa500"></div>
-                        <div class="color-option" style="background-color: #800080;" data-color="#800080"></div>
-                        <div class="color-option" style="background-color: #ffc0cb;" data-color="#ffc0cb"></div>
-                    </div>
-                    <div class="brush-size">
-                        <label for="brush-size">Espessura:</label>
-                        <input type="range" id="brush-size" min="1" max="20" value="5">
-                    </div>
-                    <div class="custom-color">
-                        <label for="color-picker">Personalizada:</label>
-                        <input type="color" id="color-picker" value="#000000">
-                    </div>
-                </div>
+            <div class="color-palette">
+              <div
+                class="color-option active"
+                style="background-color: #000000"
+                data-color="#000000"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #ff0000"
+                data-color="#ff0000"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #0000ff"
+                data-color="#0000ff"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #008000"
+                data-color="#008000"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #ffff00"
+                data-color="#ffff00"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #ffa500"
+                data-color="#ffa500"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #800080"
+                data-color="#800080"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #ffc0cb"
+                data-color="#ffc0cb"
+              ></div>
             </div>
+
+            <div class="tool-controls">
+              <div class="brush-size">
+                <label for="brush-size">Espessura:</label>
+                <input
+                  type="range"
+                  id="brush-size"
+                  min="1"
+                  max="50"
+                  value="5"
+                />
+                <span id="brush-size-value">5px</span>
+              </div>
+
+              <div class="opacity-control">
+                <label for="opacity">Opacidade:</label>
+                <input
+                  type="range"
+                  id="opacity"
+                  min="10"
+                  max="100"
+                  value="100"
+                />
+                <span id="opacity-value">100%</span>
+              </div>
+
+              <div class="custom-color">
+                <label for="color-picker">Cor personalizada:</label>
+                <input type="color" id="color-picker" value="#000000" />
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
 
     <script src="aventura.js"></script>
-</body>
-
+  </body>
 </html>
