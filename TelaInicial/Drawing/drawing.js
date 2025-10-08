@@ -1,985 +1,513 @@
-// drawing.js - Script para a página de desenho - VERSÃO OTIMIZADA PARA MESA DIGITALIZADORA
-
+// drawing-enhanced.js - Versão completa com todas as ferramentas funcionando
 document.addEventListener("DOMContentLoaded", function () {
-  // Elementos principais
+  // Elementos do DOM
   const canvas = document.getElementById("drawing-canvas");
   const ctx = canvas.getContext("2d");
-  const canvasContainer = document.querySelector(".canvas-container");
-  const toolsPanel = document.querySelector(".tools-panel");
-  const notification = document.getElementById("notification");
-  const notificationText = document.getElementById("notification-text");
+  const clearBtn = document.getElementById("clear-btn");
+  const saveBtn = document.getElementById("save-btn");
+  const toolButtons = document.querySelectorAll(".tool-btn");
+  const colorButtons = document.querySelectorAll(".color-btn");
+  const colorPickerBtn = document.getElementById("color-picker-btn");
+  const colorPicker = document.getElementById("color-picker");
+  const brushSizeSlider = document.getElementById("brush-size");
+  const brushSizeValue = document.getElementById("brush-size-value");
+  const opacitySlider = document.getElementById("opacity");
+  const opacityValue = document.getElementById("opacity-value");
+  const undoBtn = document.getElementById("undo-action");
+  const redoBtn = document.getElementById("redo-action");
 
-  // Estado da aplicação
+  // Variáveis de estado
   let isDrawing = false;
   let lastX = 0;
   let lastY = 0;
   let currentTool = "pencil";
   let currentColor = "#000000";
-  let brushSize = 5;
+  let currentLineWidth = 5;
   let opacity = 1;
-  let smoothness = 5;
-  let currentShape = "rectangle";
-  let shapeFill = true;
-  let shapeStroke = true;
   let drawingHistory = [];
   let historyIndex = -1;
-  let layers = [];
-  let activeLayerIndex = 0;
-  let startX, startY;
+  let isSpraying = false;
 
-  // Inicialização
-  function init() {
-    resizeCanvas();
-    setupEventListeners();
-    createInitialLayer();
-    updateUI();
-    createFloatingShapes();
-    saveState();
-  }
-
-  // Redimensionar canvas para caber no container
+  // Configuração do canvas
   function resizeCanvas() {
-    const containerRect = canvasContainer.getBoundingClientRect();
-    canvas.width = containerRect.width;
-    canvas.height = containerRect.height;
+    const container = canvas.parentElement;
+    const dpr = window.devicePixelRatio || 1;
 
-    // Redesenhar todas as camadas
-    redrawAllLayers();
-  }
+    // Ajustar para alta resolução
+    canvas.width = container.offsetWidth * dpr;
+    canvas.height = container.offsetHeight * dpr;
+    ctx.scale(dpr, dpr);
 
-  // Configurar event listeners
-  function setupEventListeners() {
-    // Eventos de redimensionamento
-    window.addEventListener("resize", resizeCanvas);
+    // Configurar estilo inicial
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.strokeStyle = currentColor;
+    ctx.fillStyle = currentColor;
+    ctx.lineWidth = currentLineWidth;
+    ctx.globalAlpha = opacity;
 
-    // Eventos do canvas
-    canvas.addEventListener("mousedown", startDrawing);
-    canvas.addEventListener("mousemove", draw);
-    canvas.addEventListener("mouseup", stopDrawing);
-    canvas.addEventListener("mouseout", stopDrawing);
-
-    // Eventos de toque para dispositivos touch
-    canvas.addEventListener("touchstart", handleTouchStart);
-    canvas.addEventListener("touchmove", handleTouchMove);
-    canvas.addEventListener("touchend", handleTouchEnd);
-
-    // Eventos das ferramentas
-    document.querySelectorAll(".tool-btn").forEach((btn) => {
-      btn.addEventListener("click", function () {
-        const tool = this.getAttribute("data-tool");
-        selectTool(tool);
-      });
-    });
-
-    // Eventos das cores
-    document.querySelectorAll(".color-btn").forEach((btn) => {
-      btn.addEventListener("click", function () {
-        const color = this.getAttribute("data-color");
-        selectColor(color);
-      });
-    });
-
-    // Seletor de cor personalizada
-    const colorPickerBtn = document.getElementById("color-picker-btn");
-    const colorPicker = document.getElementById("color-picker");
-
-    colorPickerBtn.addEventListener("click", () => {
-      colorPicker.click();
-    });
-
-    colorPicker.addEventListener("input", function () {
-      selectColor(this.value);
-    });
-
-    // Controles de tamanho, opacidade e suavidade
-    const brushSizeSlider = document.getElementById("brush-size");
-    const opacitySlider = document.getElementById("opacity");
-    const smoothnessSlider = document.getElementById("smoothness");
-
-    brushSizeSlider.addEventListener("input", function () {
-      brushSize = parseInt(this.value);
-      document.getElementById("brush-size-value").textContent =
-        brushSize + "px";
-    });
-
-    opacitySlider.addEventListener("input", function () {
-      opacity = parseInt(this.value) / 100;
-      document.getElementById("opacity-value").textContent = this.value + "%";
-    });
-
-    smoothnessSlider.addEventListener("input", function () {
-      smoothness = parseInt(this.value);
-      document.getElementById("smoothness-value").textContent = smoothness;
-    });
-
-    // Eventos das formas
-    document.querySelectorAll(".shape-btn").forEach((btn) => {
-      btn.addEventListener("click", function () {
-        const shape = this.getAttribute("data-shape");
-        selectShape(shape);
-      });
-    });
-
-    // Propriedades das formas
-    document
-      .getElementById("shape-fill")
-      .addEventListener("change", function () {
-        shapeFill = this.checked;
-      });
-
-    document
-      .getElementById("shape-stroke")
-      .addEventListener("change", function () {
-        shapeStroke = this.checked;
-      });
-
-    // Controles de desenho
-    document.getElementById("undo-action").addEventListener("click", undo);
-    document.getElementById("redo-action").addEventListener("click", redo);
-    document.getElementById("clear-btn").addEventListener("click", clearCanvas);
-    document.getElementById("save-btn").addEventListener("click", saveDrawing);
-    document
-      .getElementById("export-btn")
-      .addEventListener("click", exportDrawing);
-
-    // Controles de camadas
-    document.getElementById("add-layer").addEventListener("click", addLayer);
-    document
-      .getElementById("delete-layer")
-      .addEventListener("click", deleteLayer);
-    document
-      .getElementById("merge-layers")
-      .addEventListener("click", mergeLayers);
-  }
-
-  // Sistema de camadas
-  function createInitialLayer() {
-    layers = [
-      {
-        name: "Camada 1",
-        visible: true,
-        data: [],
-        canvas: document.createElement("canvas"),
-        ctx: null,
-      },
-    ];
-
-    activeLayerIndex = 0;
-    updateLayersList();
-  }
-
-  function addLayer() {
-    const newLayer = {
-      name: `Camada ${layers.length + 1}`,
-      visible: true,
-      data: [],
-      canvas: document.createElement("canvas"),
-      ctx: null,
-    };
-
-    layers.push(newLayer);
-    activeLayerIndex = layers.length - 1;
-    updateLayersList();
-    saveState();
-
-    showNotification("Nova camada adicionada");
-  }
-
-  function deleteLayer() {
-    if (layers.length <= 1) {
-      showNotification("Não é possível excluir a única camada", "error");
-      return;
+    // Restaurar desenho se existir
+    const savedDrawing = localStorage.getItem("drawing");
+    if (savedDrawing) {
+      const img = new Image();
+      img.onload = function () {
+        ctx.drawImage(img, 0, 0);
+      };
+      img.src = savedDrawing;
     }
 
-    layers.splice(activeLayerIndex, 1);
-    activeLayerIndex = Math.min(activeLayerIndex, layers.length - 1);
-    updateLayersList();
-    redrawAllLayers();
-    saveState();
-
-    showNotification("Camada excluída");
+    // Salvar estado inicial
+    saveCanvasState();
   }
 
-  function mergeLayers() {
-    if (layers.length <= 1) {
-      showNotification(
-        "É necessário ter mais de uma camada para mesclar",
-        "error"
-      );
-      return;
+  // Função para salvar o estado atual do canvas
+  function saveCanvasState() {
+    // Limitar o histórico aos últimos 50 estados
+    if (historyIndex < drawingHistory.length - 1) {
+      drawingHistory = drawingHistory.slice(0, historyIndex + 1);
     }
 
-    // Mesclar todas as camadas visíveis na camada ativa
-    const activeLayer = layers[activeLayerIndex];
+    drawingHistory.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+    historyIndex = drawingHistory.length - 1;
 
-    for (let i = 0; i < layers.length; i++) {
-      if (i !== activeLayerIndex && layers[i].visible) {
-        activeLayer.data = activeLayer.data.concat(layers[i].data);
-      }
-    }
-
-    // Remover outras camadas
-    layers = [activeLayer];
-    activeLayerIndex = 0;
-    updateLayersList();
-    redrawAllLayers();
-    saveState();
-
-    showNotification("Camadas mescladas");
+    // Atualizar estados dos botões
+    updateUndoRedoButtons();
   }
 
-  function updateLayersList() {
-    const layersList = document.getElementById("layers-list");
-    layersList.innerHTML = "";
+  // Função para atualizar estados dos botões de desfazer/refazer
+  function updateUndoRedoButtons() {
+    undoBtn.disabled = historyIndex <= 0;
+    redoBtn.disabled = historyIndex >= drawingHistory.length - 1;
 
-    layers.forEach((layer, index) => {
-      const layerItem = document.createElement("div");
-      layerItem.className = `layer-item ${
-        index === activeLayerIndex ? "active" : ""
-      }`;
-      layerItem.innerHTML = `
-                <div class="layer-preview" style="background-color: ${
-                  index === activeLayerIndex ? "#ffd700" : "#888"
-                }"></div>
-                <span class="layer-name">${layer.name}</span>
-                <i class="fas fa-eye layer-visibility"></i>
-            `;
-
-      layerItem.addEventListener("click", () => {
-        activeLayerIndex = index;
-        updateLayersList();
-      });
-
-      const visibilityIcon = layerItem.querySelector(".layer-visibility");
-      visibilityIcon.addEventListener("click", (e) => {
-        e.stopPropagation();
-        layer.visible = !layer.visible;
-        visibilityIcon.className = layer.visible
-          ? "fas fa-eye layer-visibility"
-          : "fas fa-eye-slash layer-visibility";
-        redrawAllLayers();
-      });
-
-      if (!layer.visible) {
-        visibilityIcon.className = "fas fa-eye-slash layer-visibility";
-      }
-
-      layersList.appendChild(layerItem);
-    });
-  }
-
-  function redrawAllLayers() {
-    // Limpar canvas principal
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Redesenhar todas as camadas visíveis
-    layers.forEach((layer, index) => {
-      if (layer.visible) {
-        // Para simplificar, vamos redesenhar os dados da camada
-        // Em uma implementação mais avançada, usaríamos um canvas separado para cada camada
-        layer.data.forEach((action) => {
-          drawAction(action, index === activeLayerIndex);
-        });
-      }
-    });
-  }
-
-  // Ferramentas de desenho
-  function selectTool(tool) {
-    currentTool = tool;
-
-    // Atualizar UI
-    document.querySelectorAll(".tool-btn").forEach((btn) => {
-      btn.classList.remove("active");
-    });
-    document
-      .querySelector(`.tool-btn[data-tool="${tool}"]`)
-      .classList.add("active");
-
-    // Mostrar/ocultar seção de formas
-    const shapeSection = document.getElementById("shape-section");
-    if (tool === "shapes") {
-      shapeSection.style.display = "block";
+    // Aplicar estilo visual para botões desabilitados
+    if (undoBtn.disabled) {
+      undoBtn.style.opacity = "0.5";
+      undoBtn.style.cursor = "not-allowed";
     } else {
-      shapeSection.style.display = "none";
+      undoBtn.style.opacity = "1";
+      undoBtn.style.cursor = "pointer";
     }
 
-    // Alterar cursor
-    switch (tool) {
-      case "pencil":
-      case "brush":
-      case "marker":
-      case "spray":
-        canvas.style.cursor = "crosshair";
-        break;
-      case "eraser":
-        canvas.style.cursor =
-          "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'><circle cx='10' cy='10' r='8' fill='white' stroke='black'/></svg>\") 10 10, auto";
-        break;
-      case "fill":
-        canvas.style.cursor =
-          "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><path d='M3,3H21V21H3Z' fill='none' stroke='black'/><path d='M8,8H16V16H8Z' fill='currentColor'/></svg>\") 12 12, auto";
-        break;
-      case "select":
-        canvas.style.cursor = "default";
-        break;
-      default:
-        canvas.style.cursor = "crosshair";
+    if (redoBtn.disabled) {
+      redoBtn.style.opacity = "0.5";
+      redoBtn.style.cursor = "not-allowed";
+    } else {
+      redoBtn.style.opacity = "1";
+      redoBtn.style.cursor = "pointer";
     }
   }
 
-  function selectColor(color) {
-    currentColor = color;
-
-    // Atualizar UI
-    document.querySelectorAll(".color-btn").forEach((btn) => {
-      btn.classList.remove("active");
-    });
-    document
-      .querySelector(`.color-btn[data-color="${color}"]`)
-      .classList.add("active");
-
-    // Atualizar seletor de cor personalizada
-    document.getElementById("color-picker").value = color;
-    document.getElementById("current-color-display").style.backgroundColor =
-      color;
-  }
-
-  function selectShape(shape) {
-    currentShape = shape;
-
-    // Atualizar UI
-    document.querySelectorAll(".shape-btn").forEach((btn) => {
-      btn.classList.remove("active");
-    });
-    document
-      .querySelector(`.shape-btn[data-shape="${shape}"]`)
-      .classList.add("active");
-  }
+  // Inicializar canvas
+  resizeCanvas();
+  window.addEventListener("resize", resizeCanvas);
 
   // Funções de desenho
   function startDrawing(e) {
     isDrawing = true;
-    const pos = getMousePos(e);
-    [lastX, lastY] = [pos.x, pos.y];
-    [startX, startY] = [pos.x, pos.y];
 
-    // Para formas, apenas marcar o ponto inicial
-    if (currentTool === "shapes") {
-      return;
+    // Obter coordenadas corretas considerando a posição do canvas
+    const rect = canvas.getBoundingClientRect();
+    lastX = e.clientX - rect.left;
+    lastY = e.clientY - rect.top;
+
+    if (currentTool === "spray") {
+      isSpraying = true;
+      sprayPaint();
+    } else {
+      ctx.beginPath();
+      ctx.moveTo(lastX, lastY);
     }
-
-    // Para outras ferramentas, iniciar o traço
-    ctx.beginPath();
-    ctx.moveTo(lastX, lastY);
   }
 
   function draw(e) {
     if (!isDrawing) return;
 
-    const pos = getMousePos(e);
-    const x = pos.x;
-    const y = pos.y;
+    const rect = canvas.getBoundingClientRect();
+    const currentX = e.clientX - rect.left;
+    const currentY = e.clientY - rect.top;
 
-    if (currentTool === "shapes") {
-      // Desenhar forma temporária
-      redrawAllLayers();
-      drawShape(startX, startY, x, y, true);
-      return;
-    }
-
-    ctx.globalAlpha = opacity;
-    ctx.lineJoin = "round";
-    ctx.lineCap = "round";
-
-    switch (currentTool) {
-      case "pencil":
-        ctx.lineWidth = brushSize;
-        ctx.strokeStyle = currentColor;
-        ctx.globalCompositeOperation = "source-over";
-        break;
-      case "brush":
-        ctx.lineWidth = brushSize * 2;
-        ctx.strokeStyle = currentColor;
-        ctx.globalCompositeOperation = "source-over";
-        break;
-      case "marker":
-        ctx.lineWidth = brushSize * 3;
-        ctx.strokeStyle = currentColor;
-        ctx.globalCompositeOperation = "multiply";
-        break;
-      case "spray":
-        spray(x, y);
-        break;
-      case "eraser":
-        ctx.lineWidth = brushSize * 2;
-        ctx.strokeStyle = "#ffffff";
-        ctx.globalCompositeOperation = "destination-out";
-        break;
-      case "fill":
-        // O preenchimento é aplicado no mouseup
-        return;
-    }
-
-    if (currentTool !== "spray") {
-      ctx.lineTo(x, y);
+    if (
+      currentTool === "pencil" ||
+      currentTool === "brush" ||
+      currentTool === "marker" ||
+      currentTool === "eraser"
+    ) {
+      ctx.lineTo(currentX, currentY);
       ctx.stroke();
     }
 
-    [lastX, lastY] = [x, y];
+    lastX = currentX;
+    lastY = currentY;
   }
 
-  function stopDrawing(e) {
-    if (!isDrawing) return;
-    isDrawing = false;
+  function stopDrawing() {
+    if (isDrawing) {
+      isDrawing = false;
+      isSpraying = false;
 
-    const pos = getMousePos(e);
-    const x = pos.x;
-    const y = pos.y;
+      // Salvar estado após terminar de desenhar
+      saveCanvasState();
 
-    if (currentTool === "shapes") {
-      // Adicionar forma permanente
-      drawShape(startX, startY, x, y, false);
-      saveState();
-    } else if (currentTool === "fill") {
-      floodFill(x, y);
-      saveState();
-    } else {
-      saveState();
+      // Salvar automaticamente o progresso
+      saveProgress();
+    }
+  }
+
+  // Função para spray
+  function sprayPaint() {
+    if (!isSpraying) return;
+
+    const density = 50;
+    const radius = currentLineWidth;
+
+    for (let i = 0; i < density; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const distance = Math.random() * radius;
+      const x = lastX + Math.cos(angle) * distance;
+      const y = lastY + Math.sin(angle) * distance;
+
+      ctx.beginPath();
+      ctx.arc(x, y, currentLineWidth / 10, 0, Math.PI * 2);
+      ctx.fill();
     }
 
-    ctx.closePath();
+    if (isSpraying) {
+      requestAnimationFrame(sprayPaint);
+    }
   }
 
-  function drawShape(x1, y1, x2, y2, temporary = false) {
-    ctx.globalAlpha = opacity;
+  // Event listeners para o canvas
+  canvas.addEventListener("mousedown", startDrawing);
+  canvas.addEventListener("mousemove", draw);
+  canvas.addEventListener("mouseup", stopDrawing);
+  canvas.addEventListener("mouseout", stopDrawing);
+
+  // Para dispositivos touch
+  canvas.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    const touch = e.touches[0];
+    const mouseEvent = new MouseEvent("mousedown", {
+      clientX: touch.clientX,
+      clientY: touch.clientY,
+    });
+    canvas.dispatchEvent(mouseEvent);
+  });
+
+  canvas.addEventListener("touchmove", (e) => {
+    e.preventDefault();
+    const touch = e.touches[0];
+    const mouseEvent = new MouseEvent("mousemove", {
+      clientX: touch.clientX,
+      clientY: touch.clientY,
+    });
+    canvas.dispatchEvent(mouseEvent);
+  });
+
+  canvas.addEventListener("touchend", (e) => {
+    e.preventDefault();
+    const mouseEvent = new MouseEvent("mouseup", {});
+    canvas.dispatchEvent(mouseEvent);
+  });
+
+  // Ferramentas de desenho
+  toolButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      // Remover classe ativa de todos os botões
+      toolButtons.forEach((btn) => btn.classList.remove("active"));
+
+      // Adicionar classe ativa ao botão clicado
+      button.classList.add("active");
+
+      // Alterar ferramenta
+      currentTool = button.getAttribute("data-tool");
+
+      // Configurar contexto de acordo com a ferramenta
+      switch (currentTool) {
+        case "pencil":
+          ctx.globalCompositeOperation = "source-over";
+          ctx.lineWidth = currentLineWidth;
+          ctx.strokeStyle = currentColor;
+          ctx.globalAlpha = opacity;
+          break;
+        case "brush":
+          ctx.globalCompositeOperation = "source-over";
+          ctx.lineWidth = currentLineWidth * 2;
+          ctx.strokeStyle = currentColor;
+          ctx.globalAlpha = opacity;
+          break;
+        case "marker":
+          ctx.globalCompositeOperation = "multiply";
+          ctx.lineWidth = currentLineWidth * 3;
+          ctx.strokeStyle = currentColor;
+          ctx.globalAlpha = 0.5;
+          break;
+        case "spray":
+          ctx.globalCompositeOperation = "source-over";
+          ctx.fillStyle = currentColor;
+          ctx.globalAlpha = opacity * 0.7;
+          break;
+        case "eraser":
+          ctx.globalCompositeOperation = "destination-out";
+          ctx.lineWidth = currentLineWidth * 4;
+          ctx.globalAlpha = 0.7;
+          break;
+      }
+    });
+  });
+
+  // Paleta de cores
+  colorButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      // Remover classe ativa de todos os botões
+      colorButtons.forEach((btn) => btn.classList.remove("active"));
+
+      // Adicionar classe ativa ao botão clicado
+      button.classList.add("active");
+
+      // Alterar cor
+      currentColor = button.getAttribute("data-color");
+      ctx.strokeStyle = currentColor;
+      ctx.fillStyle = currentColor;
+
+      // Para ferramentas que usam fillStyle
+      if (currentTool === "spray") {
+        ctx.fillStyle = currentColor;
+      }
+    });
+  });
+
+  // Seletor de cor personalizado
+  colorPicker.addEventListener("input", function (e) {
+    currentColor = e.target.value;
     ctx.strokeStyle = currentColor;
     ctx.fillStyle = currentColor;
-    ctx.lineWidth = brushSize;
 
-    if (!temporary) {
-      ctx.globalCompositeOperation = "source-over";
-    }
+    // Atualizar botão ativo na paleta
+    colorButtons.forEach((btn) => btn.classList.remove("active"));
 
-    ctx.beginPath();
+    // Criar ou ativar um botão de cor personalizada
+    activateCustomColor(this.value);
+  });
 
-    switch (currentShape) {
-      case "rectangle":
-        const width = x2 - x1;
-        const height = y2 - y1;
-        if (shapeFill) ctx.fillRect(x1, y1, width, height);
-        if (shapeStroke) ctx.strokeRect(x1, y1, width, height);
-        break;
+  function activateCustomColor(color) {
+    // Verificar se já existe um botão de cor personalizada
+    let customColorBtn = document.querySelector(".color-btn.custom");
 
-      case "circle":
-        const radius = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-        ctx.arc(x1, y1, radius, 0, Math.PI * 2);
-        if (shapeFill) ctx.fill();
-        if (shapeStroke) ctx.stroke();
-        break;
+    if (!customColorBtn) {
+      // Criar um novo botão para a cor personalizada
+      customColorBtn = document.createElement("div");
+      customColorBtn.className = "color-btn custom active";
+      customColorBtn.style.backgroundColor = color;
+      customColorBtn.setAttribute("data-color", color);
 
-      case "triangle":
-        ctx.moveTo(x1, y1);
-        ctx.lineTo(x2, y2);
-        ctx.lineTo(x1 * 2 - x2, y2);
-        ctx.closePath();
-        if (shapeFill) ctx.fill();
-        if (shapeStroke) ctx.stroke();
-        break;
+      // Adicionar à paleta de cores
+      const colorPalette = document.querySelector(".color-palette");
+      colorPalette.appendChild(customColorBtn);
 
-      case "line":
-        ctx.moveTo(x1, y1);
-        ctx.lineTo(x2, y2);
-        ctx.stroke();
-        break;
-
-      case "star":
-        drawStar(
-          ctx,
-          x1,
-          y1,
-          5,
-          Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)) / 2,
-          Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)) / 4
-        );
-        if (shapeFill) ctx.fill();
-        if (shapeStroke) ctx.stroke();
-        break;
-
-      case "polygon":
-        drawPolygon(
-          ctx,
-          x1,
-          y1,
-          6,
-          Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2))
-        );
-        if (shapeFill) ctx.fill();
-        if (shapeStroke) ctx.stroke();
-        break;
-
-      case "heart":
-        drawHeart(
-          ctx,
-          x1,
-          y1,
-          Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)) / 2
-        );
-        if (shapeFill) ctx.fill();
-        if (shapeStroke) ctx.stroke();
-        break;
-
-      case "arrow":
-        drawArrow(ctx, x1, y1, x2, y2);
-        ctx.stroke();
-        break;
-    }
-
-    if (!temporary) {
-      // Salvar a ação na camada ativa
-      layers[activeLayerIndex].data.push({
-        type: "shape",
-        shape: currentShape,
-        x1,
-        y1,
-        x2,
-        y2,
-        color: currentColor,
-        size: brushSize,
-        fill: shapeFill,
-        stroke: shapeStroke,
+      // Adicionar event listener ao novo botão
+      customColorBtn.addEventListener("click", function () {
+        colorButtons.forEach((btn) => btn.classList.remove("active"));
+        this.classList.add("active");
+        currentColor = this.getAttribute("data-color");
+        ctx.strokeStyle = currentColor;
+        ctx.fillStyle = currentColor;
       });
-    }
-  }
-
-  // Funções auxiliares para desenhar formas
-  function drawStar(ctx, cx, cy, spikes, outerRadius, innerRadius) {
-    let rot = (Math.PI / 2) * 3;
-    let x = cx;
-    let y = cy;
-    let step = Math.PI / spikes;
-
-    ctx.beginPath();
-    ctx.moveTo(cx, cy - outerRadius);
-
-    for (let i = 0; i < spikes; i++) {
-      x = cx + Math.cos(rot) * outerRadius;
-      y = cy + Math.sin(rot) * outerRadius;
-      ctx.lineTo(x, y);
-      rot += step;
-
-      x = cx + Math.cos(rot) * innerRadius;
-      y = cy + Math.sin(rot) * innerRadius;
-      ctx.lineTo(x, y);
-      rot += step;
-    }
-
-    ctx.lineTo(cx, cy - outerRadius);
-    ctx.closePath();
-  }
-
-  function drawPolygon(ctx, cx, cy, sides, radius) {
-    ctx.beginPath();
-    ctx.moveTo(cx + radius * Math.cos(0), cy + radius * Math.sin(0));
-
-    for (let i = 1; i <= sides; i++) {
-      ctx.lineTo(
-        cx + radius * Math.cos((i * 2 * Math.PI) / sides),
-        cy + radius * Math.sin((i * 2 * Math.PI) / sides)
-      );
-    }
-
-    ctx.closePath();
-  }
-
-  function drawHeart(ctx, x, y, size) {
-    ctx.beginPath();
-    const topCurveHeight = size * 0.3;
-    ctx.moveTo(x, y + size / 4);
-    // Curva esquerda
-    ctx.bezierCurveTo(x, y, x - size / 2, y, x - size / 2, y + size / 4);
-    // Curva inferior esquerda
-    ctx.bezierCurveTo(
-      x - size / 2,
-      y + size / 2,
-      x,
-      y + size * 0.75,
-      x,
-      y + size
-    );
-    // Curva inferior direita
-    ctx.bezierCurveTo(
-      x,
-      y + size * 0.75,
-      x + size / 2,
-      y + size / 2,
-      x + size / 2,
-      y + size / 4
-    );
-    // Curva direita
-    ctx.bezierCurveTo(x + size / 2, y, x, y, x, y + size / 4);
-    ctx.closePath();
-  }
-
-  function drawArrow(ctx, fromX, fromY, toX, toY) {
-    const headlen = 15;
-    const angle = Math.atan2(toY - fromY, toX - fromX);
-
-    ctx.beginPath();
-    ctx.moveTo(fromX, fromY);
-    ctx.lineTo(toX, toY);
-    ctx.lineTo(
-      toX - headlen * Math.cos(angle - Math.PI / 6),
-      toY - headlen * Math.sin(angle - Math.PI / 6)
-    );
-    ctx.moveTo(toX, toY);
-    ctx.lineTo(
-      toX - headlen * Math.cos(angle + Math.PI / 6),
-      toY - headlen * Math.sin(angle + Math.PI / 6)
-    );
-  }
-
-  function spray(x, y) {
-    ctx.fillStyle = currentColor;
-    ctx.globalAlpha = opacity * 0.3;
-
-    for (let i = 0; i < brushSize; i++) {
-      const radius = brushSize * 2;
-      const offsetX = (Math.random() - 0.5) * radius;
-      const offsetY = (Math.random() - 0.5) * radius;
-
-      if (Math.sqrt(offsetX * offsetX + offsetY * offsetY) <= radius) {
-        ctx.fillRect(x + offsetX, y + offsetY, 1, 1);
-      }
-    }
-  }
-
-  function floodFill(startX, startY) {
-    // Implementação simplificada do preenchimento
-    // Em uma aplicação real, isso seria mais complexo
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    const targetColor = getPixelColor(imageData, startX, startY);
-    const fillColor = hexToRgb(currentColor);
-
-    if (!targetColor || !fillColor) return;
-
-    // Verificar se já está preenchido com a cor desejada
-    if (
-      targetColor.r === fillColor.r &&
-      targetColor.g === fillColor.g &&
-      targetColor.b === fillColor.b
-    ) {
-      return;
-    }
-
-    const stack = [[startX, startY]];
-    const width = imageData.width;
-    const height = imageData.height;
-
-    while (stack.length > 0) {
-      const [x, y] = stack.pop();
-      const index = (y * width + x) * 4;
-
-      // Verificar limites
-      if (x < 0 || x >= width || y < 0 || y >= height) continue;
-
-      // Verificar se o pixel já foi preenchido ou é da cor alvo
-      if (
-        imageData.data[index] === fillColor.r &&
-        imageData.data[index + 1] === fillColor.g &&
-        imageData.data[index + 2] === fillColor.b
-      ) {
-        continue;
-      }
-
-      if (
-        imageData.data[index] === targetColor.r &&
-        imageData.data[index + 1] === targetColor.g &&
-        imageData.data[index + 2] === targetColor.b
-      ) {
-        // Preencher o pixel
-        imageData.data[index] = fillColor.r;
-        imageData.data[index + 1] = fillColor.g;
-        imageData.data[index + 2] = fillColor.b;
-        imageData.data[index + 3] = 255;
-
-        // Adicionar vizinhos à pilha
-        stack.push([x + 1, y]);
-        stack.push([x - 1, y]);
-        stack.push([x, y + 1]);
-        stack.push([x, y - 1]);
-      }
-    }
-
-    ctx.putImageData(imageData, 0, 0);
-
-    // Salvar a ação na camada ativa
-    layers[activeLayerIndex].data.push({
-      type: "fill",
-      x: startX,
-      y: startY,
-      color: currentColor,
-    });
-  }
-
-  function getPixelColor(imageData, x, y) {
-    const width = imageData.width;
-    const index = (y * width + x) * 4;
-
-    if (index < 0 || index >= imageData.data.length) return null;
-
-    return {
-      r: imageData.data[index],
-      g: imageData.data[index + 1],
-      b: imageData.data[index + 2],
-      a: imageData.data[index + 3],
-    };
-  }
-
-  function hexToRgb(hex) {
-    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result
-      ? {
-          r: parseInt(result[1], 16),
-          g: parseInt(result[2], 16),
-          b: parseInt(result[3], 16),
-        }
-      : null;
-  }
-
-  function drawAction(action, isActiveLayer = false) {
-    if (!isActiveLayer) {
-      // Para camadas não ativas, usar cores mais suaves
-      ctx.globalAlpha = 0.7;
     } else {
-      ctx.globalAlpha = 1;
+      // Atualizar a cor existente
+      customColorBtn.style.backgroundColor = color;
+      customColorBtn.setAttribute("data-color", color);
+      customColorBtn.classList.add("active");
     }
+  }
 
-    if (action.type === "shape") {
-      ctx.strokeStyle = action.color;
-      ctx.fillStyle = action.color;
-      ctx.lineWidth = action.size;
+  colorPickerBtn.addEventListener("click", function () {
+    colorPicker.click();
+  });
 
-      drawShape(action.x1, action.y1, action.x2, action.y2, false);
+  // Controles de tamanho e opacidade
+  brushSizeSlider.addEventListener("input", function () {
+    currentLineWidth = this.value;
+    brushSizeValue.textContent = `${this.value}px`;
+
+    // Atualizar tamanho da linha
+    if (currentTool !== "spray") {
+      ctx.lineWidth = currentLineWidth;
     }
-    // Outros tipos de ação podem ser adicionados aqui
-  }
+  });
 
-  // Funções de utilidade
-  function getMousePos(e) {
-    const rect = canvas.getBoundingClientRect();
-    let x, y;
+  opacitySlider.addEventListener("input", function () {
+    opacity = this.value / 100;
+    opacityValue.textContent = `${this.value}%`;
+    ctx.globalAlpha = opacity;
+  });
 
-    if (e.type.includes("touch")) {
-      x = e.touches[0].clientX - rect.left;
-      y = e.touches[0].clientY - rect.top;
-    } else {
-      x = e.clientX - rect.left;
-      y = e.clientY - rect.top;
+  // Botões de ação
+  clearBtn.addEventListener("click", function () {
+    if (confirm("Tem certeza que deseja limpar o desenho?")) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      saveCanvasState();
+      showNotification("Desenho limpo!");
     }
+  });
 
-    return { x, y };
-  }
+  saveBtn.addEventListener("click", function () {
+    saveDrawing();
+  });
 
-  // Manipulação de toque
-  function handleTouchStart(e) {
-    e.preventDefault();
-    startDrawing(e.touches[0]);
-  }
-
-  function handleTouchMove(e) {
-    e.preventDefault();
-    draw(e.touches[0]);
-  }
-
-  function handleTouchEnd(e) {
-    e.preventDefault();
-    stopDrawing(e.changedTouches[0]);
-  }
-
-  // Histórico de ações (desfazer/refazer)
-  function saveState() {
-    // Limpar estados futuros se estamos no meio do histórico
-    if (historyIndex < drawingHistory.length - 1) {
-      drawingHistory = drawingHistory.slice(0, historyIndex + 1);
-    }
-
-    // Salvar o estado atual das camadas
-    const state = {
-      layers: JSON.parse(JSON.stringify(layers)),
-      activeLayerIndex: activeLayerIndex,
-    };
-
-    drawingHistory.push(state);
-    historyIndex = drawingHistory.length - 1;
-
-    updateUndoRedoButtons();
-  }
-
-  function undo() {
+  undoBtn.addEventListener("click", function () {
     if (historyIndex > 0) {
       historyIndex--;
-      restoreState();
+      ctx.putImageData(drawingHistory[historyIndex], 0, 0);
+      updateUndoRedoButtons();
+      showNotification("Ação desfeita");
     }
-  }
+  });
 
-  function redo() {
+  redoBtn.addEventListener("click", function () {
     if (historyIndex < drawingHistory.length - 1) {
       historyIndex++;
-      restoreState();
+      ctx.putImageData(drawingHistory[historyIndex], 0, 0);
+      updateUndoRedoButtons();
+      showNotification("Ação refeita");
     }
-  }
+  });
 
-  function restoreState() {
-    const state = drawingHistory[historyIndex];
-    layers = JSON.parse(JSON.stringify(state.layers));
-    activeLayerIndex = state.activeLayerIndex;
-
-    updateLayersList();
-    redrawAllLayers();
-    updateUndoRedoButtons();
-  }
-
-  function updateUndoRedoButtons() {
-    document.getElementById("undo-action").disabled = historyIndex <= 0;
-    document.getElementById("redo-action").disabled =
-      historyIndex >= drawingHistory.length - 1;
-  }
-
-  // Limpar canvas
-  function clearCanvas() {
-    if (
-      confirm(
-        "Tem certeza que deseja limpar o desenho? Isso não pode ser desfeito."
-      )
-    ) {
-      layers.forEach((layer) => {
-        layer.data = [];
-      });
-      redrawAllLayers();
-      saveState();
-      showNotification("Canvas limpo");
-    }
-  }
-
-  // Salvar desenho
+  // Função para salvar desenho
   function saveDrawing() {
-    // Em uma aplicação real, isso salvaria no servidor
-    // Por enquanto, vamos apenas simular o salvamento
-    const dataURL = canvas.toDataURL("image/png");
-    localStorage.setItem("savedDrawing", dataURL);
-    showNotification("Desenho salvo com sucesso!");
+    try {
+      // Criar um canvas temporário para exportação
+      const tempCanvas = document.createElement("canvas");
+      const tempCtx = tempCanvas.getContext("2d");
+      const dpr = window.devicePixelRatio || 1;
+
+      // Configurar o canvas temporário
+      tempCanvas.width = canvas.width / dpr;
+      tempCanvas.height = canvas.height / dpr;
+
+      // Desenhar o conteúdo no canvas temporário
+      tempCtx.fillStyle = "white";
+      tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+      tempCtx.drawImage(canvas, 0, 0, tempCanvas.width, tempCanvas.height);
+
+      // Criar link de download
+      const link = document.createElement("a");
+      link.download = `desenho-artflow-${new Date().getTime()}.png`;
+      link.href = tempCanvas.toDataURL("image/png");
+      link.click();
+
+      showNotification("Desenho salvo com sucesso!");
+    } catch (error) {
+      console.error("Erro ao salvar desenho:", error);
+      showNotification("Erro ao salvar desenho. Tente novamente.", "error");
+    }
   }
 
-  // Exportar desenho
-  function exportDrawing() {
-    const link = document.createElement("a");
-    link.download = "meu-desenho.png";
-    link.href = canvas.toDataURL("image/png");
-    link.click();
-    showNotification("Desenho exportado");
+  // Função para salvar progresso automaticamente
+  function saveProgress() {
+    try {
+      const dataURL = canvas.toDataURL("image/png");
+      localStorage.setItem("drawing", dataURL);
+    } catch (error) {
+      console.error("Erro ao salvar progresso:", error);
+    }
   }
 
-  // Notificações
+  // Função para mostrar notificações
   function showNotification(message, type = "success") {
+    const notification = document.getElementById("notification");
+    const notificationText = document.getElementById("notification-text");
+    const notificationIcon = notification.querySelector("i");
+
+    // Atualizar conteúdo
     notificationText.textContent = message;
 
+    // Atualizar ícone baseado no tipo
     if (type === "error") {
-      notification.style.background = "rgba(255, 71, 87, 0.9)";
+      notificationIcon.className = "fas fa-exclamation-circle";
+      notification.style.background =
+        "linear-gradient(45deg, #ff6b6b, #ff9e7d)";
     } else {
-      notification.style.background = "rgba(45, 21, 84, 0.9)";
+      notificationIcon.className = "fas fa-check-circle";
+      notification.style.background =
+        "linear-gradient(45deg, #4caf50, #8bc34a)";
     }
 
-    notification.classList.add("show");
+    // Mostrar notificação
+    notification.style.opacity = "1";
+    notification.style.transform = "translateY(0)";
 
+    // Ocultar após 3 segundos
     setTimeout(() => {
-      notification.classList.remove("show");
+      notification.style.opacity = "0";
+      notification.style.transform = "translateY(20px)";
     }, 3000);
   }
 
-  // Bolinhas flutuantes
+  // Criar bolinhas flutuantes
   function createFloatingShapes() {
-    const shapesContainer = document.querySelector(".floating-shapes");
-    const shapesCount = 15;
+    const container = document.querySelector(".floating-shapes");
+    if (!container) return;
 
-    for (let i = 0; i < shapesCount; i++) {
-      const shape = document.createElement("div");
-      shape.classList.add("floating-shape");
-      shape.classList.add(i % 2 === 0 ? "purple" : "gold");
+    // Limpar shapes existentes
+    container.innerHTML = "";
 
-      // Tamanho e posição aleatórios
-      const size = Math.random() * 40 + 10;
-      const left = Math.random() * 100;
-      const top = Math.random() * 100;
-      const delay = Math.random() * 15;
+    // Criar diferentes tamanhos e cores de bolinhas - MENOS BOLINHAS E MENORES
+    const shapeConfigs = [
+      { size: 30, color: "purple", count: 4 },
+      { size: 20, color: "gold", count: 3 },
+      { size: 15, color: "purple", count: 5 },
+      { size: 25, color: "gold", count: 3 },
+    ];
 
-      shape.style.width = `${size}px`;
-      shape.style.height = `${size}px`;
-      shape.style.left = `${left}%`;
-      shape.style.top = `${top}%`;
-      shape.style.animationDelay = `${delay}s`;
+    shapeConfigs.forEach((config) => {
+      for (let i = 0; i < config.count; i++) {
+        const shape = document.createElement("div");
+        shape.className = `floating-shape ${config.color}`;
+        shape.style.width = config.size + "px";
+        shape.style.height = config.size + "px";
+        shape.style.left = Math.random() * 100 + "%";
+        shape.style.top = Math.random() * 100 + "%";
+        shape.style.animationDelay = Math.random() * 8 + "s";
+        shape.style.animationDuration = `${8 + Math.random() * 4}s`;
 
-      shapesContainer.appendChild(shape);
+        // Adicionar interação ao passar o mouse
+        shape.addEventListener("mouseover", () => {
+          shape.style.transform = "scale(1.3)";
+          shape.style.opacity = "0.7";
+        });
 
-      // Interação ao clicar
-      shape.addEventListener("click", function () {
-        this.style.animation = "none";
-        this.style.transform = "scale(1.5)";
-        this.style.opacity = "0";
+        shape.addEventListener("mouseout", () => {
+          shape.style.transform = "scale(1)";
+          shape.style.opacity = "0.4";
+        });
 
-        setTimeout(() => {
-          this.remove();
-          createFloatingShape(); // Adicionar uma nova bolinha
-        }, 500);
-      });
-    }
-  }
+        // Adicionar interação ao clicar
+        shape.addEventListener("click", () => {
+          shape.style.animation = "none";
+          shape.style.transform = "scale(1.5)";
+          shape.style.opacity = "0.8";
 
-  function createFloatingShape() {
-    const shapesContainer = document.querySelector(".floating-shapes");
-    const shape = document.createElement("div");
-    shape.classList.add("floating-shape");
-    shape.classList.add(Math.random() > 0.5 ? "purple" : "gold");
+          setTimeout(() => {
+            shape.style.animation = `float ${8 + Math.random() * 4
+              }s ease-in-out infinite`;
+            shape.style.transform = "scale(1)";
+            shape.style.opacity = "0.4";
+          }, 500);
+        });
 
-    const size = Math.random() * 40 + 10;
-    const left = Math.random() * 100;
-    const top = Math.random() * 100;
-    const delay = Math.random() * 15;
-
-    shape.style.width = `${size}px`;
-    shape.style.height = `${size}px`;
-    shape.style.left = `${left}%`;
-    shape.style.top = `${top}%`;
-    shape.style.animationDelay = `${delay}s`;
-
-    shapesContainer.appendChild(shape);
-
-    shape.addEventListener("click", function () {
-      this.style.animation = "none";
-      this.style.transform = "scale(1.5)";
-      this.style.opacity = "0";
-
-      setTimeout(() => {
-        this.remove();
-        createFloatingShape();
-      }, 500);
+        container.appendChild(shape);
+      }
     });
   }
 
-  // Atualizar UI
-  function updateUI() {
-    // Definir cor atual
-    document.getElementById("current-color-display").style.backgroundColor =
-      currentColor;
-    document.getElementById("color-picker").value = currentColor;
+  // Inicializar bolinhas flutuantes
+  createFloatingShapes();
 
-    // Atualizar valores dos controles
-    document.getElementById("brush-size-value").textContent = brushSize + "px";
-    document.getElementById("opacity-value").textContent =
-      Math.round(opacity * 100) + "%";
-    document.getElementById("smoothness-value").textContent = smoothness;
-  }
+  // Atualizar botões de desfazer/refazer inicialmente
+  updateUndoRedoButtons();
 
-  // Inicializar a aplicação
-  init();
+  // Mostrar mensagem de boas-vindas
+  setTimeout(() => {
+    showNotification("Bem-vindo ao ArtFlow! Comece a desenhar!");
+  }, 1000);
 });
