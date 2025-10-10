@@ -8,82 +8,23 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
-    <link rel="stylesheet" href="../styles.css" />
     <link rel="stylesheet" href="semanal.css" />
     <link rel="icon" href="../img/favicon.ico" type="image/x-icon" />
   </head>
   <body>
-    <!-- Bolinhas flutuantes interativas -->
-    <div class="floating-shapes"></div>
-
-    <!-- Header -->
-    <div class="header">
-      <div class="nav-left">
-        <div class="nav-menu">
-          <a href="../../Popular/popular.html" class="nav-item">POPULAR</a>
-          <a href="../../Historias/historias.html" class="nav-item">HISTÓRIAS</a>
-          <a href="../../Desenhos/desenhos.html" class="nav-item">DESENHOS</a>
-          <a href="../../Artistas/artistas.html" class="nav-item">ARTISTAS</a>
-        </div>
-      </div>
-
-      <div class="search-bar">
-        <span class="search-icon"><i class="fas fa-search"></i></span>
-        <input
-          type="text"
-          class="search-input"
-          placeholder="Pesquisar histórias..."
-        />
-      </div>
-
-      <div class="nav-right">
-        <div class="logo-header">artflow</div>
-        <div class="profile-container">
-          <div class="notifications">
-            <i class="far fa-bell"></i>
-          </div>
-          <a href="../../TelaPerfil/index.html" class="profile-icon">
-            <img
-              src="../img/img/kid12.png"
-              alt="Perfil"
-            />
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <a href="../index.html" class="sidebar-icon">
-        <i class="fas fa-home"></i>
-        <span>Início</span>
-      </a>
-      <a href="../minhas-historias/index.html" class="sidebar-icon">
-        <i class="fas fa-book"></i>
-        <span>Minhas Histórias</span>
-      </a>
-      <a href="../meus-desenhos/meus-desenhos.html" class="sidebar-icon">
-        <i class="fas fa-paint-brush"></i>
-        <span>Meus Desenhos</span>
-      </a>
-      <a href="../favoritos/favoritos.html" class="sidebar-icon">
-        <i class="fas fa-heart"></i>
-        <span>Favoritos</span>
-      </a>
-      <a href="../conquistas/conquistas.html" class="sidebar-icon">
-        <i class="fas fa-trophy"></i>
-        <span>Conquistas</span>
-      </a>
-      <a href="../configuracoes/configuracoes.html" class="sidebar-icon">
-        <i class="fas fa-cog"></i>
-        <span>Configurações</span>
-      </a>
-    </div>
-
     <!-- Conteúdo Principal -->
     <div class="main-content">
       <div class="challenge-container">
+        <!-- Bolinhas flutuantes interativas -->
+        <div class="floating-shapes"></div>
+
         <div class="challenge-header">
+          <button
+            class="back-button"
+            onclick="window.location.href='../index.html'"
+          >
+            <i class="fas fa-arrow-left"></i> Voltar para Início
+          </button>
           <h1 class="challenge-title">Desafio da Semana</h1>
           <div class="challenge-theme">
             <h2>Desenhe um animal fantástico!</h2>
@@ -175,7 +116,7 @@
 
             <div class="drawing-container">
               <div class="tools-panel">
-                <!-- Ferramentas básicas -->
+                <!-- Ferramentas básicas - COPIADAS DO DRAWING -->
                 <div
                   class="tool-btn active"
                   data-tool="pencil"
@@ -203,18 +144,8 @@
                 >
                   <i class="fas fa-eraser"></i>
                 </div>
-                <div
-                  class="tool-btn"
-                  data-tool="fill"
-                  data-tooltip="Preenchimento"
-                >
-                  <i class="fas fa-fill-drip"></i>
-                </div>
-                <div class="tool-btn" data-tool="shapes" data-tooltip="Formas">
-                  <i class="fas fa-shapes"></i>
-                </div>
 
-                <!-- Paleta de cores expandida -->
+                <!-- Paleta de cores expandida - COPIADA DO DRAWING -->
                 <div class="color-palette">
                   <div
                     class="color-btn active"
@@ -307,7 +238,7 @@
                 </div>
                 <input type="color" id="color-picker" style="display: none" />
 
-                <!-- Opções de ferramentas -->
+                <!-- Opções de ferramentas - COPIADAS DO DRAWING -->
                 <div class="tool-options">
                   <div class="tool-option">
                     <label for="brush-size">Tamanho:</label>
@@ -331,34 +262,6 @@
                     />
                     <span id="opacity-value">100%</span>
                   </div>
-                </div>
-
-                <!-- Opções de formas (inicialmente ocultas) -->
-                <div
-                  class="shape-options"
-                  id="shape-options"
-                  style="display: none"
-                >
-                  <button
-                    class="shape-btn active"
-                    data-shape="rectangle"
-                    title="Retângulo"
-                  >
-                    <i class="fas fa-square"></i>
-                  </button>
-                  <button class="shape-btn" data-shape="circle" title="Círculo">
-                    <i class="fas fa-circle"></i>
-                  </button>
-                  <button
-                    class="shape-btn"
-                    data-shape="triangle"
-                    title="Triângulo"
-                  >
-                    <i class="fas fa-play fa-rotate-270"></i>
-                  </button>
-                  <button class="shape-btn" data-shape="line" title="Linha">
-                    <i class="fas fa-minus"></i>
-                  </button>
                 </div>
               </div>
               <div class="canvas-container">
@@ -415,7 +318,13 @@
       </div>
     </div>
 
-    <script src="../script.js"></script>
+    <div class="notification" id="notification">
+      <div class="notification-content">
+        <i class="fas fa-check-circle"></i>
+        <span id="notification-text">Desenho salvo com sucesso!</span>
+      </div>
+    </div>
+
     <script src="semanal.js"></script>
   </body>
 </html>

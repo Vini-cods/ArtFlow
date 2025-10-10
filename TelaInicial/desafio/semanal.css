@@ -1,7 +1,108 @@
+/* semanal.css - Estilo para a página de desafio semanal */
+:root {
+    --primary-bg: linear-gradient(135deg, #0f0820 0%, #1a0f3a 50%, #2d1554 100%);
+    --header-bg: rgba(45, 21, 84, 0.95);
+    --sidebar-bg: rgba(45, 21, 84, 0.9);
+    --container-bg: rgba(45, 21, 84, 0.7);
+    --accent-color: #ffd700;
+    --accent-secondary: #f6ad55;
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.8);
+    --border-color: rgba(255, 215, 0, 0.2);
+    --shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    --transition: all 0.3s ease;
+    --border-radius: 12px;
+    --success-gradient: linear-gradient(45deg, #4caf50, #8bc34a);
+    --danger-gradient: linear-gradient(45deg, #ff6b6b, #ff9e7d);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--primary-bg);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Bolinhas flutuantes interativas */
+.floating-shapes {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.floating-shape {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.4;
+    animation: float 15s infinite ease-in-out;
+    pointer-events: auto;
+    cursor: pointer;
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+.floating-shape.purple {
+    background: rgba(107, 47, 160, 0.3);
+    box-shadow: 0 0 15px rgba(107, 47, 160, 0.3);
+}
+
+.floating-shape.gold {
+    background: rgba(255, 215, 0, 0.3);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    25% {
+        transform: translateY(-10px) rotate(5deg);
+    }
+
+    50% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    75% {
+        transform: translateY(10px) rotate(-5deg);
+    }
+}
+
+.floating-shape:hover {
+    transform: scale(1.2);
+    opacity: 0.7;
+}
+
+/* Área principal de conteúdo - AGORA COM SCROLL */
+.main-content {
+    margin: 0;
+    padding: 15px;
+    min-height: 100vh;
+    position: relative;
+    z-index: 2;
+}
+
+/* Container do desafio */
 .challenge-container {
     max-width: 1600px;
     margin: 0 auto;
     padding: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .challenge-header {
@@ -13,6 +114,31 @@
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 215, 0, 0.3);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 2;
+}
+
+.back-button {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--accent-color);
+    border: 1px solid var(--border-color);
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    position: relative;
+    z-index: 3;
+}
+
+.back-button:hover {
+    background: rgba(255, 215, 0, 0.2);
+    transform: translateX(-3px);
 }
 
 .challenge-title {
@@ -126,58 +252,48 @@
     line-height: 1.5;
 }
 
-/* Área de desenho melhorada - TAMANHO AUMENTADO */
+/* Área de desenho melhorada */
 .drawing-area-improved {
-    background: rgba(45, 21, 84, 0.7);
-    border-radius: 12px;
+    background: var(--container-bg);
+    border-radius: var(--border-radius);
     padding: 20px;
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 215, 0, 0.2);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
     display: flex;
     flex-direction: column;
-    height: 850px;
 }
 
-.drawing-header {
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.drawing-title {
-    font-size: 1.8rem;
-    color: var(--accent-color);
-    margin-bottom: 10px;
-}
-
+/* Container de desenho */
 .drawing-container {
     display: flex;
     background: rgba(255, 255, 255, 0.05);
     border-radius: 8px;
     overflow: hidden;
-    flex: 1;
     margin-bottom: 20px;
-    height: 650px;
+    height: 600px;
+    /* Altura fixa para o container de desenho */
 }
 
-/* Painel de ferramentas (TAMANHO AUMENTADO) */
+/* Painel de ferramentas - LARGURA AUMENTADA (COPIADO DO DRAWING) */
 .tools-panel {
-    width: 80px;
-    background: rgba(45, 21, 84, 0.8);
-    padding: 15px 10px;
+    width: 120px;
+    background: rgba(45, 21, 84, 0.9);
+    padding: 12px 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
     border-right: 1px solid var(--border-color);
     flex-shrink: 0;
     overflow-y: auto;
     max-height: 100%;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .tool-btn {
-    width: 50px;
-    height: 50px;
+    width: 55px;
+    height: 55px;
     border-radius: 8px;
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid var(--border-color);
@@ -187,36 +303,38 @@
     justify-content: center;
     cursor: pointer;
     transition: var(--transition);
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     position: relative;
 }
 
 .tool-btn.active {
     background: rgba(255, 215, 0, 0.3);
     box-shadow: 0 0 12px rgba(255, 215, 0, 0.4);
+    transform: scale(1.05);
 }
 
 .tool-btn:hover {
     background: rgba(255, 215, 0, 0.2);
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 
 .tool-btn::after {
     content: attr(data-tooltip);
     position: absolute;
-    bottom: -35px;
+    bottom: -30px;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.9);
+    background: rgba(0, 0, 0, 0.8);
     color: white;
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-size: 14px;
+    padding: 5px 8px;
+    border-radius: 5px;
+    font-size: 11px;
     white-space: nowrap;
     opacity: 0;
     visibility: hidden;
     transition: var(--transition);
     z-index: 101;
+    pointer-events: none;
 }
 
 .tool-btn:hover::after {
@@ -225,15 +343,17 @@
 }
 
 .color-palette {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 8px;
-    margin-top: 15px;
+    margin-top: 8px;
+    width: 100%;
+    justify-items: center;
 }
 
 .color-btn {
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     border: 2px solid rgba(255, 255, 255, 0.3);
     cursor: pointer;
@@ -241,26 +361,24 @@
 }
 
 .color-btn.active {
-    transform: scale(1.3);
-    box-shadow: 0 0 8px white;
+    transform: scale(1.2);
+    box-shadow: 0 0 6px white;
 }
 
 .color-btn:hover {
-    transform: scale(1.2);
+    transform: scale(1.1);
 }
 
 #color-picker-btn {
-    margin-top: 15px;
-    width: 50px;
-    height: 50px;
-    font-size: 1.2rem;
+    margin-top: 8px;
 }
 
-/* Container do canvas (TAMANHO AUMENTADO) */
+/* Container do canvas - FUNDO BRANCO GARANTIDO */
 .canvas-container {
     flex: 1;
     position: relative;
-    background: white;
+    background: white !important;
+    /* Fundo branco garantido */
     overflow: hidden;
     border-radius: 0 8px 8px 0;
 }
@@ -272,26 +390,28 @@
     width: 100%;
     height: 100%;
     cursor: crosshair;
+    background: white !important;
+    /* Fundo branco garantido */
 }
 
-/* Opções de ferramentas (TAMANHO AUMENTADO) */
+/* Opções de ferramentas */
 .tool-options {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    margin-top: 15px;
+    gap: 10px;
+    margin-top: 12px;
     width: 100%;
-    padding: 0 8px;
+    padding: 0 5px;
 }
 
 .tool-option {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 5px;
 }
 
 .tool-option label {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: var(--text-secondary);
     text-align: center;
     font-weight: 500;
@@ -299,7 +419,7 @@
 
 .tool-option input[type="range"] {
     width: 100%;
-    height: 6px;
+    height: 5px;
     background: rgba(255, 255, 255, 0.2);
     border-radius: 3px;
     outline: none;
@@ -307,91 +427,67 @@
 
 .tool-option input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 18px;
-    height: 18px;
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
     background: var(--accent-color);
     cursor: pointer;
-    border: 2px solid white;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
 }
 
 .tool-option span {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: var(--text-secondary);
     text-align: center;
     font-weight: 500;
 }
 
-/* Opções de formas (TAMANHO AUMENTADO) */
-.shape-options {
-    display: none;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-    margin-top: 15px;
-    width: 100%;
-}
-
-.shape-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid var(--border-color);
-    color: var(--accent-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: var(--transition);
-    font-size: 1.1rem;
-}
-
-.shape-btn.active {
-    background: rgba(255, 215, 0, 0.3);
-    box-shadow: 0 0 12px rgba(255, 215, 0, 0.4);
-}
-
-.shape-btn:hover {
-    background: rgba(255, 215, 0, 0.2);
-    transform: scale(1.1);
-}
-
-/* Controles de desenho (TAMANHO AUMENTADO) */
+/* Controles de desenho */
 .drawing-controls {
     display: flex;
     justify-content: center;
-    gap: 15px;
+    gap: 12px;
     flex-shrink: 0;
     flex-wrap: wrap;
-    margin-top: 10px;
+    padding: 8px 0;
 }
 
 .control-btn {
     background: linear-gradient(45deg, var(--accent-color), var(--accent-secondary));
     color: #1a0f3a;
     border: none;
-    padding: 12px 25px;
-    border-radius: 25px;
+    padding: 10px 20px;
+    border-radius: 22px;
     font-weight: bold;
     cursor: pointer;
     transition: var(--transition);
     display: flex;
     align-items: center;
-    gap: 8px;
-    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
-    font-size: 1rem;
-    min-width: 140px;
+    gap: 6px;
+    box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3);
+    font-size: 0.9rem;
+    min-width: 120px;
     justify-content: center;
 }
 
 .control-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(255, 215, 0, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(255, 215, 0, 0.4);
 }
 
 .control-btn:active {
     transform: translateY(0);
+}
+
+.control-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.control-btn:disabled:hover {
+    transform: none;
+    box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3);
 }
 
 .control-btn.secondary {
@@ -406,7 +502,7 @@
 
 /* Galeria de submissões */
 .submission-gallery {
-    margin-top: 50px;
+    margin-top: 30px;
 }
 
 .gallery-title {
@@ -478,27 +574,56 @@
     opacity: 0.8;
 }
 
+/* Notificação */
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(45, 21, 84, 0.9);
+    color: white;
+    padding: 12px 18px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 /* Responsividade */
 @media (max-width: 992px) {
     .drawing-container {
         flex-direction: column;
+        height: 700px;
+        /* Altura maior em mobile */
     }
 
     .tools-panel {
         width: 100%;
         height: auto;
         flex-direction: row;
-        padding: 10px;
+        padding: 8px;
         border-right: none;
         border-bottom: 1px solid var(--border-color);
         overflow-x: auto;
         justify-content: center;
+        gap: 8px;
     }
 
     .color-palette {
-        flex-direction: row;
+        grid-template-columns: repeat(8, 1fr);
         margin-top: 0;
-        margin-left: 10px;
+        margin-left: 8px;
+        width: auto;
     }
 
     .tool-options {
@@ -506,13 +631,13 @@
         align-items: center;
         margin-top: 0;
         width: auto;
-        margin-left: 10px;
+        margin-left: 8px;
     }
 
     .tool-option {
         flex-direction: row;
         align-items: center;
-        gap: 10px;
+        gap: 8px;
     }
 
     .tool-option label {
@@ -520,7 +645,7 @@
     }
 
     .tool-option input[type="range"] {
-        width: 100px;
+        width: 80px;
     }
 
     .canvas-container {
@@ -530,37 +655,27 @@
 }
 
 @media (max-width: 768px) {
-    .challenge-content {
-        grid-template-columns: 1fr;
+    .main-content {
+        padding: 10px;
     }
 
-    .drawing-area-improved {
-        height: auto;
-        min-height: 800px;
-    }
-
-    .drawing-container {
-        height: 500px;
+    .challenge-container {
+        padding: 10px;
     }
 
     .drawing-controls {
         flex-direction: column;
         align-items: center;
+        gap: 8px;
     }
 
     .control-btn {
         width: 100%;
-        max-width: 300px;
+        max-width: 250px;
+        padding: 8px 16px;
+        font-size: 0.85rem;
     }
 
-    .tool-btn {
-        width: 45px;
-        height: 45px;
-        font-size: 1.1rem;
-    }
-}
-
-@media (max-width: 576px) {
     .challenge-title {
         font-size: 2rem;
     }
@@ -569,129 +684,99 @@
         font-size: 1.2rem;
     }
 
-    .drawing-area-improved {
-        padding: 15px;
+    .drawing-container {
+        height: 500px;
     }
+}
 
+@media (max-width: 576px) {
     .tools-panel {
-        gap: 10px;
-        padding: 8px;
+        gap: 6px;
     }
 
     .tool-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 1rem;
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
     }
 
     .color-btn {
-        width: 24px;
-        height: 24px;
+        width: 22px;
+        height: 22px;
     }
 
     .tool-option input[type="range"] {
-        width: 80px;
+        width: 60px;
     }
 
-    .shape-btn {
-        width: 35px;
-        height: 35px;
-        font-size: 1rem;
+    .back-button {
+        padding: 6px 12px;
+        font-size: 0.8rem;
     }
 
-    .control-btn {
-        padding: 10px 20px;
-        min-width: 120px;
-        font-size: 0.9rem;
+    .drawing-container {
+        height: 400px;
     }
 }
 
-/* Variáveis CSS */
-:root {
-    --primary-bg: linear-gradient(135deg, #0f0820 0%, #1a0f3a 50%, #2d1554 100%);
-    --header-bg: rgba(45, 21, 84, 0.95);
-    --sidebar-bg: rgba(45, 21, 84, 0.9);
-    --container-bg: rgba(45, 21, 84, 0.7);
-    --accent-color: #ffd700;
-    --accent-secondary: #f6ad55;
-    --text-primary: #ffffff;
-    --text-secondary: rgba(255, 255, 255, 0.8);
-    --border-color: rgba(255, 215, 0, 0.2);
-    --shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-    --transition: all 0.3s ease;
-    --border-radius: 12px;
+/* Animações e efeitos especiais */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(255, 215, 0, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
+    }
 }
 
-/* Estilização da barra de scroll - igual ao drawing.css */
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+/* Scrollbar personalizada */
 ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 8px;
+    height: 8px;
 }
 
 ::-webkit-scrollbar-track {
     background: rgba(255, 255, 255, 0.05);
-    border-radius: 10px;
+    border-radius: 8px;
 }
 
 ::-webkit-scrollbar-thumb {
     background: rgba(255, 215, 0, 0.3);
-    border-radius: 10px;
+    border-radius: 8px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 215, 0, 0.5);
 }
 
-/* Para Firefox */
-* {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 215, 0, 0.3) rgba(255, 255, 255, 0.05);
+/* Melhorias de acessibilidade */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
 }
 
-/* Aplicar scroll personalizado apenas nos elementos que precisam */
-.challenge-container,
-.drawing-area-improved,
-.tools-panel,
-.submissions-grid {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 215, 0, 0.3) rgba(255, 255, 255, 0.05);
-}
-
-/* Garantir que a área de desenho tenha scroll personalizado */
-.drawing-area-improved::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-}
-
-.drawing-area-improved::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 10px;
-}
-
-.drawing-area-improved::-webkit-scrollbar-thumb {
-    background: rgba(255, 215, 0, 0.3);
-    border-radius: 10px;
-}
-
-.drawing-area-improved::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 215, 0, 0.5);
-}
-
-/* Para a galeria de submissões */
-.submissions-grid::-webkit-scrollbar {
-    height: 6px;
-}
-
-.submissions-grid::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 10px;
-}
-
-.submissions-grid::-webkit-scrollbar-thumb {
-    background: rgba(255, 215, 0, 0.3);
-    border-radius: 10px;
-}
-
-.submissions-grid::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 215, 0, 0.5);
+/* Foco visível para elementos interativos */
+button:focus,
+input:focus,
+select:focus,
+textarea:focus,
+a:focus {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
 }

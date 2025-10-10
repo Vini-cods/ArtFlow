@@ -1,26 +1,41 @@
+// semanal.js - Versão atualizada com ferramentas do drawing.js
 document.addEventListener("DOMContentLoaded", function () {
-  // Configuração do canvas de desenho
+  // Elementos do DOM
   const canvas = document.getElementById("drawing-canvas");
   const ctx = canvas.getContext("2d");
+  const clearBtn = document.getElementById("clear-btn");
+  const saveBtn = document.getElementById("save-btn");
+  const toolButtons = document.querySelectorAll(".tool-btn");
+  const colorButtons = document.querySelectorAll(".color-btn");
+  const colorPickerBtn = document.getElementById("color-picker-btn");
+  const colorPicker = document.getElementById("color-picker");
+  const brushSizeSlider = document.getElementById("brush-size");
+  const brushSizeValue = document.getElementById("brush-size-value");
+  const opacitySlider = document.getElementById("opacity");
+  const opacityValue = document.getElementById("opacity-value");
+  const undoBtn = document.getElementById("undo-action");
+  const redoBtn = document.getElementById("redo-action");
+  const submitBtn = document.getElementById("submit-drawing");
+  const uploadInput = document.getElementById("upload-image");
+
+  // Variáveis de estado
   let isDrawing = false;
   let lastX = 0;
   let lastY = 0;
   let currentTool = "pencil";
   let currentColor = "#000000";
-  let lineWidth = 5;
+  let currentLineWidth = 5;
   let opacity = 1;
   let drawingHistory = [];
   let historyIndex = -1;
   let isSpraying = false;
-  let currentShape = "rectangle";
-  let startX, startY;
-  let snapshot;
 
-  // Ajustar canvas para alta resolução
+  // Configuração do canvas
   function resizeCanvas() {
     const container = canvas.parentElement;
     const dpr = window.devicePixelRatio || 1;
 
+    // Ajustar para alta resolução
     canvas.width = container.offsetWidth * dpr;
     canvas.height = container.offsetHeight * dpr;
     ctx.scale(dpr, dpr);
@@ -30,16 +45,17 @@ document.addEventListener("DOMContentLoaded", function () {
     ctx.lineJoin = "round";
     ctx.strokeStyle = currentColor;
     ctx.fillStyle = currentColor;
-    ctx.lineWidth = lineWidth;
+    ctx.lineWidth = currentLineWidth;
     ctx.globalAlpha = opacity;
+
+    // Garantir fundo branco
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = currentColor;
 
     // Salvar estado inicial
     saveCanvasState();
   }
-
-  // Inicializar canvas
-  resizeCanvas();
-  window.addEventListener("resize", resizeCanvas);
 
   // Função para salvar o estado atual do canvas
   function saveCanvasState() {
@@ -57,35 +73,128 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Função para atualizar estados dos botões de desfazer/refazer
   function updateUndoRedoButtons() {
-    document.getElementById("undo-action").disabled = historyIndex <= 0;
-    document.getElementById("redo-action").disabled =
-      historyIndex >= drawingHistory.length - 1;
+    undoBtn.disabled = historyIndex <= 0;
+    redoBtn.disabled = historyIndex >= drawingHistory.length - 1;
+
+    // Aplicar estilo visual para botões desabilitados
+    if (undoBtn.disabled) {
+      undoBtn.style.opacity = "0.5";
+      undoBtn.style.cursor = "not-allowed";
+    } else {
+      undoBtn.style.opacity = "1";
+      undoBtn.style.cursor = "pointer";
+    }
+
+    if (redoBtn.disabled) {
+      redoBtn.style.opacity = "0.5";
+      redoBtn.style.cursor = "not-allowed";
+    } else {
+      redoBtn.style.opacity = "1";
+      redoBtn.style.cursor = "pointer";
+    }
   }
 
-  // Função para tirar snapshot do canvas
-  function takeSnapshot() {
-    snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  // Função para desfazer
+  function undo() {
+    if (historyIndex > 0) {
+      historyIndex--;
+      ctx.putImageData(drawingHistory[historyIndex], 0, 0);
+      updateUndoRedoButtons();
+      showNotification("Ação desfeita");
+    }
+  }
+
+  // Função para refazer
+  function redo() {
+    if (historyIndex < drawingHistory.length - 1) {
+      historyIndex++;
+      ctx.putImageData(drawingHistory[historyIndex], 0, 0);
+      updateUndoRedoButtons();
+      showNotification("Ação refeita");
+    }
+  }
+
+  // Função para limpar o canvas
+  function clearCanvas() {
+    if (confirm("Tem certeza que deseja limpar todo o desenho?")) {
+      ctx.fillStyle = "white";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = currentColor;
+      saveCanvasState();
+      showNotification("Canvas limpo!");
+    }
+  }
+
+  // Função para salvar o desenho
+  function saveDrawing() {
+    try {
+      // Criar um canvas temporário para exportação
+      const tempCanvas = document.createElement("canvas");
+      const tempCtx = tempCanvas.getContext("2d");
+      const dpr = window.devicePixelRatio || 1;
+
+      // Configurar o canvas temporário
+      tempCanvas.width = canvas.width / dpr;
+      tempCanvas.height = canvas.height / dpr;
+
+      // Desenhar o conteúdo no canvas temporário
+      tempCtx.fillStyle = "white";
+      tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+      tempCtx.drawImage(canvas, 0, 0, tempCanvas.width, tempCanvas.height);
+
+      // Criar link de download
+      const link = document.createElement("a");
+      link.download = `desafio-semanal-artflow-${new Date().getTime()}.png`;
+      link.href = tempCanvas.toDataURL("image/png");
+      link.click();
+
+      showNotification("Desenho salvo com sucesso!");
+    } catch (error) {
+      console.error("Erro ao salvar desenho:", error);
+      showNotification("Erro ao salvar desenho. Tente novamente.", "error");
+    }
+  }
+
+  // Função para mostrar notificação
+  function showNotification(message, type = "success") {
+    const notification = document.getElementById("notification");
+    const notificationText = document.getElementById("notification-text");
+    const notificationIcon = notification.querySelector("i");
+
+    // Atualizar conteúdo
+    notificationText.textContent = message;
+
+    // Atualizar ícone baseado no tipo
+    if (type === "error") {
+      notificationIcon.className = "fas fa-exclamation-circle";
+      notification.style.background =
+        "linear-gradient(45deg, #ff6b6b, #ff9e7d)";
+    } else {
+      notificationIcon.className = "fas fa-check-circle";
+      notification.style.background =
+        "linear-gradient(45deg, #4caf50, #8bc34a)";
+    }
+
+    // Mostrar notificação
+    notification.style.opacity = "1";
+    notification.style.transform = "translateY(0)";
+
+    // Ocultar após 3 segundos
+    setTimeout(() => {
+      notification.style.opacity = "0";
+      notification.style.transform = "translateY(20px)";
+    }, 3000);
   }
 
   // Funções de desenho
   function startDrawing(e) {
     isDrawing = true;
-
-    // Obter coordenadas corretas considerando a posição do canvas
-    const rect = canvas.getBoundingClientRect();
-    lastX = e.clientX - rect.left;
-    lastY = e.clientY - rect.top;
-
-    startX = lastX;
-    startY = lastY;
-
-    takeSnapshot();
+    const pos = getMousePos(e);
+    [lastX, lastY] = [pos.x, pos.y];
 
     if (currentTool === "spray") {
       isSpraying = true;
       sprayPaint();
-    } else if (currentTool === "fill") {
-      floodFill(lastX, lastY, hexToRgb(currentColor));
     } else {
       ctx.beginPath();
       ctx.moveTo(lastX, lastY);
@@ -95,9 +204,9 @@ document.addEventListener("DOMContentLoaded", function () {
   function draw(e) {
     if (!isDrawing) return;
 
-    const rect = canvas.getBoundingClientRect();
-    const currentX = e.clientX - rect.left;
-    const currentY = e.clientY - rect.top;
+    const pos = getMousePos(e);
+    const currentX = pos.x;
+    const currentY = pos.y;
 
     if (
       currentTool === "pencil" ||
@@ -107,10 +216,6 @@ document.addEventListener("DOMContentLoaded", function () {
     ) {
       ctx.lineTo(currentX, currentY);
       ctx.stroke();
-    } else if (currentTool === "shapes") {
-      // Restaurar snapshot para desenhar a forma temporariamente
-      ctx.putImageData(snapshot, 0, 0);
-      drawShape(startX, startY, currentX, currentY);
     }
 
     lastX = currentX;
@@ -119,27 +224,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function stopDrawing() {
     if (isDrawing) {
-      if (currentTool === "shapes") {
-        const rect = canvas.getBoundingClientRect();
-        const currentX = lastX;
-        const currentY = lastY;
-        drawShape(startX, startY, currentX, currentY);
-      }
-
       isDrawing = false;
       isSpraying = false;
-
-      // Salvar estado após terminar de desenhar
       saveCanvasState();
     }
   }
 
-  // Função para spray
+  // Função para pintura com spray
   function sprayPaint() {
     if (!isSpraying) return;
 
     const density = 50;
-    const radius = lineWidth;
+    const radius = currentLineWidth;
 
     for (let i = 0; i < density; i++) {
       const angle = Math.random() * Math.PI * 2;
@@ -148,7 +244,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const y = lastY + Math.sin(angle) * distance;
 
       ctx.beginPath();
-      ctx.arc(x, y, lineWidth / 10, 0, Math.PI * 2);
+      ctx.arc(x, y, currentLineWidth / 10, 0, Math.PI * 2);
       ctx.fill();
     }
 
@@ -157,162 +253,92 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Função para preenchimento (flood fill)
-  function floodFill(x, y, fillColor) {
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    const pixelData = imageData.data;
-    const targetColor = getPixelColor(x, y, pixelData);
+  // Função para obter posição do mouse/touch
+  function getMousePos(e) {
+    const rect = canvas.getBoundingClientRect();
+    let clientX, clientY;
 
-    // Se a cor de preenchimento é igual à cor do alvo, sair
-    if (colorsMatch(targetColor, fillColor)) return;
-
-    const pixelStack = [[Math.floor(x), Math.floor(y)]];
-    const width = canvas.width;
-    const height = canvas.height;
-
-    while (pixelStack.length) {
-      const newPos = pixelStack.pop();
-      x = newPos[0];
-      y = newPos[1];
-
-      // Obter a posição atual do pixel
-      let pixelPos = (y * width + x) * 4;
-
-      // Ir para cima enquanto encontrar a cor alvo
-      while (
-        y >= 0 &&
-        colorsMatch(getPixelColorAtPos(pixelPos, pixelData), targetColor)
-      ) {
-        y--;
-        pixelPos = (y * width + x) * 4;
-      }
-
-      // Ir para baixo enquanto encontrar a cor alvo
-      pixelPos = ((y + 1) * width + x) * 4;
-      let reachLeft = false;
-      let reachRight = false;
-
-      for (y = y + 1; y < height; y++) {
-        pixelPos = (y * width + x) * 4;
-
-        if (
-          !colorsMatch(getPixelColorAtPos(pixelPos, pixelData), targetColor)
-        ) {
-          break;
-        }
-
-        // Colorir o pixel
-        setPixelColorAtPos(pixelPos, fillColor, pixelData);
-
-        // Verificar vizinhos à esquerda e direita
-        if (x > 0) {
-          const leftPos = pixelPos - 4;
-          if (
-            colorsMatch(getPixelColorAtPos(leftPos, pixelData), targetColor)
-          ) {
-            if (!reachLeft) {
-              pixelStack.push([x - 1, y]);
-              reachLeft = true;
-            }
-          } else if (reachLeft) {
-            reachLeft = false;
-          }
-        }
-
-        if (x < width - 1) {
-          const rightPos = pixelPos + 4;
-          if (
-            colorsMatch(getPixelColorAtPos(rightPos, pixelData), targetColor)
-          ) {
-            if (!reachRight) {
-              pixelStack.push([x + 1, y]);
-              reachRight = true;
-            }
-          } else if (reachRight) {
-            reachRight = false;
-          }
-        }
-
-        pixelPos += width * 4;
-      }
+    if (e.type.includes("touch")) {
+      clientX = e.touches[0].clientX;
+      clientY = e.touches[0].clientY;
+    } else {
+      clientX = e.clientX;
+      clientY = e.clientY;
     }
 
-    ctx.putImageData(imageData, 0, 0);
-    saveCanvasState();
-  }
-
-  // Funções auxiliares para flood fill
-  function getPixelColor(x, y, pixelData) {
-    const pixelPos = (Math.floor(y) * canvas.width + Math.floor(x)) * 4;
-    return getPixelColorAtPos(pixelPos, pixelData);
-  }
-
-  function getPixelColorAtPos(pixelPos, pixelData) {
     return {
-      r: pixelData[pixelPos],
-      g: pixelData[pixelPos + 1],
-      b: pixelData[pixelPos + 2],
-      a: pixelData[pixelPos + 3],
+      x: clientX - rect.left,
+      y: clientY - rect.top,
     };
   }
 
-  function setPixelColorAtPos(pixelPos, color, pixelData) {
-    pixelData[pixelPos] = color.r;
-    pixelData[pixelPos + 1] = color.g;
-    pixelData[pixelPos + 2] = color.b;
-    pixelData[pixelPos + 3] = color.a !== undefined ? color.a : 255;
-  }
+  // Função para fazer upload de imagem
+  function handleImageUpload(e) {
+    const file = e.target.files[0];
+    if (!file) return;
 
-  function colorsMatch(color1, color2) {
-    return (
-      color1.r === color2.r && color1.g === color2.g && color1.b === color2.b
-    );
-  }
-
-  function hexToRgb(hex) {
-    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result
-      ? {
-          r: parseInt(result[1], 16),
-          g: parseInt(result[2], 16),
-          b: parseInt(result[3], 16),
-          a: 255,
-        }
-      : { r: 0, g: 0, b: 0, a: 255 };
-  }
-
-  // Função para desenhar formas
-  function drawShape(startX, startY, endX, endY) {
-    ctx.beginPath();
-
-    switch (currentShape) {
-      case "rectangle":
-        const width = endX - startX;
-        const height = endY - startY;
-        ctx.rect(startX, startY, width, height);
-        break;
-      case "circle":
-        const radius = Math.sqrt(
-          Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2)
-        );
-        ctx.arc(startX, startY, radius, 0, Math.PI * 2);
-        break;
-      case "triangle":
-        ctx.moveTo(startX, startY);
-        ctx.lineTo(endX, endY);
-        ctx.lineTo(startX * 2 - endX, endY);
-        ctx.closePath();
-        break;
-      case "line":
-        ctx.moveTo(startX, startY);
-        ctx.lineTo(endX, endY);
-        break;
+    if (!file.type.match("image.*")) {
+      showNotification("Por favor, selecione uma imagem válida.");
+      return;
     }
 
-    ctx.stroke();
+    const reader = new FileReader();
+    reader.onload = function (event) {
+      const img = new Image();
+      img.onload = function () {
+        // Limpar canvas e desenhar a imagem
+        ctx.fillStyle = "white";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = currentColor;
+
+        const scale = Math.min(
+          canvas.width / img.width,
+          canvas.height / img.height
+        );
+        const width = img.width * scale;
+        const height = img.height * scale;
+        const x = (canvas.width - width) / 2;
+        const y = (canvas.height - height) / 2;
+
+        ctx.drawImage(img, x, y, width, height);
+        saveCanvasState();
+        showNotification("Imagem carregada com sucesso!");
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
   }
 
-  // Event listeners para o canvas
+  // Função para enviar desenho
+  function submitDrawing() {
+    // Verificar se há algo desenhado
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    let isEmpty = true;
+
+    for (let i = 0; i < imageData.data.length; i += 4) {
+      if (imageData.data[i + 3] !== 0) {
+        isEmpty = false;
+        break;
+      }
+    }
+
+    if (isEmpty) {
+      showNotification("Por favor, faça um desenho antes de enviar!");
+      return;
+    }
+
+    // Simular envio (em uma aplicação real, isso enviaria para um servidor)
+    showNotification("Desenho enviado com sucesso! Boa sorte no desafio!");
+
+    // Resetar o canvas após envio
+    setTimeout(() => {
+      if (confirm("Deseja começar um novo desenho?")) {
+        clearCanvas();
+      }
+    }, 2000);
+  }
+
+  // Event Listeners para o canvas
   canvas.addEventListener("mousedown", startDrawing);
   canvas.addEventListener("mousemove", draw);
   canvas.addEventListener("mouseup", stopDrawing);
@@ -345,43 +371,30 @@ document.addEventListener("DOMContentLoaded", function () {
     canvas.dispatchEvent(mouseEvent);
   });
 
-  // Ferramentas de desenho
-  const toolButtons = document.querySelectorAll(".tool-btn");
+  // Event Listeners para ferramentas
   toolButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      // Remover classe ativa de todos os botões
+    button.addEventListener("click", function () {
       toolButtons.forEach((btn) => btn.classList.remove("active"));
+      this.classList.add("active");
+      currentTool = this.dataset.tool;
 
-      // Adicionar classe ativa ao botão clicado
-      button.classList.add("active");
-
-      // Alterar ferramenta
-      currentTool = button.getAttribute("data-tool");
-
-      // Mostrar/ocultar opções de formas
-      if (currentTool === "shapes") {
-        document.getElementById("shape-options").style.display = "flex";
-      } else {
-        document.getElementById("shape-options").style.display = "none";
-      }
-
-      // Configurar contexto de acordo com a ferramenta
+      // Configurações específicas por ferramenta
       switch (currentTool) {
         case "pencil":
           ctx.globalCompositeOperation = "source-over";
-          ctx.lineWidth = lineWidth;
+          ctx.lineWidth = currentLineWidth;
           ctx.strokeStyle = currentColor;
           ctx.globalAlpha = opacity;
           break;
         case "brush":
           ctx.globalCompositeOperation = "source-over";
-          ctx.lineWidth = lineWidth * 2;
+          ctx.lineWidth = currentLineWidth * 2;
           ctx.strokeStyle = currentColor;
           ctx.globalAlpha = opacity;
           break;
         case "marker":
           ctx.globalCompositeOperation = "multiply";
-          ctx.lineWidth = lineWidth * 3;
+          ctx.lineWidth = currentLineWidth * 3;
           ctx.strokeStyle = currentColor;
           ctx.globalAlpha = 0.5;
           break;
@@ -392,87 +405,47 @@ document.addEventListener("DOMContentLoaded", function () {
           break;
         case "eraser":
           ctx.globalCompositeOperation = "destination-out";
-          ctx.lineWidth = lineWidth * 4;
+          ctx.lineWidth = currentLineWidth * 4;
           ctx.globalAlpha = 0.7;
           break;
-        case "fill":
-          ctx.globalCompositeOperation = "source-over";
-          break;
-        case "shapes":
-          ctx.globalCompositeOperation = "source-over";
-          ctx.strokeStyle = currentColor;
-          ctx.lineWidth = lineWidth;
-          ctx.globalAlpha = opacity;
-          break;
       }
     });
   });
 
-  // Paleta de cores
-  const colorButtons = document.querySelectorAll(".color-btn");
+  // Event Listeners para cores
   colorButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      // Remover classe ativa de todos os botões
+    button.addEventListener("click", function () {
       colorButtons.forEach((btn) => btn.classList.remove("active"));
-
-      // Adicionar classe ativa ao botão clicado
-      button.classList.add("active");
-
-      // Alterar cor
-      currentColor = button.getAttribute("data-color");
+      this.classList.add("active");
+      currentColor = this.dataset.color;
       ctx.strokeStyle = currentColor;
       ctx.fillStyle = currentColor;
-
-      // Para ferramentas que usam fillStyle
-      if (currentTool === "spray" || currentTool === "fill") {
-        ctx.fillStyle = currentColor;
-      }
     });
   });
 
-  // Seletor de cor personalizado
-  document
-    .getElementById("color-picker")
-    .addEventListener("input", function (e) {
-      currentColor = e.target.value;
-      ctx.strokeStyle = currentColor;
-      ctx.fillStyle = currentColor;
+  // Event Listener para o seletor de cor
+  colorPickerBtn.addEventListener("click", function () {
+    colorPicker.click();
+  });
 
-      // Atualizar botão ativo na paleta
-      colorButtons.forEach((btn) => btn.classList.remove("active"));
-    });
+  colorPicker.addEventListener("input", function () {
+    currentColor = this.value;
+    ctx.strokeStyle = currentColor;
+    ctx.fillStyle = currentColor;
 
-  document
-    .getElementById("color-picker-btn")
-    .addEventListener("click", function () {
-      document.getElementById("color-picker").click();
-    });
+    // Atualizar botão de cor ativa
+    colorButtons.forEach((btn) => btn.classList.remove("active"));
+  });
 
-  // Controle de tamanho do pincel
-  const brushSizeSlider = document.getElementById("brush-size");
-  const brushSizeValue = document.getElementById("brush-size-value");
-
+  // Event Listeners para controles deslizantes
   brushSizeSlider.addEventListener("input", function () {
-    lineWidth = this.value;
-    brushSizeValue.textContent = `${lineWidth}px`;
+    currentLineWidth = this.value;
+    brushSizeValue.textContent = `${currentLineWidth}px`;
 
-    // Atualizar o contexto com o novo tamanho
-    if (
-      currentTool === "pencil" ||
-      currentTool === "brush" ||
-      currentTool === "shapes"
-    ) {
-      ctx.lineWidth = lineWidth;
-    } else if (currentTool === "marker") {
-      ctx.lineWidth = lineWidth * 3;
-    } else if (currentTool === "eraser") {
-      ctx.lineWidth = lineWidth * 4;
+    if (currentTool !== "spray") {
+      ctx.lineWidth = currentLineWidth;
     }
   });
-
-  // Controle de opacidade
-  const opacitySlider = document.getElementById("opacity");
-  const opacityValue = document.getElementById("opacity-value");
 
   opacitySlider.addEventListener("input", function () {
     opacity = this.value / 100;
@@ -480,279 +453,98 @@ document.addEventListener("DOMContentLoaded", function () {
     ctx.globalAlpha = opacity;
   });
 
-  // Opções de formas
-  const shapeButtons = document.querySelectorAll(".shape-btn");
-  shapeButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      // Remover classe ativa de todos os botões
-      shapeButtons.forEach((btn) => btn.classList.remove("active"));
+  // Event Listeners para botões
+  clearBtn.addEventListener("click", clearCanvas);
+  saveBtn.addEventListener("click", saveDrawing);
+  undoBtn.addEventListener("click", undo);
+  redoBtn.addEventListener("click", redo);
+  submitBtn.addEventListener("click", submitDrawing);
+  uploadInput.addEventListener("change", handleImageUpload);
 
-      // Adicionar classe ativa ao botão clicado
-      button.classList.add("active");
+  // Inicialização
+  resizeCanvas();
+  window.addEventListener("resize", resizeCanvas);
 
-      // Alterar forma
-      currentShape = button.getAttribute("data-shape");
-    });
-  });
+  // Criar bolinhas flutuantes interativas
+  createFloatingShapes();
 
-  // Limpar canvas
-  document.getElementById("clear-btn").addEventListener("click", () => {
-    if (confirm("Tem certeza que deseja limpar todo o desenho?")) {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      saveCanvasState();
+  // Função para criar bolinhas flutuantes
+  function createFloatingShapes() {
+    const shapesContainer = document.querySelector(".floating-shapes");
+    const colors = ["purple", "gold"];
+
+    for (let i = 0; i < 12; i++) {
+      const shape = document.createElement("div");
+      shape.className = `floating-shape ${colors[i % colors.length]}`;
+
+      // Posição e tamanho aleatórios
+      const size = Math.random() * 30 + 10;
+      const left = Math.random() * 100;
+      const top = Math.random() * 100;
+      const delay = Math.random() * 15;
+
+      shape.style.width = `${size}px`;
+      shape.style.height = `${size}px`;
+      shape.style.left = `${left}%`;
+      shape.style.top = `${top}%`;
+      shape.style.animationDelay = `${delay}s`;
+
+      // Efeito de clique
+      shape.addEventListener("click", function () {
+        this.style.transform = "scale(1.5)";
+        this.style.opacity = "0";
+        setTimeout(() => {
+          this.remove();
+        }, 300);
+      });
+
+      shapesContainer.appendChild(shape);
     }
-  });
-
-  // Desfazer ação
-  document.getElementById("undo-action").addEventListener("click", () => {
-    if (historyIndex > 0) {
-      historyIndex--;
-      ctx.putImageData(drawingHistory[historyIndex], 0, 0);
-      updateUndoRedoButtons();
-    }
-  });
-
-  // Refazer ação
-  document.getElementById("redo-action").addEventListener("click", () => {
-    if (historyIndex < drawingHistory.length - 1) {
-      historyIndex++;
-      ctx.putImageData(drawingHistory[historyIndex], 0, 0);
-      updateUndoRedoButtons();
-    }
-  });
-
-  // Salvar desenho
-  document.getElementById("save-btn").addEventListener("click", function () {
-    const dataURL = canvas.toDataURL("image/png");
-    const link = document.createElement("a");
-    link.download = "desafio-animal-fantastico.png";
-    link.href = dataURL;
-    link.click();
-
-    showNotification("Desenho salvo com sucesso!");
-  });
-
-  // Upload de imagem
-  document
-    .getElementById("upload-image")
-    .addEventListener("change", function (e) {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function (event) {
-          const img = new Image();
-          img.onload = function () {
-            // Limpar canvas e desenhar a imagem
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            const aspectRatio = img.width / img.height;
-            let newWidth = canvas.width;
-            let newHeight = canvas.width / aspectRatio;
-
-            if (newHeight > canvas.height) {
-              newHeight = canvas.height;
-              newWidth = canvas.height * aspectRatio;
-            }
-
-            const x = (canvas.width - newWidth) / 2;
-            const y = (canvas.height - newHeight) / 2;
-
-            ctx.drawImage(img, x, y, newWidth, newHeight);
-            saveCanvasState();
-          };
-          img.src = event.target.result;
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-
-  // Enviar desenho
-  document
-    .getElementById("submit-drawing")
-    .addEventListener("click", function () {
-      // Verificar se o canvas está vazio
-      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      let isEmpty = true;
-
-      for (let i = 0; i < imageData.data.length; i += 4) {
-        if (imageData.data[i + 3] !== 0) {
-          isEmpty = false;
-          break;
-        }
-      }
-
-      if (isEmpty) {
-        alert("Por favor, faça um desenho antes de enviar!");
-        return;
-      }
-
-      // Simular envio (em uma implementação real, isso enviaria para um servidor)
-      const drawingData = canvas.toDataURL("image/png");
-
-      // Adicionar à galeria (simulação)
-      addToGallery(drawingData, "Você");
-
-      // Mostrar mensagem de sucesso
-      showNotification("Desenho enviado com sucesso! Boa sorte no desafio!");
-
-      // Limpar canvas após envio
-      setTimeout(() => {
-        if (confirm("Deseja começar um novo desenho?")) {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          drawingHistory = [];
-          historyIndex = -1;
-          saveCanvasState();
-          updateUndoRedoButtons();
-        }
-      }, 1000);
-    });
-
-  // Função para adicionar desenho à galeria
-  function addToGallery(imageData, author) {
-    const emptyGallery = document.querySelector(".empty-gallery");
-    if (emptyGallery) {
-      emptyGallery.remove();
-    }
-
-    const submissionsContainer = document.getElementById(
-      "submissions-container"
-    );
-    const submissionItem = document.createElement("div");
-    submissionItem.className = "submission-item";
-
-    submissionItem.innerHTML = `
-            <img src="${imageData}" alt="Desenho de ${author}" class="submission-img">
-            <div class="submission-info">
-                <div class="submission-author">Por: ${author}</div>
-                <div class="submission-stats">
-                    <span><i class="fas fa-heart"></i> 0</span>
-                    <span><i class="fas fa-comment"></i> 0</span>
-                </div>
-            </div>
-        `;
-
-    submissionsContainer.prepend(submissionItem);
   }
 
-  // Contador regressivo
+  // Atualizar contador regressivo
+  updateCountdown();
+  setInterval(updateCountdown, 60000); // Atualizar a cada minuto
+
   function updateCountdown() {
-    // Definir data de término (5 dias a partir de agora)
+    // Data de término (domingo às 23:59)
+    const now = new Date();
     const endDate = new Date();
-    endDate.setDate(endDate.getDate() + 5);
+    endDate.setDate(now.getDate() + (7 - now.getDay())); // Próximo domingo
     endDate.setHours(23, 59, 59, 999);
 
-    function update() {
-      const now = new Date();
-      const timeRemaining = endDate - now;
+    const timeLeft = endDate - now;
 
-      if (timeRemaining <= 0) {
-        document.getElementById("countdown").innerHTML = "Desafio encerrado!";
-        document.getElementById("submit-drawing").disabled = true;
-        document.getElementById("submit-drawing").style.opacity = "0.5";
-        return;
-      }
-
-      // Calcular dias, horas, minutos
-      const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
-      const hours = Math.floor(
-        (timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-      );
-      const minutes = Math.floor(
-        (timeRemaining % (1000 * 60 * 60)) / (1000 * 60)
-      );
-
-      document.getElementById("days").textContent = days;
-      document.getElementById("hours").textContent = hours;
-      document.getElementById("minutes").textContent = minutes;
+    if (timeLeft <= 0) {
+      document.getElementById("countdown").innerHTML = "Desafio encerrado!";
+      submitBtn.disabled = true;
+      submitBtn.style.opacity = "0.5";
+      return;
     }
 
-    // Atualizar a cada minuto
-    update();
-    setInterval(update, 60000);
-  }
-
-  updateCountdown();
-
-  // Adicionar alguns desenhos de exemplo após um tempo (simulação)
-  setTimeout(() => {
-    // Simular alguns desenhos de exemplo na galeria
-    const exampleImages = [
-      "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=80",
-      "https://images.unsplash.com/photo-1515405295579-ba7b45403062?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=80",
-      "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=80",
-    ];
-
-    const authors = ["Maria, 8 anos", "João, 7 anos", "Ana, 9 anos"];
-
-    const emptyGallery = document.querySelector(".empty-gallery");
-    if (emptyGallery) {
-      emptyGallery.remove();
-    }
-
-    const submissionsContainer = document.getElementById(
-      "submissions-container"
+    const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+    const hours = Math.floor(
+      (timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
     );
+    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
 
-    exampleImages.forEach((img, index) => {
-      const submissionItem = document.createElement("div");
-      submissionItem.className = "submission-item";
-
-      submissionItem.innerHTML = `
-                <img src="${img}" alt="Desenho de ${
-        authors[index]
-      }" class="submission-img">
-                <div class="submission-info">
-                    <div class="submission-author">Por: ${authors[index]}</div>
-                    <div class="submission-stats">
-                        <span><i class="fas fa-heart"></i> ${
-                          Math.floor(Math.random() * 20) + 5
-                        }</span>
-                        <span><i class="fas fa-comment"></i> ${Math.floor(
-                          Math.random() * 10
-                        )}</span>
-                    </div>
-                </div>
-            `;
-
-      submissionsContainer.appendChild(submissionItem);
-    });
-  }, 3000);
-
-  // Função para mostrar notificações
-  function showNotification(message) {
-    // Criar elemento de notificação
-    const notification = document.createElement("div");
-    notification.style.position = "fixed";
-    notification.style.top = "20px";
-    notification.style.right = "20px";
-    notification.style.backgroundColor = "rgba(107, 47, 160, 0.9)";
-    notification.style.color = "white";
-    notification.style.padding = "15px 20px";
-    notification.style.borderRadius = "10px";
-    notification.style.zIndex = "1000";
-    notification.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.2)";
-    notification.textContent = message;
-
-    document.body.appendChild(notification);
-
-    // Remover após 3 segundos
-    setTimeout(() => {
-      notification.style.opacity = "0";
-      notification.style.transition = "opacity 0.5s";
-      setTimeout(() => {
-        document.body.removeChild(notification);
-      }, 500);
-    }, 3000);
+    document.getElementById("days").textContent = days;
+    document.getElementById("hours").textContent = hours;
+    document.getElementById("minutes").textContent = minutes;
   }
 
-  // Inicializar o botão de lápis como ativo
-  document.querySelector('[data-tool="pencil"]').classList.add("active");
+  // Prevenir menu de contexto no canvas
+  canvas.addEventListener("contextmenu", function (e) {
+    e.preventDefault();
+  });
 
-  // Inicializar o botão de preto como ativo
-  document.querySelector('[data-color="#000000"]').classList.add("active");
-
-  // Inicializar o botão de retângulo como ativo
-  document.querySelector('[data-shape="rectangle"]').classList.add("active");
-
-  // Atualizar estado inicial dos botões
+  // Inicializar botões de desfazer/refazer
   updateUndoRedoButtons();
+
+  // Mostrar mensagem de boas-vindas
+  setTimeout(() => {
+    showNotification(
+      "Bem-vindo ao Desafio Semanal! Crie seu animal fantástico!"
+    );
+  }, 1000);
 });
