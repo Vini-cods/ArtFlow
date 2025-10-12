@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aventura na Floresta - Ler História - ArtFlow Kids</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="ler-historia.css" />
+    <link rel="icon" href="../img/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon" />
+  </head>
+
+  <body>
+    <!-- Bolinhas flutuantes de fundo -->
+    <div class="floating-shapes"></div>
+
+    <!-- Conteúdo principal -->
+    <div class="reading-container">
+      <div class="header">
+        <div class="action-buttons">
+          <button class="btn btn-back" onclick="goBack()">
+            <i class="fas fa-arrow-left"></i> Voltar
+          </button>
+        </div>
+        <div class="story-info">
+          <h1 class="story-title">Aventura na Floresta</h1>
+          <p class="story-author">Por: Sofia Mendes</p>
+        </div>
+        <div class="action-buttons">
+          <button class="btn btn-bookmark" onclick="toggleBookmark()">
+            <i class="far fa-bookmark" id="bookmark-icon"></i> Favoritar
+          </button>
+          <button class="btn btn-share" onclick="shareStory()">
+            <i class="fas fa-share"></i> Compartilhar
+          </button>
+        </div>
+      </div>
+
+      <div class="book-container">
+        <div class="book-cover">
+          <img
+            src="../img/Aventura na Floresta.png"
+            alt="Capa da Aventura na Floresta"
+            class="cover-image"
+          />
+          <div class="cover-overlay">
+            <h2>Aventura na Floresta</h2>
+            <p>Uma história emocionante sobre coragem e amizade</p>
+          </div>
+        </div>
+
+        <div class="reading-area">
+          <div class="book-content" id="book-content">
+            <!-- Conteúdo será carregado dinamicamente pelo JavaScript -->
+          </div>
+          <div class="page-controls">
+            <button class="page-btn" id="prev-page" onclick="previousPage()">
+              <i class="fas fa-chevron-left"></i> Anterior
+            </button>
+            <span class="page-indicator" id="page-indicator"
+              >Página 1 de 7</span
+            >
+            <button class="page-btn" id="next-page" onclick="nextPage()">
+              Próxima <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="reading-stats">
+        <div class="stats-item">
+          <i class="fas fa-clock"></i>
+          <span>Tempo de leitura: <span id="reading-time">0</span> min</span>
+        </div>
+        <div class="stats-item">
+          <i class="fas fa-book-open"></i>
+          <span>Progresso: <span id="reading-progress">14%</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="notification" id="notification">
+      <div class="notification-content">
+        <i class="fas fa-check-circle"></i>
+        <span id="notification-text">História favoritada!</span>
+      </div>
+    </div>
+
+    <script src="ler-historia.js"></script>
+  </body>
+</html>

@@ -1,722 +1,477 @@
-// Configuração do canvas de desenho
-const canvas = document.getElementById("drawing-canvas");
-const ctx = canvas.getContext("2d");
-const fullscreenCanvas = document.getElementById("fullscreen-canvas");
-const fullscreenCtx = fullscreenCanvas.getContext("2d");
-
-// Variáveis para controle de desenho
-let isDrawing = false;
-let lastX = 0;
-let lastY = 0;
-let currentColor = "#000000";
-let brushSize = 5;
-let opacity = 1;
-let currentTool = "pencil";
-let currentShape = "rectangle";
-let startX, startY;
-let snapshot;
-
-// Configuração inicial do canvas
-function setupCanvas() {
-  const drawingArea = canvas.parentElement;
-  canvas.width = drawingArea.offsetWidth;
-  canvas.height = drawingArea.offsetHeight;
-
-  // Limpar canvas com fundo branco
-  ctx.fillStyle = "#FFFFFF";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  updateDrawingContext();
-}
-
-function setupFullscreenCanvas() {
-  fullscreenCanvas.width = window.innerWidth * 0.8;
-  fullscreenCanvas.height = window.innerHeight * 0.8;
-
-  // Limpar canvas com fundo branco
-  fullscreenCtx.fillStyle = "#FFFFFF";
-  fullscreenCtx.fillRect(0, 0, fullscreenCanvas.width, fullscreenCanvas.height);
-
-  // Copiar conteúdo do canvas principal se existir
-  if (canvas.width > 0 && canvas.height > 0) {
-    fullscreenCtx.drawImage(
-      canvas,
-      0,
-      0,
-      fullscreenCanvas.width,
-      fullscreenCanvas.height
-    );
-  }
-}
-
-function updateDrawingContext() {
-  // Configurar contexto do canvas normal
-  ctx.lineJoin = "round";
-  ctx.lineCap = "round";
-  ctx.lineWidth = brushSize;
-  ctx.strokeStyle = currentColor;
-  ctx.fillStyle = currentColor;
-  ctx.globalAlpha = opacity;
-
-  // Configurar contexto do canvas de tela cheia
-  fullscreenCtx.lineJoin = "round";
-  fullscreenCtx.lineCap = "round";
-  fullscreenCtx.lineWidth = brushSize;
-  fullscreenCtx.strokeStyle = currentColor;
-  fullscreenCtx.fillStyle = currentColor;
-  fullscreenCtx.globalAlpha = opacity;
-}
-
-// Inicializar a tela de desenho
-function initDrawing() {
-  setupCanvas();
-  updateDrawingContext();
-
-  // Event listeners para canvas normal
-  setupCanvasEvents(canvas, ctx);
-
-  // Configurar ferramentas e controles
-  setupTools();
-  setupControls();
-}
-
-function setupCanvasEvents(canvasElement, context) {
-  // Mouse events
-  canvasElement.addEventListener("mousedown", startDrawing);
-  canvasElement.addEventListener("mousemove", draw);
-  canvasElement.addEventListener("mouseup", stopDrawing);
-  canvasElement.addEventListener("mouseout", stopDrawing);
-
-  // Touch events
-  canvasElement.addEventListener("touchstart", handleTouchStart);
-  canvasElement.addEventListener("touchmove", handleTouchMove);
-  canvasElement.addEventListener("touchend", stopDrawing);
-}
-
-function setupTools() {
-  // Configurar botões de ferramentas (canvas normal)
-  const toolButtons = document.querySelectorAll(".tool-btn");
-  toolButtons.forEach((button) => {
-    button.addEventListener("click", (e) => {
-      e.preventDefault();
-      selectTool(button.getAttribute("data-tool"));
-    });
-  });
-
-  // Configurar botões de formas (canvas normal)
-  const shapeButtons = document.querySelectorAll(".shape-btn");
-  shapeButtons.forEach((button) => {
-    button.addEventListener("click", (e) => {
-      e.preventDefault();
-      selectShape(button.getAttribute("data-shape"));
-    });
-  });
-}
-
-function setupControls() {
-  // Configurar paleta de cores
-  const colorOptions = document.querySelectorAll(".color-option");
-  colorOptions.forEach((option) => {
-    option.addEventListener("click", () => {
-      selectColor(option.getAttribute("data-color"));
-    });
-  });
-
-  // Configurar seletor de cor personalizada
-  const colorPicker = document.getElementById("color-picker");
-  colorPicker.addEventListener("input", (e) => {
-    selectColor(e.target.value);
-  });
-
-  const fullscreenColorPicker = document.getElementById(
-    "fullscreen-color-picker"
-  );
-  fullscreenColorPicker.addEventListener("input", (e) => {
-    selectColor(e.target.value);
-  });
-
-  // Configurar controle de espessura do pincel
-  const brushSizeInput = document.getElementById("brush-size");
-  const brushSizeValue = document.getElementById("brush-size-value");
-  brushSizeInput.addEventListener("input", (e) => {
-    brushSize = parseInt(e.target.value);
-    brushSizeValue.textContent = brushSize + "px";
-    updateDrawingContext();
-  });
-
-  const fullscreenBrushSize = document.getElementById("fullscreen-brush-size");
-  const fullscreenBrushSizeValue = document.getElementById(
-    "fullscreen-brush-size-value"
-  );
-  fullscreenBrushSize.addEventListener("input", (e) => {
-    brushSize = parseInt(e.target.value);
-    fullscreenBrushSizeValue.textContent = brushSize + "px";
-    updateDrawingContext();
-  });
-
-  // Configurar controle de opacidade
-  const opacityInput = document.getElementById("opacity");
-  const opacityValue = document.getElementById("opacity-value");
-  opacityInput.addEventListener("input", (e) => {
-    opacity = parseInt(e.target.value) / 100;
-    opacityValue.textContent = e.target.value + "%";
-    updateDrawingContext();
-  });
-
-  const fullscreenOpacity = document.getElementById("fullscreen-opacity");
-  const fullscreenOpacityValue = document.getElementById(
-    "fullscreen-opacity-value"
-  );
-  fullscreenOpacity.addEventListener("input", (e) => {
-    opacity = parseInt(e.target.value) / 100;
-    fullscreenOpacityValue.textContent = e.target.value + "%";
-    updateDrawingContext();
-  });
-}
-
-function selectTool(tool) {
-  currentTool = tool;
-
-  // Atualizar UI
-  document.querySelectorAll(".tool-btn").forEach((btn) => {
-    btn.classList.remove("active");
-  });
-  document.querySelectorAll(`.tool-btn[data-tool="${tool}"]`).forEach((btn) => {
-    btn.classList.add("active");
-  });
-
-  // Mostrar/ocultar opções de formas
-  const shapeOptions = document.getElementById("shape-options");
-  const fullscreenShapes = document.getElementById("fullscreen-shapes-section");
-
-  if (currentTool === "shapes") {
-    if (shapeOptions) shapeOptions.classList.add("show");
-    if (fullscreenShapes) fullscreenShapes.style.display = "block";
-  } else {
-    if (shapeOptions) shapeOptions.classList.remove("show");
-    if (fullscreenShapes) fullscreenShapes.style.display = "none";
-  }
-
-  updateCursor();
-}
-
-function selectShape(shape) {
-  currentShape = shape;
-
-  // Atualizar UI
-  document.querySelectorAll(".shape-btn").forEach((btn) => {
-    btn.classList.remove("active");
-  });
-  document
-    .querySelectorAll(`.shape-btn[data-shape="${shape}"]`)
-    .forEach((btn) => {
-      btn.classList.add("active");
-    });
-}
-
-function selectColor(color) {
-  currentColor = color;
-
-  // Atualizar UI
-  document.querySelectorAll(".color-option").forEach((opt) => {
-    opt.classList.remove("active");
-  });
-  document
-    .querySelectorAll(`.color-option[data-color="${color}"]`)
-    .forEach((opt) => {
-      opt.classList.add("active");
-    });
-
-  // Atualizar seletores de cor
-  document.getElementById("color-picker").value = color;
-  document.getElementById("fullscreen-color-picker").value = color;
-
-  updateDrawingContext();
-}
-
-function updateCursor() {
-  let cursor = "crosshair";
-
-  switch (currentTool) {
-    case "eraser":
-      cursor =
-        "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><circle cx='12' cy='12' r='10' fill='white' stroke='black'/></svg>\") 12 12, auto";
-      break;
-    case "fill":
-      cursor =
-        "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><path d='M3,3H21V21H3Z' fill='none' stroke='black'/><path d='M8,8H16V16H8Z' fill='currentColor'/></svg>\") 12 12, auto";
-      break;
-    default:
-      cursor = "crosshair";
-  }
-
-  canvas.style.cursor = cursor;
-  fullscreenCanvas.style.cursor = cursor;
-}
-
-// Funções para desenho
-function startDrawing(e) {
-  e.preventDefault();
-  isDrawing = true;
-
-  const currentCanvas =
-    e.target === fullscreenCanvas ? fullscreenCanvas : canvas;
-  const currentCtx = e.target === fullscreenCanvas ? fullscreenCtx : ctx;
-
-  const rect = currentCanvas.getBoundingClientRect();
-  const scaleX = currentCanvas.width / rect.width;
-  const scaleY = currentCanvas.height / rect.height;
-
-  // Obter coordenadas corretas
-  let clientX, clientY;
-  if (e.type.includes("touch")) {
-    clientX = e.touches[0].clientX;
-    clientY = e.touches[0].clientY;
-  } else {
-    clientX = e.clientX;
-    clientY = e.clientY;
-  }
-
-  lastX = (clientX - rect.left) * scaleX;
-  lastY = (clientY - rect.top) * scaleY;
-  startX = lastX;
-  startY = lastY;
-
-  // Configurar contexto baseado na ferramenta
-  setupToolContext(currentCtx);
-
-  if (currentTool === "shapes") {
-    // Salvar snapshot para formas
-    snapshot = currentCtx.getImageData(
-      0,
-      0,
-      currentCanvas.width,
-      currentCanvas.height
-    );
-  } else if (currentTool !== "spray" && currentTool !== "fill") {
-    currentCtx.beginPath();
-    currentCtx.moveTo(lastX, lastY);
-  }
-}
-
-function setupToolContext(context) {
-  switch (currentTool) {
-    case "pencil":
-      context.globalCompositeOperation = "source-over";
-      context.lineWidth = brushSize;
-      break;
-    case "brush":
-      context.globalCompositeOperation = "source-over";
-      context.lineWidth = brushSize * 2;
-      break;
-    case "marker":
-      context.globalCompositeOperation = "multiply";
-      context.lineWidth = brushSize * 3;
-      context.globalAlpha = opacity * 0.7;
-      break;
-    case "spray":
-      context.globalCompositeOperation = "source-over";
-      context.globalAlpha = opacity * 0.3;
-      break;
-    case "eraser":
-      context.globalCompositeOperation = "destination-out";
-      context.lineWidth = brushSize * 4;
-      context.globalAlpha = 0.7;
-      break;
-    case "fill":
-      context.globalCompositeOperation = "source-over";
-      break;
-    case "shapes":
-      context.globalCompositeOperation = "source-over";
-      context.lineWidth = brushSize;
-      break;
-  }
-}
-
-function draw(e) {
-  if (!isDrawing) return;
-  e.preventDefault();
-
-  const currentCanvas =
-    e.target === fullscreenCanvas ? fullscreenCanvas : canvas;
-  const currentCtx = e.target === fullscreenCanvas ? fullscreenCtx : ctx;
-
-  const rect = currentCanvas.getBoundingClientRect();
-  const scaleX = currentCanvas.width / rect.width;
-  const scaleY = currentCanvas.height / rect.height;
-
-  // Obter coordenadas corretas
-  let clientX, clientY;
-  if (e.type.includes("touch")) {
-    clientX = e.touches[0].clientX;
-    clientY = e.touches[0].clientY;
-  } else {
-    clientX = e.clientX;
-    clientY = e.clientY;
-  }
-
-  const currentX = (clientX - rect.left) * scaleX;
-  const currentY = (clientY - rect.top) * scaleY;
-
-  if (currentTool === "shapes") {
-    // Restaurar snapshot e desenhar forma temporária
-    currentCtx.putImageData(snapshot, 0, 0);
-    drawShape(currentCtx, startX, startY, currentX, currentY, true);
-  } else if (currentTool === "spray") {
-    sprayPaint(currentCtx, currentX, currentY);
-  } else if (currentTool === "fill") {
-    // O preenchimento é feito no mouseup
-    return;
-  } else {
-    currentCtx.lineTo(currentX, currentY);
-    currentCtx.stroke();
-  }
-
-  lastX = currentX;
-  lastY = currentY;
-}
-
-function sprayPaint(context, x, y) {
-  const density = Math.max(brushSize, 10);
-  const radius = brushSize * 2;
-
-  for (let i = 0; i < density; i++) {
-    const angle = Math.random() * Math.PI * 2;
-    const sprayRadius = Math.random() * radius;
-    const sprayX = x + Math.cos(angle) * sprayRadius;
-    const sprayY = y + Math.sin(angle) * sprayRadius;
-
-    context.beginPath();
-    context.arc(sprayX, sprayY, brushSize / 4, 0, Math.PI * 2);
-    context.fill();
-  }
-}
-
-function stopDrawing(e) {
-  if (!isDrawing) return;
-  isDrawing = false;
-
-  const currentCanvas =
-    e.target === fullscreenCanvas ? fullscreenCanvas : canvas;
-  const currentCtx = e.target === fullscreenCanvas ? fullscreenCtx : ctx;
-
-  if (currentTool === "shapes") {
-    // Desenhar forma permanente
-    drawShape(currentCtx, startX, startY, lastX, lastY, false);
-  } else if (currentTool === "fill") {
-    // Preenchimento simples
-    currentCtx.fillRect(lastX - 20, lastY - 20, 40, 40);
-  }
-
-  currentCtx.closePath();
-}
-
-function drawShape(context, x1, y1, x2, y2, isPreview) {
-  context.beginPath();
-
-  switch (currentShape) {
-    case "rectangle":
-      const width = x2 - x1;
-      const height = y2 - y1;
-      context.rect(x1, y1, width, height);
-      break;
-    case "circle":
-      const radius = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-      context.arc(x1, y1, radius, 0, Math.PI * 2);
-      break;
-    case "triangle":
-      context.moveTo(x1, y1);
-      context.lineTo(x2, y2);
-      context.lineTo(x1 * 2 - x2, y2);
-      context.closePath();
-      break;
-    case "line":
-      context.moveTo(x1, y1);
-      context.lineTo(x2, y2);
-      break;
-    case "star":
-      drawStar(
-        context,
-        x1,
-        y1,
-        5,
-        Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)) / 2
-      );
-      break;
-    case "heart":
-      drawHeart(
-        context,
-        x1,
-        y1,
-        Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)) / 3
-      );
-      break;
-  }
-
-  if (isPreview) {
-    context.stroke();
-  } else {
-    if (currentShape !== "line") {
-      context.fill();
-    }
-    context.stroke();
-  }
-}
-
-function drawStar(context, cx, cy, spikes, outerRadius) {
-  const innerRadius = outerRadius / 2;
-  let rot = (Math.PI / 2) * 3;
-  let x, y;
-  const step = Math.PI / spikes;
-
-  context.moveTo(cx, cy - outerRadius);
-
-  for (let i = 0; i < spikes; i++) {
-    x = cx + Math.cos(rot) * outerRadius;
-    y = cy + Math.sin(rot) * outerRadius;
-    context.lineTo(x, y);
-    rot += step;
-
-    x = cx + Math.cos(rot) * innerRadius;
-    y = cy + Math.sin(rot) * innerRadius;
-    context.lineTo(x, y);
-    rot += step;
-  }
-
-  context.lineTo(cx, cy - outerRadius);
-  context.closePath();
-}
-
-function drawHeart(context, x, y, size) {
-  context.moveTo(x, y);
-  context.bezierCurveTo(x, y - size, x - size, y - size * 1.5, x, y - size * 2);
-  context.bezierCurveTo(x + size, y - size * 1.5, x, y - size, x, y);
-  context.closePath();
-}
-
-// Funções para desenho com toque
-function handleTouchStart(e) {
-  e.preventDefault();
-  const touch = e.touches[0];
-  const mouseEvent = new MouseEvent("mousedown", {
-    clientX: touch.clientX,
-    clientY: touch.clientY,
-  });
-  e.target.dispatchEvent(mouseEvent);
-}
-
-function handleTouchMove(e) {
-  e.preventDefault();
-  const touch = e.touches[0];
-  const mouseEvent = new MouseEvent("mousemove", {
-    clientX: touch.clientX,
-    clientY: touch.clientY,
-  });
-  e.target.dispatchEvent(mouseEvent);
-}
-
-// Modo de tela cheia
-function enterFullscreen() {
-  const modal = document.getElementById("fullscreen-modal");
-  modal.classList.add("show");
-
-  // Configurar canvas de tela cheia
-  setupFullscreenCanvas();
-  updateDrawingContext();
-
-  // Adicionar event listeners para o canvas de tela cheia
-  setupCanvasEvents(fullscreenCanvas, fullscreenCtx);
-
-  // Configurar ferramentas da tela cheia
-  setupFullscreenTools();
-
-  // Prevenir scroll do body
-  document.body.style.overflow = "hidden";
-
-  console.log("Modo tela cheia ativado");
-}
-
-function setupFullscreenTools() {
-  // Configurar botões de ferramentas da tela cheia
-  const fullscreenToolButtons = document.querySelectorAll(
-    ".fullscreen-tools-panel .tool-btn"
-  );
-  fullscreenToolButtons.forEach((button) => {
-    button.addEventListener("click", (e) => {
-      e.preventDefault();
-      selectTool(button.getAttribute("data-tool"));
-    });
-  });
-
-  // Configurar botões de formas da tela cheia
-  const fullscreenShapeButtons = document.querySelectorAll(
-    ".fullscreen-tools-panel .shape-btn"
-  );
-  fullscreenShapeButtons.forEach((button) => {
-    button.addEventListener("click", (e) => {
-      e.preventDefault();
-      selectShape(button.getAttribute("data-shape"));
-    });
-  });
-}
-
-function exitFullscreen() {
-  const modal = document.getElementById("fullscreen-modal");
-  modal.classList.remove("show");
-
-  // Copiar conteúdo de volta para o canvas principal
-  if (fullscreenCanvas.width > 0 && fullscreenCanvas.height > 0) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(fullscreenCanvas, 0, 0, canvas.width, canvas.height);
-  }
-
-  // Restaurar scroll do body
-  document.body.style.overflow = "";
-
-  console.log("Modo tela cheia desativado");
-}
-
-function clearFullscreenCanvas() {
-  if (confirm("Tem certeza que deseja limpar o desenho na tela cheia?")) {
-    fullscreenCtx.fillStyle = "#FFFFFF";
-    fullscreenCtx.fillRect(
-      0,
-      0,
-      fullscreenCanvas.width,
-      fullscreenCanvas.height
-    );
-  }
-}
-
-function saveFullscreenDrawing() {
-  const link = document.createElement("a");
-  link.download = "meu-desenho-aventura-tela-cheia.png";
-  link.href = fullscreenCanvas.toDataURL("image/png");
-  link.click();
-  showNotification("Desenho da tela cheia salvo com sucesso!");
-}
-
-// Funções simplificadas para desfazer/refazer (placeholder)
-function undoFullscreen() {
-  showNotification("Funcionalidade Desfazer em desenvolvimento");
-}
-
-function redoFullscreen() {
-  showNotification("Funcionalidade Refazer em desenvolvimento");
-}
-
-// Limpar canvas
-function clearCanvas() {
-  if (confirm("Tem certeza que deseja limpar o desenho?")) {
-    ctx.fillStyle = "#FFFFFF";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    fullscreenCtx.fillStyle = "#FFFFFF";
-    fullscreenCtx.fillRect(
-      0,
-      0,
-      fullscreenCanvas.width,
-      fullscreenCanvas.height
-    );
-  }
-}
-
-// Salvar desenho
-function saveDrawing() {
-  const link = document.createElement("a");
-  link.download = "meu-desenho-aventura-na-floresta.png";
-  link.href = canvas.toDataURL("image/png");
-  link.click();
-  showNotification("Desenho salvo com sucesso!");
-}
-
-// Voltar para a tela anterior
-function goBack() {
-  if (
-    confirm(
-      "Voltar para a tela inicial? Seu desenho não será salvo automaticamente."
-    )
-  ) {
-    window.history.back();
-  }
-}
-
-// Função para mostrar notificações
-function showNotification(message) {
-  // Criar ou reutilizar elemento de notificação
-  let notification = document.querySelector(".notification");
-  if (!notification) {
-    notification = document.createElement("div");
-    notification.className = "notification";
-    document.body.appendChild(notification);
-  }
-
-  notification.innerHTML = `
-        <div class="notification-content">
-            <i class="fas fa-check-circle"></i>
-            <span>${message}</span>
-        </div>
-    `;
-
-  notification.style.display = "block";
-  notification.style.opacity = "1";
-
-  setTimeout(() => {
-    notification.style.opacity = "0";
-    setTimeout(() => {
-      notification.style.display = "none";
-    }, 300);
-  }, 3000);
-}
-
-// Criar bolinhas flutuantes
-function createFloatingShapes() {
-  const container = document.querySelector(".floating-shapes");
-  if (!container) return;
-
-  container.innerHTML = "";
-
-  const shapes = [
-    { size: 60, color: "purple", count: 5 },
-    { size: 40, color: "gold", count: 5 },
-    { size: 25, color: "purple", count: 8 },
+// aventura.js - Versão com paginação da história
+document.addEventListener("DOMContentLoaded", function () {
+  // Elementos do DOM
+  const canvas = document.getElementById("drawing-canvas");
+  const ctx = canvas.getContext("2d");
+  const bookContent = document.getElementById("book-content");
+  const pageIndicator = document.getElementById("page-indicator");
+  const prevPageBtn = document.getElementById("prev-page");
+  const nextPageBtn = document.getElementById("next-page");
+
+  // Estado do desenho
+  let isDrawing = false;
+  let lastX = 0;
+  let lastY = 0;
+  let currentTool = "pencil";
+  let currentColor = "#000000";
+  let brushSize = 5;
+  let opacity = 1;
+  let drawingHistory = [];
+  let historyStep = -1;
+
+  // Sistema de paginação
+  let currentPage = 1;
+  const totalPages = 7;
+  const storyPages = [
+    `
+      <h3>Capítulo 1 — O Esquilo Curioso</h3>
+      <p>
+        Era uma vez, em uma floresta encantada onde as folhas dançavam com o vento e os riachos cantavam melodias suaves, vivia um pequeno esquilo chamado Zeke.
+        Zeke era conhecido por sua curiosidade sem limites e por estar sempre explorando lugares onde nenhum outro esquilo se atrevia a ir.
+      </p>
+      <p>
+        Enquanto seus amigos preferiam guardar nozes e brincar entre os galhos, Zeke sonhava em descobrir mistérios escondidos e segredos antigos da floresta.
+      </p>
+      <p>
+        Certa manhã, ele acordou com o coração inquieto. O sol brilhava entre as copas das árvores, e algo dentro dele dizia que aquele seria um dia diferente — um dia de descobertas.
+      </p>
+    `,
+    `
+      <h3>Capítulo 2 — O Mapa Escondido</h3>
+      <p>
+        Enquanto explorava uma parte da floresta que poucos conheciam, Zeke encontrou uma árvore centenária com um oco profundo.
+        Movido pela curiosidade, ele espiou lá dentro e encontrou um velho pedaço de papel enrolado e amarrado com um fio de musgo.
+      </p>
+      <p>
+        Ao abri-lo, seus olhos brilharam: era um mapa antigo, desenhado à mão, com símbolos misteriosos e um X dourado no centro.
+      </p>
+      <p style="text-align: center; font-style: italic; margin: 20px 0; padding: 15px; background: rgba(255,215,0,0.1); border-radius: 10px;">
+        "Aquele que seguir este caminho encontrará a Noz Dourada — fonte de um único e verdadeiro desejo."
+      </p>
+      <p>
+        Zeke mal podia conter a empolgação. Ele imaginou como seria ter um desejo realizado e decidiu, sem hesitar, seguir a trilha marcada no mapa.
+      </p>
+    `,
+    `
+      <h3>Capítulo 3 — O Rio das Correntes Prateadas</h3>
+      <p>
+        A primeira parada da jornada de Zeke foi o Rio das Correntes Prateadas, um curso d'água conhecido por suas águas rápidas e brilhantes como espelhos.
+        O esquilo observou o rio e percebeu que atravessá-lo seria um grande desafio.
+      </p>
+      <p>
+        Mas, ao olhar com atenção, Zeke viu pedras grandes e planas que formavam um caminho de um lado ao outro.
+        Respirou fundo, ajeitou sua mochilinha de nozes nas costas e deu o primeiro salto.
+      </p>
+      <p>
+        Uma, duas, três pedras... cada pulo exigia coragem e equilíbrio. No último salto, quase escorregou, mas conseguiu se segurar em um galho e alcançar a outra margem.
+      </p>
+      <p style="text-align: center; font-style: italic; margin: 20px 0; padding: 15px; background: rgba(255,215,0,0.1); border-radius: 10px;">
+        "Nada pode me parar agora!"
+      </p>
+      <p>— disse Zeke, com o peito cheio de orgulho.</p>
+    `,
+    `
+      <h3>Capítulo 4 — A Montanha dos Sussurros</h3>
+      <p>
+        Depois de atravessar o rio, Zeke chegou ao pé da Montanha dos Sussurros.
+        O vento ali falava, ou pelo menos parecia falar. A cada rajada, Zeke ouvia vozes suaves:
+      </p>
+      <p style="text-align: center; font-style: italic; margin: 20px 0; padding: 15px; background: rgba(255,215,0,0.1); border-radius: 10px;">
+        "A coragem mora dentro de ti..."<br>
+        "Suba, pequeno viajante, o topo guarda a verdade."
+      </p>
+      <p>
+        Embora um pouco assustado, Zeke não desistiu.
+        Ele começou a escalar, agarrando-se em raízes e pedras, enquanto o vento fazia as folhas girarem ao seu redor.
+      </p>
+      <p>
+        Quando finalmente alcançou o topo, a vista o deixou sem fôlego. A floresta se estendia até o horizonte, dourada pelo pôr do sol.
+        Ele entendeu, naquele momento, que cada passo difícil o havia tornado mais forte.
+      </p>
+    `,
+    `
+      <h3>Capítulo 5 — A Clareira Sagrada</h3>
+      <p>
+        No amanhecer do dia seguinte, Zeke seguiu o mapa até uma clareira escondida, onde os raios de sol formavam desenhos no chão e o ar parecia brilhar.
+        No centro da clareira, sobre uma pedra coberta de musgo, repousava a Noz Dourada.
+      </p>
+      <p>
+        Ela emitia uma luz suave e quente, como se tivesse vida própria.
+        Zeke se aproximou lentamente, sentindo o coração bater forte.
+        Ele segurou a noz entre as patinhas e, com voz firme, fez seu desejo:
+      </p>
+      <p style="text-align: center; font-style: italic; margin: 20px 0; padding: 15px; background: rgba(255,215,0,0.1); border-radius: 10px;">
+        "Eu desejo que todos os animais da floresta vivam em harmonia e nunca mais passem fome."
+      </p>
+      <p>
+        Assim que terminou, uma brisa dourada soprou pela clareira, e a noz desapareceu em um clarão de luz.
+      </p>
+    `,
+    `
+      <h3>Capítulo 6 — O Retorno à Floresta</h3>
+      <p>
+        Zeke voltou para casa com o coração leve e uma sensação de paz.
+        Ao chegar, percebeu algo diferente:
+        as árvores estavam mais verdes, os frutos mais abundantes e os riachos mais cristalinos.
+      </p>
+      <p>
+        Os pássaros cantavam felizes, e todos os animais pareciam viver em perfeita harmonia.
+        Os outros esquilos o receberam com aplausos e curiosidade, perguntando o que havia acontecido.
+      </p>
+      <p style="text-align: center; font-style: italic; margin: 20px 0; padding: 15px; background: rgba(255,215,0,0.1); border-radius: 10px;">
+        "Às vezes, a maior aventura é aquela que ajuda a todos."
+      </p>
+      <p>
+        Zeke apenas sorriu e disse estas palavras. E, desde aquele dia, Zeke se tornou uma lenda na floresta encantada — não por ter encontrado um tesouro, mas por ter usado seu desejo com bondade e coração puro.
+      </p>
+    `,
+    `
+      <h3>Epílogo — O Legado da Noz Dourada</h3>
+      <p>
+        Muitos anos se passaram, e o nome de Zeke continuou sendo contado em histórias ao redor das fogueiras.
+        Dizem que, em noites de lua cheia, ainda é possível ouvir o vento sussurrando entre as árvores:
+      </p>
+      <p style="text-align: center; font-style: italic; margin: 20px 0; padding: 15px; background: rgba(255,215,0,0.1); border-radius: 10px;">
+        "A verdadeira riqueza está em fazer o bem."
+      </p>
+      <p>
+        E assim, a floresta encantada permaneceu em paz — guardando o segredo do pequeno esquilo que um dia desejou o bem de todos.
+      </p>
+      <div style="text-align: center; margin-top: 30px; font-style: italic; color: #ffd700;">
+        ~ Fim ~
+      </div>
+    `,
   ];
 
-  shapes.forEach((config) => {
-    for (let i = 0; i < config.count; i++) {
+  // Configuração inicial
+  function init() {
+    setupCanvas();
+    setupEventListeners();
+    createFloatingShapes();
+    updateUndoRedoButtons();
+    loadPage(currentPage);
+  }
+
+  // Sistema de paginação
+  function loadPage(pageNumber) {
+    currentPage = pageNumber;
+    bookContent.innerHTML = storyPages[pageNumber - 1];
+    pageIndicator.textContent = `Página ${pageNumber} de ${totalPages}`;
+
+    // Atualizar estado dos botões
+    prevPageBtn.disabled = currentPage === 1;
+    nextPageBtn.disabled = currentPage === totalPages;
+
+    // Aplicar estilo visual para botões desabilitados
+    prevPageBtn.style.opacity = prevPageBtn.disabled ? "0.5" : "1";
+    nextPageBtn.style.opacity = nextPageBtn.disabled ? "0.5" : "1";
+  }
+
+  function nextPage() {
+    if (currentPage < totalPages) {
+      loadPage(currentPage + 1);
+    }
+  }
+
+  function previousPage() {
+    if (currentPage > 1) {
+      loadPage(currentPage - 1);
+    }
+  }
+
+  function setupCanvas() {
+    resizeCanvas();
+    setupCanvasContext(ctx);
+    saveDrawingState();
+  }
+
+  function setupCanvasContext(context) {
+    context.lineJoin = "round";
+    context.lineCap = "round";
+    context.lineWidth = brushSize;
+    context.strokeStyle = currentColor;
+    context.globalAlpha = opacity;
+  }
+
+  function resizeCanvas() {
+    const container = canvas.parentElement;
+    canvas.width = container.clientWidth;
+    canvas.height = container.clientHeight;
+  }
+
+  function setupEventListeners() {
+    // Eventos do canvas
+    canvas.addEventListener("mousedown", startDrawing);
+    canvas.addEventListener("touchstart", handleTouchStart);
+
+    canvas.addEventListener("mousemove", draw);
+    canvas.addEventListener("touchmove", handleTouchMove);
+
+    canvas.addEventListener("mouseup", stopDrawing);
+    canvas.addEventListener("touchend", stopDrawing);
+    canvas.addEventListener("mouseout", stopDrawing);
+
+    // Ferramentas
+    document.querySelectorAll(".tool-btn").forEach((btn) => {
+      btn.addEventListener("click", function () {
+        selectTool(this.getAttribute("data-tool"));
+      });
+    });
+
+    // Cores
+    document.querySelectorAll(".color-option").forEach((color) => {
+      color.addEventListener("click", function () {
+        selectColor(this.getAttribute("data-color"));
+      });
+    });
+
+    // Color picker
+    document
+      .getElementById("color-picker")
+      .addEventListener("input", function () {
+        selectColor(this.value);
+      });
+
+    // Controles
+    document
+      .getElementById("brush-size")
+      .addEventListener("input", function () {
+        updateBrushSize(this.value);
+      });
+
+    document.getElementById("opacity").addEventListener("input", function () {
+      updateOpacity(this.value);
+    });
+  }
+
+  // Funções de desenho
+  function startDrawing(e) {
+    isDrawing = true;
+    const coords = getCoordinates(e);
+    [lastX, lastY] = coords;
+
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+  }
+
+  function draw(e) {
+    if (!isDrawing) return;
+
+    const coords = getCoordinates(e);
+    const [x, y] = coords;
+
+    ctx.lineTo(x, y);
+    ctx.stroke();
+
+    [lastX, lastY] = [x, y];
+  }
+
+  function stopDrawing() {
+    if (isDrawing) {
+      isDrawing = false;
+      saveDrawingState();
+    }
+  }
+
+  function handleTouchStart(e) {
+    e.preventDefault();
+    startDrawing(e.touches[0]);
+  }
+
+  function handleTouchMove(e) {
+    e.preventDefault();
+    draw(e.touches[0]);
+  }
+
+  function getCoordinates(e) {
+    const rect = canvas.getBoundingClientRect();
+    let x, y;
+
+    if (e.type.includes("touch")) {
+      x = e.clientX - rect.left;
+      y = e.clientY - rect.top;
+    } else {
+      x = e.clientX - rect.left;
+      y = e.clientY - rect.top;
+    }
+
+    return [x, y];
+  }
+
+  // Seleção de ferramentas e cores
+  function selectTool(tool) {
+    currentTool = tool;
+
+    // Atualizar UI
+    document.querySelectorAll(".tool-btn").forEach((btn) => {
+      btn.classList.remove("active");
+      if (btn.getAttribute("data-tool") === tool) {
+        btn.classList.add("active");
+      }
+    });
+
+    updateCursor();
+  }
+
+  function selectColor(color) {
+    currentColor = color;
+    ctx.strokeStyle = color;
+
+    // Atualizar UI
+    document.querySelectorAll(".color-option").forEach((option) => {
+      option.classList.remove("active");
+      if (option.getAttribute("data-color") === color) {
+        option.classList.add("active");
+      }
+    });
+
+    // Atualizar color picker
+    document.getElementById("color-picker").value = color;
+  }
+
+  function updateBrushSize(size) {
+    brushSize = parseInt(size);
+    ctx.lineWidth = brushSize;
+
+    // Atualizar UI
+    document.getElementById("brush-size-value").textContent = brushSize + "px";
+  }
+
+  function updateOpacity(value) {
+    opacity = parseInt(value) / 100;
+    ctx.globalAlpha = opacity;
+
+    // Atualizar UI
+    document.getElementById("opacity-value").textContent = value + "%";
+  }
+
+  function updateCursor() {
+    const cursor = currentTool === "eraser" ? "crosshair" : "crosshair";
+    canvas.style.cursor = cursor;
+  }
+
+  // Histórico de desenho
+  function saveDrawingState() {
+    if (historyStep < drawingHistory.length - 1) {
+      drawingHistory = drawingHistory.slice(0, historyStep + 1);
+    }
+
+    drawingHistory.push(canvas.toDataURL());
+    historyStep = drawingHistory.length - 1;
+    updateUndoRedoButtons();
+  }
+
+  function undoDrawing() {
+    if (historyStep > 0) {
+      historyStep--;
+      redrawFromHistory();
+      updateUndoRedoButtons();
+    }
+  }
+
+  function redoDrawing() {
+    if (historyStep < drawingHistory.length - 1) {
+      historyStep++;
+      redrawFromHistory();
+      updateUndoRedoButtons();
+    }
+  }
+
+  function redrawFromHistory() {
+    const img = new Image();
+    img.onload = function () {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0);
+    };
+    img.src = drawingHistory[historyStep];
+  }
+
+  function updateUndoRedoButtons() {
+    const undoBtn = document.getElementById("undo-action");
+    const redoBtn = document.getElementById("redo-action");
+
+    undoBtn.disabled = historyStep <= 0;
+    redoBtn.disabled = historyStep >= drawingHistory.length - 1;
+  }
+
+  // Ações principais
+  function clearCanvas() {
+    if (confirm("Tem certeza que deseja limpar o desenho?")) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      saveDrawingState();
+    }
+  }
+
+  function saveDrawing() {
+    const link = document.createElement("a");
+    link.download = "aventura-na-floresta.png";
+    link.href = canvas.toDataURL();
+    link.click();
+    showNotification("Desenho salvo com sucesso!");
+  }
+
+  // Funções auxiliares
+  function showNotification(message) {
+    const notification = document.getElementById("notification");
+    const notificationText = document.getElementById("notification-text");
+
+    notificationText.textContent = message;
+    notification.style.opacity = "1";
+    notification.style.transform = "translateY(0)";
+
+    setTimeout(() => {
+      notification.style.opacity = "0";
+      notification.style.transform = "translateY(20px)";
+    }, 3000);
+  }
+
+  function goBack() {
+    if (
+      confirm(
+        "Tem certeza que deseja voltar? Seu desenho não salvo será perdido."
+      )
+    ) {
+      window.location.href = "../index.html";
+    }
+  }
+
+  function createFloatingShapes() {
+    const container = document.querySelector(".floating-shapes");
+    const colors = ["purple", "gold"];
+
+    for (let i = 0; i < 15; i++) {
       const shape = document.createElement("div");
-      shape.className = `floating-shape ${config.color}`;
-      shape.style.width = config.size + "px";
-      shape.style.height = config.size + "px";
-      shape.style.left = Math.random() * 100 + "%";
-      shape.style.top = Math.random() * 100 + "%";
-      shape.style.animationDelay = Math.random() * 8 + "s";
-      shape.style.animationDuration = `${8 + Math.random() * 4}s`;
+      shape.classList.add(
+        "floating-shape",
+        colors[Math.floor(Math.random() * colors.length)]
+      );
+
+      const size = Math.random() * 60 + 20;
+      shape.style.width = `${size}px`;
+      shape.style.height = `${size}px`;
+      shape.style.left = `${Math.random() * 100}%`;
+      shape.style.top = `${Math.random() * 100}%`;
+      shape.style.animationDelay = `${Math.random() * 20}s`;
+      shape.style.animationDuration = `${15 + Math.random() * 10}s`;
+
       container.appendChild(shape);
     }
-  });
-}
+  }
 
-// Inicializar quando a página carregar
-window.addEventListener("load", () => {
-  initDrawing();
-  createFloatingShapes();
+  // Inicialização
+  init();
 
-  // Redimensionar canvas quando a janela for redimensionada
-  window.addEventListener("resize", () => {
-    setupCanvas();
-    if (
-      document.getElementById("fullscreen-modal").classList.contains("show")
-    ) {
-      setupFullscreenCanvas();
-    }
+  // Redimensionar quando a janela for redimensionada
+  window.addEventListener("resize", function () {
+    resizeCanvas();
   });
 
-  // Tecla ESC para sair da tela cheia
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-      exitFullscreen();
-    }
-  });
-
-  console.log("Página de aventura carregada com sucesso!");
+  // Atribuir funções globais
+  window.undoDrawing = undoDrawing;
+  window.redoDrawing = redoDrawing;
+  window.clearCanvas = clearCanvas;
+  window.saveDrawing = saveDrawing;
+  window.goBack = goBack;
+  window.nextPage = nextPage;
+  window.previousPage = previousPage;
 });

@@ -156,7 +156,7 @@ function getStoryInfo(title) {
       category: "Aventura, Natureza",
       ageRange: "5-10 anos",
       authorBio:
-        "Sofia Mendes é uma educadora e escritora apaixonada por natureza. Com mais de 15 livros infantis published, ela busca inspirar as crianças a explorarem e protegerem o meio ambiente.",
+        "Sofia Mendes é uma educadora e escritora apaixonada por natureza. Com mais de 15 livros infantis publicados, ela busca inspirar as crianças a explorarem e protegerem o meio ambiente.",
     },
     "O Castelo Mágico": {
       description:
@@ -239,7 +239,7 @@ function showStoryModal(title, artist, imageSrc) {
                 </div>
             </div>
             <div class="modal-actions">
-                <button class="modal-button read-btn">Ler História</button>
+                <button class="modal-button read-btn" onclick="window.location.href='ler-historia/ler-historia.html'">Ler História</button>
                 <button class="modal-button draw-btn" onclick="window.location.href='aventura-na-floresta/aventura.html'">Desenhar Agora</button>
                 <button class="modal-button favorite-btn">
                     <i class="far fa-heart"></i> Favoritar
@@ -674,7 +674,7 @@ const artistsData = {
     followers: 45,
     drawings: 22,
     specialties: ["Espaço", "Robôs", "Ficção Científica"],
-    bio: "Breno é fascinado por espaço e tecnologia. Seus desenhos frequentemente apresentam naves espacial, robôs e planetas distantes.",
+    bio: "Breno é fascinado por espaço e tecnologia. Seus desenhos frequentemente apresentam naves espaciais, robôs e planetas distantes.",
     gallery: [
       "./img/Viagem ao espaço.png",
       "./img/robos.png",
@@ -724,7 +724,7 @@ const drawingsData = {
     views: 76,
     date: "1 semana atrás",
     description:
-      "A família urso em seu picnic na floresta. Eles estão comendo mel and frutas silvestres.",
+      "A família urso em seu picnic na floresta. Eles estão comendo mel e frutas silvestres.",
     tags: ["Ursos", "Família", "Natureza", "Animais"],
   },
 };
@@ -744,7 +744,7 @@ const recentStoriesData = {
   "A Menina e o Dragão": {
     author: "Eva Furnari",
     description:
-      "Uma menina corajosa faz amizade with um dragão que é mal compreendido por todos. Juntos, eles mostram à vila que as aparências enganam.",
+      "Uma menina corajosa faz amizade com um dragão que é mal compreendido por todos. Juntos, eles mostram à vila que as aparências enganam.",
     pages: 8,
     category: "Fantasia, Amizade",
     ageRange: "5-10 anos",
@@ -997,6 +997,11 @@ function setupInteractiveSections() {
       showStoryModal(storyTitle, storyAuthor, storyImage);
     });
   });
+}
+
+// Função para iniciar leitura da história
+function startReadingStory() {
+  window.location.href = "ler-historia/ler-historia.html";
 }
 
 // Inicializar quando o DOM estiver carregado
