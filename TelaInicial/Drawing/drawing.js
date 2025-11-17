@@ -510,4 +510,201 @@ document.addEventListener("DOMContentLoaded", function () {
   setTimeout(() => {
     showNotification("Bem-vindo ao ArtFlow! Comece a desenhar!");
   }, 1000);
+
+  // Web Serial API para comunicação com Arduino
+  class ArduinoPotentiometer {
+    constructor() {
+      this.port = null;
+      this.reader = null;
+      this.isConnected = false;
+      this.readerActive = false;
+    }
+
+    async connect() {
+      try {
+        // Verificar se a Web Serial API está disponível
+        if (!('serial' in navigator)) {
+          this.showNotification("Web Serial não suportada neste navegador", "error");
+          return;
+        }
+
+        // Solicitar porta serial
+        this.port = await navigator.serial.requestPort();
+
+        // Abrir a porta
+        await this.port.open({
+          baudRate: 9600,
+          dataBits: 8,
+          stopBits: 1,
+          parity: 'none'
+        });
+
+        this.isConnected = true;
+        this.readerActive = true;
+        this.startReading();
+
+        this.showNotification("Conectado ao Arduino!", "success");
+        this.updateConnectButton();
+
+      } catch (err) {
+        console.error("Erro ao conectar:", err);
+        this.showNotification("Erro: " + err.message, "error");
+      }
+    }
+
+    async startReading() {
+      try {
+        while (this.port.readable && this.readerActive) {
+          const textDecoder = new TextDecoderStream();
+          const readableStreamClosed = this.port.readable.pipeTo(textDecoder.writable);
+          this.reader = textDecoder.readable.getReader();
+
+          try {
+            while (true) {
+              const { value, done } = await this.reader.read();
+              if (done) break;
+
+              if (value) {
+                // Processar cada linha recebida
+                const lines = value.split('\n');
+                for (const line of lines) {
+                  const trimmedLine = line.trim();
+                  if (trimmedLine) {
+                    const num = parseInt(trimmedLine);
+                    if (!isNaN(num) && num >= 1 && num <= 100) {
+                      this.updateBrush(num);
+                    }
+                  }
+                }
+              }
+            }
+          } catch (readError) {
+            console.error("Erro na leitura:", readError);
+          } finally {
+            this.reader.releaseLock();
+          }
+        }
+      } catch (err) {
+        console.error("Erro no stream:", err);
+      }
+    }
+
+    updateBrush(size) {
+      const brushSizeSlider = document.getElementById("brush-size");
+      const brushSizeValue = document.getElementById("brush-size-value");
+
+      if (brushSizeSlider && brushSizeValue) {
+        // Limitar entre 1 e 100
+        size = Math.min(Math.max(size, 1), 100);
+
+        // Atualizar slider e valor
+        brushSizeSlider.value = size;
+        brushSizeValue.textContent = size + "px";
+
+        // Disparar evento para atualizar o pincel
+        const inputEvent = new Event('input', { bubbles: true });
+        brushSizeSlider.dispatchEvent(inputEvent);
+      }
+    }
+
+    async disconnect() {
+      try {
+        this.readerActive = false;
+
+        if (this.reader) {
+          await this.reader.cancel();
+        }
+
+        if (this.port) {
+          await this.port.close();
+        }
+
+        this.isConnected = false;
+        this.updateConnectButton();
+        this.showNotification("Arduino desconectado", "info");
+
+      } catch (err) {
+        console.error("Erro ao desconectar:", err);
+      }
+    }
+
+    updateConnectButton() {
+      const connectButton = document.querySelector('.tool-btn[data-tool="arduino"]');
+      if (connectButton) {
+        if (this.isConnected) {
+          connectButton.classList.add('connected');
+          connectButton.innerHTML = '<i class="fas fa-plug"></i>';
+          connectButton.setAttribute("data-tooltip", "Desconectar Arduino");
+        } else {
+          connectButton.classList.remove('connected');
+          connectButton.innerHTML = '<i class="fas fa-microchip"></i>';
+          connectButton.setAttribute("data-tooltip", "Conectar Arduino");
+        }
+      }
+    }
+
+    showNotification(msg, type) {
+      const notification = document.getElementById("notification");
+      const text = document.getElementById("notification-text");
+      const icon = notification.querySelector("i");
+
+      if (notification && text) {
+        text.textContent = msg;
+
+        // Atualizar estilo baseado no tipo
+        if (type === "success") {
+          notification.style.background = "linear-gradient(45deg, #4caf50, #8bc34a)";
+          icon.className = "fas fa-check-circle";
+        } else if (type === "error") {
+          notification.style.background = "linear-gradient(45deg, #ff6b6b, #ff9e7d)";
+          icon.className = "fas fa-exclamation-circle";
+        } else {
+          notification.style.background = "rgba(45, 21, 84, 0.9)";
+          icon.className = "fas fa-info-circle";
+        }
+
+        // Mostrar notificação
+        notification.style.opacity = "1";
+        notification.style.transform = "translateY(0)";
+
+        setTimeout(() => {
+          notification.style.opacity = "0";
+          notification.style.transform = "translateY(20px)";
+        }, 3000);
+      }
+    }
+  }
+
+  // Inicializar quando o DOM estiver carregado
+  document.addEventListener("DOMContentLoaded", () => {
+    const arduino = new ArduinoPotentiometer();
+
+    // Criar botão de conexão Arduino
+    const toolsPanel = document.querySelector(".tools-panel");
+    if (toolsPanel && !document.querySelector('.tool-btn[data-tool="arduino"]')) {
+      const connectButton = document.createElement("div");
+
+      connectButton.className = "tool-btn";
+      connectButton.innerHTML = '<i class="fas fa-microchip"></i>';
+      connectButton.setAttribute("data-tool", "arduino");
+      connectButton.setAttribute("data-tooltip", "Conectar Arduino");
+
+      connectButton.addEventListener("click", () => {
+        if (!arduino.isConnected) {
+          arduino.connect();
+        } else {
+          arduino.disconnect();
+        }
+      });
+
+      // Adicionar antes dos controles de ferramentas
+      const toolOptions = toolsPanel.querySelector('.tool-options');
+      if (toolOptions) {
+        toolsPanel.insertBefore(connectButton, toolOptions);
+      } else {
+        toolsPanel.appendChild(connectButton);
+      }
+    }
+  });
 });
+

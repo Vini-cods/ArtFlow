@@ -702,3 +702,25 @@ a:focus {
   background: #ff6b6b;
   transition: all 0.3s ease;
 }
+
+/* Estilo para o botão do Arduino conectado */
+.tool-btn.connected {
+  background: rgba(76, 175, 80, 0.3);
+  box-shadow: 0 0 12px rgba(76, 175, 80, 0.4);
+  animation: pulse 2s infinite;
+}
+
+.tool-btn.connected i {
+  color: #4caf50;
+}
+
+/* Estilo do botão Arduino */
+.tool-btn.connected {
+  background: rgba(76, 175, 80, 0.3) !important;
+  box-shadow: 0 0 15px rgba(76, 175, 80, 0.5) !important;
+  border-color: #4caf50 !important;
+}
+
+.tool-btn.connected i {
+  color: #4caf50 !important;
+}
