@@ -12,6 +12,17 @@ body {
   color: #fff;
 }
 
+/* Scroll oculto mas funcional */
+.main-content::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+.main-content {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
 /* Bolinhas flutuantes interativas melhoradas */
 .floating-shapes {
   position: fixed;

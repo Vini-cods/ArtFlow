@@ -12,6 +12,16 @@ body {
   color: #fff;
 }
 
+/* Esconder scrollbars */
+body::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 /* Bolinhas flutuantes interativas */
 .floating-shapes {
   position: fixed;
@@ -325,6 +335,16 @@ body {
   height: calc(100vh - 80px);
   overflow-y: auto;
   transition: margin-left 0.3s ease;
+}
+
+/* Esconder scrollbar do main-content */
+.main-content::-webkit-scrollbar {
+  display: none;
+}
+
+.main-content {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .sidebar:hover ~ .main-content {
@@ -921,6 +941,16 @@ body {
   transition: transform 0.3s ease;
 }
 
+/* Esconder scrollbar do modal */
+.modal-content::-webkit-scrollbar {
+  display: none;
+}
+
+.modal-content {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 .modal-overlay.active .modal-content {
   transform: scale(1);
 }
@@ -953,6 +983,16 @@ body {
 .modal-body {
   padding: 30px;
   overflow-y: auto;
+}
+
+/* Esconder scrollbar do modal-body */
+.modal-body::-webkit-scrollbar {
+  display: none;
+}
+
+.modal-body {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .artist-profile-header {

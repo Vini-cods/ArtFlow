@@ -113,6 +113,130 @@
   </div>
 
   <script src="drawing.js"></script>
+
+  <script>
+    // Web Serial API para comunicação com Arduino
+    class ArduinoPotentiometer {
+      constructor() {
+        this.port = null;
+        this.reader = null;
+        this.isConnected = false;
+        this.connectButton = null;
+      }
+
+      async connect() {
+        try {
+          // Solicita acesso à porta serial
+          this.port = await navigator.serial.requestPort();
+          await this.port.open({ baudRate: 9600 });
+
+          this.isConnected = true;
+          this.listenToData();
+          this.showStatus('Conectado ao Arduino!', 'success');
+
+        } catch (error) {
+          console.error('Erro ao conectar:', error);
+          this.showStatus('Erro ao conectar: ' + error.message, 'error');
+        }
+      }
+
+      async listenToData() {
+        while (this.port.readable) {
+          this.reader = this.port.readable.getReader();
+
+          try {
+            while (true) {
+              const { value, done } = await this.reader.read();
+              if (done) break;
+
+              // Converte os bytes recebidos para string
+              const text = new TextDecoder().decode(value);
+              const lines = text.split('\n');
+
+              lines.forEach(line => {
+                const trimmed = line.trim();
+                if (trimmed && !isNaN(trimmed)) {
+                  const brushSize = parseInt(trimmed);
+                  this.handleBrushSizeChange(brushSize);
+                }
+              });
+            }
+          } catch (error) {
+            console.error('Erro na leitura:', error);
+          } finally {
+            this.reader.releaseLock();
+          }
+        }
+      }
+
+      handleBrushSizeChange(size) {
+        // Atualiza o slider e o valor da grossura
+        const brushSizeSlider = document.getElementById('brush-size');
+        const brushSizeValue = document.getElementById('brush-size-value');
+
+        if (brushSizeSlider && brushSizeValue) {
+          brushSizeSlider.value = size;
+          brushSizeValue.textContent = size + 'px';
+
+          // Dispara o evento de input para atualizar o canvas
+          brushSizeSlider.dispatchEvent(new Event('input'));
+        }
+      }
+
+      showStatus(message, type) {
+        const notification = document.getElementById('notification');
+        const notificationText = document.getElementById('notification-text');
+        const notificationIcon = notification.querySelector('i');
+
+        notificationText.textContent = message;
+        notificationIcon.className = type === 'success' ?
+          'fas fa-check-circle' : 'fas fa-exclamation-circle';
+
+        notification.style.opacity = '1';
+        notification.style.transform = 'translateY(0)';
+
+        setTimeout(() => {
+          notification.style.opacity = '0';
+          notification.style.transform = 'translateY(20px)';
+        }, 3000);
+      }
+
+      async disconnect() {
+        if (this.reader) {
+          await this.reader.cancel();
+        }
+        if (this.port) {
+          await this.port.close();
+        }
+        this.isConnected = false;
+        this.showStatus('Desconectado do Arduino', 'info');
+      }
+    }
+
+    // Inicializa quando o DOM estiver carregado
+    document.addEventListener('DOMContentLoaded', function () {
+      const arduino = new ArduinoPotentiometer();
+
+      // Adiciona botão de conexão ao painel de ferramentas
+      const toolsPanel = document.querySelector('.tools-panel');
+      const connectButton = document.createElement('div');
+      connectButton.className = 'tool-btn';
+      connectButton.innerHTML = '<i class="fas fa-microchip"></i>';
+      connectButton.setAttribute('data-tooltip', 'Conectar Arduino');
+      connectButton.style.marginTop = '10px';
+
+      connectButton.addEventListener('click', function () {
+        if (!arduino.isConnected) {
+          arduino.connect();
+        } else {
+          arduino.disconnect();
+        }
+      });
+
+      toolsPanel.appendChild(connectButton);
+    });
+  </script>
+
 </body>
 
 </html>
