@@ -1,4 +1,4 @@
-// aventura.js - Versão com paginação da história
+// aventura.js - Versão com todas as ferramentas funcionais, Arduino e seletor RGB
 document.addEventListener("DOMContentLoaded", function () {
   // Elementos do DOM
   const canvas = document.getElementById("drawing-canvas");
@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let opacity = 1;
   let drawingHistory = [];
   let historyStep = -1;
+  let isSpraying = false;
 
   // Sistema de paginação
   let currentPage = 1;
@@ -195,8 +196,30 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function resizeCanvas() {
     const container = canvas.parentElement;
-    canvas.width = container.clientWidth;
-    canvas.height = container.clientHeight;
+    const dpr = window.devicePixelRatio || 1;
+
+    // Ajustar para alta resolução
+    canvas.width = container.clientWidth * dpr;
+    canvas.height = container.clientHeight * dpr;
+    ctx.scale(dpr, dpr);
+
+    // Configurar estilo inicial
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.strokeStyle = currentColor;
+    ctx.fillStyle = currentColor;
+    ctx.lineWidth = brushSize;
+    ctx.globalAlpha = opacity;
+
+    // Restaurar desenho se existir
+    const savedDrawing = localStorage.getItem("aventura-drawing");
+    if (savedDrawing) {
+      const img = new Image();
+      img.onload = function () {
+        ctx.drawImage(img, 0, 0);
+      };
+      img.src = savedDrawing;
+    }
   }
 
   function setupEventListeners() {
@@ -218,19 +241,26 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
 
-    // Cores
+    // Cores - NOVO: usando color-option
     document.querySelectorAll(".color-option").forEach((color) => {
       color.addEventListener("click", function () {
         selectColor(this.getAttribute("data-color"));
       });
     });
 
-    // Color picker
-    document
-      .getElementById("color-picker")
-      .addEventListener("input", function () {
+    // NOVO: Color picker personalizado
+    const colorPickerBtn = document.getElementById("color-picker-btn");
+    const colorPicker = document.getElementById("color-picker");
+
+    if (colorPickerBtn && colorPicker) {
+      colorPickerBtn.addEventListener("click", function () {
+        colorPicker.click();
+      });
+
+      colorPicker.addEventListener("input", function () {
         selectColor(this.value);
       });
+    }
 
     // Controles
     document
@@ -247,29 +277,75 @@ document.addEventListener("DOMContentLoaded", function () {
   // Funções de desenho
   function startDrawing(e) {
     isDrawing = true;
-    const coords = getCoordinates(e);
-    [lastX, lastY] = coords;
 
-    ctx.beginPath();
-    ctx.moveTo(lastX, lastY);
+    // Obter coordenadas corretas considerando a posição do canvas
+    const rect = canvas.getBoundingClientRect();
+    lastX = e.clientX - rect.left;
+    lastY = e.clientY - rect.top;
+
+    if (currentTool === "spray") {
+      isSpraying = true;
+      sprayPaint();
+    } else {
+      ctx.beginPath();
+      ctx.moveTo(lastX, lastY);
+    }
   }
 
   function draw(e) {
     if (!isDrawing) return;
 
-    const coords = getCoordinates(e);
-    const [x, y] = coords;
+    const rect = canvas.getBoundingClientRect();
+    const currentX = e.clientX - rect.left;
+    const currentY = e.clientY - rect.top;
 
-    ctx.lineTo(x, y);
-    ctx.stroke();
+    if (
+      currentTool === "pencil" ||
+      currentTool === "brush" ||
+      currentTool === "marker" ||
+      currentTool === "eraser"
+    ) {
+      ctx.lineTo(currentX, currentY);
+      ctx.stroke();
+    }
 
-    [lastX, lastY] = [x, y];
+    lastX = currentX;
+    lastY = currentY;
   }
 
   function stopDrawing() {
     if (isDrawing) {
       isDrawing = false;
+      isSpraying = false;
+
+      // Salvar estado após terminar de desenhar
       saveDrawingState();
+
+      // Salvar automaticamente o progresso
+      saveProgress();
+    }
+  }
+
+  // Função para spray
+  function sprayPaint() {
+    if (!isSpraying) return;
+
+    const density = 50;
+    const radius = brushSize;
+
+    for (let i = 0; i < density; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const distance = Math.random() * radius;
+      const x = lastX + Math.cos(angle) * distance;
+      const y = lastY + Math.sin(angle) * distance;
+
+      ctx.beginPath();
+      ctx.arc(x, y, brushSize / 10, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    if (isSpraying) {
+      requestAnimationFrame(sprayPaint);
     }
   }
 
@@ -310,12 +386,45 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 
+    // Configurar contexto de acordo com a ferramenta
+    switch (currentTool) {
+      case "pencil":
+        ctx.globalCompositeOperation = "source-over";
+        ctx.lineWidth = brushSize;
+        ctx.strokeStyle = currentColor;
+        ctx.globalAlpha = opacity;
+        break;
+      case "brush":
+        ctx.globalCompositeOperation = "source-over";
+        ctx.lineWidth = brushSize * 2;
+        ctx.strokeStyle = currentColor;
+        ctx.globalAlpha = opacity;
+        break;
+      case "marker":
+        ctx.globalCompositeOperation = "multiply";
+        ctx.lineWidth = brushSize * 3;
+        ctx.strokeStyle = currentColor;
+        ctx.globalAlpha = 0.5;
+        break;
+      case "spray":
+        ctx.globalCompositeOperation = "source-over";
+        ctx.fillStyle = currentColor;
+        ctx.globalAlpha = opacity * 0.7;
+        break;
+      case "eraser":
+        ctx.globalCompositeOperation = "destination-out";
+        ctx.lineWidth = brushSize * 4;
+        ctx.globalAlpha = 0.7;
+        break;
+    }
+
     updateCursor();
   }
 
   function selectColor(color) {
     currentColor = color;
     ctx.strokeStyle = color;
+    ctx.fillStyle = color;
 
     // Atualizar UI
     document.querySelectorAll(".color-option").forEach((option) => {
@@ -331,7 +440,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function updateBrushSize(size) {
     brushSize = parseInt(size);
-    ctx.lineWidth = brushSize;
+
+    // Atualizar o contexto de acordo com a ferramenta atual
+    if (currentTool !== "spray") {
+      ctx.lineWidth = brushSize;
+    }
 
     // Atualizar UI
     document.getElementById("brush-size-value").textContent = brushSize + "px";
@@ -366,6 +479,7 @@ document.addEventListener("DOMContentLoaded", function () {
       historyStep--;
       redrawFromHistory();
       updateUndoRedoButtons();
+      showNotification("Ação desfeita");
     }
   }
 
@@ -374,6 +488,7 @@ document.addEventListener("DOMContentLoaded", function () {
       historyStep++;
       redrawFromHistory();
       updateUndoRedoButtons();
+      showNotification("Ação refeita");
     }
   }
 
@@ -399,26 +514,74 @@ document.addEventListener("DOMContentLoaded", function () {
     if (confirm("Tem certeza que deseja limpar o desenho?")) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       saveDrawingState();
+      showNotification("Desenho limpo!");
     }
   }
 
   function saveDrawing() {
-    const link = document.createElement("a");
-    link.download = "aventura-na-floresta.png";
-    link.href = canvas.toDataURL();
-    link.click();
-    showNotification("Desenho salvo com sucesso!");
+    try {
+      // Criar um canvas temporário para exportação
+      const tempCanvas = document.createElement("canvas");
+      const tempCtx = tempCanvas.getContext("2d");
+      const dpr = window.devicePixelRatio || 1;
+
+      // Configurar o canvas temporário
+      tempCanvas.width = canvas.width / dpr;
+      tempCanvas.height = canvas.height / dpr;
+
+      // Desenhar o conteúdo no canvas temporário
+      tempCtx.fillStyle = "white";
+      tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+      tempCtx.drawImage(canvas, 0, 0, tempCanvas.width, tempCanvas.height);
+
+      // Criar link de download
+      const link = document.createElement("a");
+      link.download = `aventura-na-floresta-${new Date().getTime()}.png`;
+      link.href = tempCanvas.toDataURL("image/png");
+      link.click();
+
+      showNotification("Desenho salvo com sucesso!");
+    } catch (error) {
+      console.error("Erro ao salvar desenho:", error);
+      showNotification("Erro ao salvar desenho. Tente novamente.", "error");
+    }
+  }
+
+  // Função para salvar progresso automaticamente
+  function saveProgress() {
+    try {
+      const dataURL = canvas.toDataURL("image/png");
+      localStorage.setItem("aventura-drawing", dataURL);
+    } catch (error) {
+      console.error("Erro ao salvar progresso:", error);
+    }
   }
 
   // Funções auxiliares
-  function showNotification(message) {
+  function showNotification(message, type = "success") {
     const notification = document.getElementById("notification");
     const notificationText = document.getElementById("notification-text");
+    const notificationIcon = notification.querySelector("i");
 
+    // Atualizar conteúdo
     notificationText.textContent = message;
+
+    // Atualizar ícone baseado no tipo
+    if (type === "error") {
+      notificationIcon.className = "fas fa-exclamation-circle";
+      notification.style.background =
+        "linear-gradient(45deg, #ff6b6b, #ff9e7d)";
+    } else {
+      notificationIcon.className = "fas fa-check-circle";
+      notification.style.background =
+        "linear-gradient(45deg, #4caf50, #8bc34a)";
+    }
+
+    // Mostrar notificação
     notification.style.opacity = "1";
     notification.style.transform = "translateY(0)";
 
+    // Ocultar após 3 segundos
     setTimeout(() => {
       notification.style.opacity = "0";
       notification.style.transform = "translateY(20px)";

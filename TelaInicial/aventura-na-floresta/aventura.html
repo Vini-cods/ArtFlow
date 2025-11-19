@@ -1,222 +1,541 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Aventura na Floresta - ArtFlow Kids</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link rel="stylesheet" href="aventura.css" />
-    <link rel="icon" href="../img/favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon" />
-  </head>
 
-  <body>
-    <!-- Bolinhas flutuantes de fundo -->
-    <div class="floating-shapes"></div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aventura na Floresta - ArtFlow Kids</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="aventura.css" />
+  <link rel="icon" href="../img/favicon.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon" />
+</head>
 
-    <!-- Conteúdo principal -->
-    <div class="drawing-container">
-      <div class="header">
-        <div class="action-buttons">
-          <button class="btn btn-back" onclick="goBack()">
-            <i class="fas fa-arrow-left"></i> Voltar
-          </button>
+<body>
+  <!-- Bolinhas flutuantes de fundo -->
+  <div class="floating-shapes"></div>
+
+  <!-- Conteúdo principal -->
+  <div class="drawing-container">
+    <div class="header">
+      <div class="action-buttons">
+        <button class="btn btn-back" onclick="goBack()">
+          <i class="fas fa-arrow-left"></i> Voltar
+        </button>
+      </div>
+      <div class="story-info">
+        <h1 class="story-title" id="story-title">Aventura na Floresta</h1>
+        <p class="story-author" id="story-author">Por: Sofia Mendes</p>
+      </div>
+      <div class="action-buttons">
+        <button class="btn btn-undo" onclick="undoDrawing()" id="undo-action">
+          <i class="fas fa-undo"></i> Desfazer
+        </button>
+        <button class="btn btn-redo" onclick="redoDrawing()" id="redo-action">
+          <i class="fas fa-redo"></i> Refazer
+        </button>
+        <button class="btn btn-clear" onclick="clearCanvas()">
+          <i class="fas fa-eraser"></i> Limpar
+        </button>
+        <button class="btn btn-save" onclick="saveDrawing()">
+          <i class="fas fa-save"></i> Salvar
+        </button>
+      </div>
+    </div>
+
+    <div class="content-area">
+      <div class="book-section">
+        <div class="book-content" id="book-content">
+          <!-- Conteúdo será carregado dinamicamente pelo JavaScript -->
         </div>
-        <div class="story-info">
-          <h1 class="story-title" id="story-title">Aventura na Floresta</h1>
-          <p class="story-author" id="story-author">Por: Sofia Mendes</p>
-        </div>
-        <div class="action-buttons">
-          <button class="btn btn-undo" onclick="undoDrawing()" id="undo-action">
-            <i class="fas fa-undo"></i> Desfazer
+        <div class="page-controls">
+          <button class="page-btn" id="prev-page" onclick="previousPage()">
+            <i class="fas fa-chevron-left"></i>
           </button>
-          <button class="btn btn-redo" onclick="redoDrawing()" id="redo-action">
-            <i class="fas fa-redo"></i> Refazer
-          </button>
-          <button class="btn btn-clear" onclick="clearCanvas()">
-            <i class="fas fa-eraser"></i> Limpar
-          </button>
-          <button class="btn btn-save" onclick="saveDrawing()">
-            <i class="fas fa-save"></i> Salvar
+          <span class="page-indicator" id="page-indicator">Página 1 de 7</span>
+          <button class="page-btn" id="next-page" onclick="nextPage()">
+            <i class="fas fa-chevron-right"></i>
           </button>
         </div>
       </div>
 
-      <div class="content-area">
-        <div class="book-section">
-          <div class="book-content" id="book-content">
-            <!-- Conteúdo será carregado dinamicamente pelo JavaScript -->
-          </div>
-          <div class="page-controls">
-            <button class="page-btn" id="prev-page" onclick="previousPage()">
-              <i class="fas fa-chevron-left"></i>
-            </button>
-            <span class="page-indicator" id="page-indicator"
-              >Página 1 de 7</span
-            >
-            <button class="page-btn" id="next-page" onclick="nextPage()">
-              <i class="fas fa-chevron-right"></i>
-            </button>
-          </div>
+      <div class="drawing-section">
+        <div class="drawing-area">
+          <canvas id="drawing-canvas"></canvas>
         </div>
-
-        <div class="drawing-section">
-          <div class="drawing-area">
-            <canvas id="drawing-canvas"></canvas>
-          </div>
-          <div class="tools-area">
-            <div class="drawing-tools">
-              <div class="tool-buttons">
-                <button
-                  class="tool-btn active"
-                  data-tool="pencil"
-                  title="Lápis"
-                >
-                  <i class="fas fa-pencil-alt"></i>
+        <div class="tools-area">
+          <div class="drawing-tools">
+            <div class="tool-buttons">
+              <button class="tool-btn active" data-tool="pencil" data-tooltip="Lápis">
+                <i class="fas fa-pencil-alt"></i>
+              </button>
+              <button class="tool-btn" data-tool="brush" data-tooltip="Pincel">
+                <i class="fas fa-paint-brush"></i>
+              </button>
+              <button class="tool-btn" data-tool="marker" data-tooltip="Marcador">
+                <i class="fas fa-highlighter"></i>
+              </button>
+              <button class="tool-btn" data-tool="spray" data-tooltip="Spray">
+                <i class="fas fa-spray-can"></i>
+              </button>
+              <button class="tool-btn" data-tool="eraser" data-tooltip="Borracha">
+                <i class="fas fa-eraser"></i>
+              </button>
+              <button class="tool-btn" id="arduino-btn" data-tooltip="Conectar Arduino">
+                <i class="fas fa-microchip"></i>
+              </button>
+              <button class="tool-btn" id="led-control-btn" data-tooltip="Conectar LED IR">
+                <i class="fas fa-lightbulb"></i>
+              </button>
+              <!-- NOVO: Seletor de cor personalizada ao lado do LED -->
+              <div class="color-picker-container">
+                <button class="color-picker-btn" id="color-picker-btn" data-tooltip="Seletor de Cor">
+                  <i class="fas fa-palette"></i>
                 </button>
-                <button class="tool-btn" data-tool="brush" title="Pincel">
-                  <i class="fas fa-paint-brush"></i>
-                </button>
-                <button class="tool-btn" data-tool="marker" title="Marcador">
-                  <i class="fas fa-highlighter"></i>
-                </button>
-                <button class="tool-btn" data-tool="spray" title="Spray">
-                  <i class="fas fa-spray-can"></i>
-                </button>
-                <button class="tool-btn" data-tool="eraser" title="Borracha">
-                  <i class="fas fa-eraser"></i>
-                </button>
-              </div>
-            </div>
-
-            <div class="color-palette">
-              <div
-                class="color-option active"
-                style="background-color: #000000"
-                data-color="#000000"
-              ></div>
-              <div
-                class="color-option"
-                style="background-color: #ff0000"
-                data-color="#ff0000"
-              ></div>
-              <div
-                class="color-option"
-                style="background-color: #0000ff"
-                data-color="#0000ff"
-              ></div>
-              <div
-                class="color-option"
-                style="background-color: #00ff00"
-                data-color="#00ff00"
-              ></div>
-              <div
-                class="color-option"
-                style="background-color: #ffff00"
-                data-color="#ffff00"
-              ></div>
-              <div
-                class="color-option"
-                style="background-color: #ff00ff"
-                data-color="#ff00ff"
-              ></div>
-              <div
-                class="color-option"
-                style="background-color: #ff8800"
-                data-color="#ff8800"
-              ></div>
-              <div
-                class="color-option"
-                style="background-color: #00ffff"
-                data-color="#00ffff"
-              ></div>
-              <div
-                class="color-option"
-                style="background-color: #8800ff"
-                data-color="#8800ff"
-              ></div>
-              <div
-                class="color-option"
-                style="background-color: #ff0088"
-                data-color="#ff0088"
-              ></div>
-              <div
-                class="color-option"
-                style="background-color: #8a5c2e"
-                data-color="#8a5c2e"
-              ></div>
-              <div
-                class="color-option"
-                style="background-color: #ff9999"
-                data-color="#ff9999"
-              ></div>
-              <div
-                class="color-option"
-                style="background-color: #99ff99"
-                data-color="#99ff99"
-              ></div>
-              <div
-                class="color-option"
-                style="background-color: #9999ff"
-                data-color="#9999ff"
-              ></div>
-              <div
-                class="color-option"
-                style="background-color: #ffff99"
-                data-color="#ffff99"
-              ></div>
-              <div
-                class="color-option"
-                style="background-color: #ff99ff"
-                data-color="#ff99ff"
-              ></div>
-            </div>
-
-            <div class="tool-controls">
-              <div class="brush-size">
-                <label for="brush-size">Espessura:</label>
-                <input
-                  type="range"
-                  id="brush-size"
-                  min="1"
-                  max="100"
-                  value="5"
-                />
-                <span id="brush-size-value">5px</span>
-              </div>
-
-              <div class="opacity-control">
-                <label for="opacity">Opacidade:</label>
-                <input
-                  type="range"
-                  id="opacity"
-                  min="10"
-                  max="100"
-                  value="100"
-                />
-                <span id="opacity-value">100%</span>
-              </div>
-
-              <div class="custom-color">
-                <label for="color-picker">Cor personalizada:</label>
                 <input type="color" id="color-picker" value="#000000" />
               </div>
             </div>
           </div>
+
+          <!-- NOVO: Paleta de cores estilo drawing -->
+          <div class="color-palette-container">
+            <div class="color-palette">
+              <div class="color-option active" style="background-color: #000000" data-color="#000000"></div>
+              <div class="color-option" style="background-color: #ff0000" data-color="#ff0000"></div>
+              <div class="color-option" style="background-color: #0000ff" data-color="#0000ff"></div>
+              <div class="color-option" style="background-color: #00ff00" data-color="#00ff00"></div>
+              <div class="color-option" style="background-color: #ffff00" data-color="#ffff00"></div>
+              <div class="color-option" style="background-color: #ff00ff" data-color="#ff00ff"></div>
+              <div class="color-option" style="background-color: #ff8800" data-color="#ff8800"></div>
+              <div class="color-option" style="background-color: #00ffff" data-color="#00ffff"></div>
+              <div class="color-option" style="background-color: #8800ff" data-color="#8800ff"></div>
+              <div class="color-option" style="background-color: #ff0088" data-color="#ff0088"></div>
+              <div class="color-option" style="background-color: #8a5c2e" data-color="#8a5c2e"></div>
+              <div class="color-option" style="background-color: #ff9999" data-color="#ff9999"></div>
+              <div class="color-option" style="background-color: #99ff99" data-color="#99ff99"></div>
+              <div class="color-option" style="background-color: #9999ff" data-color="#9999ff"></div>
+              <div class="color-option" style="background-color: #ffff99" data-color="#ffff99"></div>
+              <div class="color-option" style="background-color: #ff99ff" data-color="#ff99ff"></div>
+            </div>
+          </div>
+
+          <div class="tool-controls">
+            <div class="brush-size">
+              <label for="brush-size">Espessura:</label>
+              <input type="range" id="brush-size" min="1" max="100" value="5">
+              <span id="brush-size-value">5px</span>
+            </div>
+
+            <div class="opacity-control">
+              <label for="opacity">Opacidade:</label>
+              <input type="range" id="opacity" min="10" max="100" value="100">
+              <span id="opacity-value">100%</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="notification" id="notification">
-      <div class="notification-content">
-        <i class="fas fa-check-circle"></i>
-        <span id="notification-text">Desenho salvo com sucesso!</span>
-      </div>
+  <div class="notification" id="notification">
+    <div class="notification-content">
+      <i class="fas fa-check-circle"></i>
+      <span id="notification-text">Desenho salvo com sucesso!</span>
     </div>
+  </div>
 
-    <script src="aventura.js"></script>
-  </body>
+  <!-- Indicador de status do Arduino -->
+  <div class="arduino-status" id="arduino-status">
+    <div class="status-dot"></div>
+    <span>Arduino: Desconectado</span>
+  </div>
+
+  <script src="aventura.js"></script>
+
+  <script>
+    // Controle do Arduino
+    class ArduinoController {
+      constructor() {
+        this.port = null;
+        this.reader = null;
+        this.connected = false;
+      }
+
+      async connectArduino() {
+        try {
+          console.log("🔌 Iniciando conexão Arduino...");
+
+          // Fechar qualquer conexão existente
+          if (this.port) {
+            await this.disconnectArduino();
+          }
+
+          // Solicitar porta ao usuário
+          this.port = await navigator.serial.requestPort();
+          console.log("📡 Porta selecionada:", this.port);
+
+          // Configurar a porta
+          await this.port.open({
+            baudRate: 9600,
+            dataBits: 8,
+            stopBits: 1,
+            parity: 'none',
+            flowControl: 'none'
+          });
+
+          console.log("✅ Porta serial aberta");
+          this.connected = true;
+
+          // Pequeno delay para estabilização
+          await new Promise(resolve => setTimeout(resolve, 1000));
+
+          this.showMessage("✅ Arduino conectado!", "success");
+          this.updateArduinoStatus(true);
+          this.startReading();
+
+        } catch (error) {
+          console.error("❌ Erro na conexão:", error);
+          let errorMsg = "Erro ao conectar: ";
+
+          if (error.name === 'NotFoundError') {
+            errorMsg += "Nenhum dispositivo encontrado.";
+          } else if (error.name === 'SecurityError') {
+            errorMsg += "Permissão negada.";
+          } else if (error.message.includes('open')) {
+            errorMsg += "Porta já em uso. Feche o Arduino IDE e outros programas.";
+          } else {
+            errorMsg += error.message;
+          }
+
+          this.showMessage(errorMsg, "error");
+        }
+      }
+
+      async startReading() {
+        try {
+          console.log("📖 Iniciando leitura...");
+
+          while (this.port.readable && this.connected) {
+            const textDecoder = new TextDecoder();
+            this.reader = this.port.readable.getReader();
+            let buffer = '';
+
+            try {
+              while (true) {
+                const { value, done } = await this.reader.read();
+
+                if (done) {
+                  console.log("Leitor finalizado");
+                  break;
+                }
+
+                if (value) {
+                  buffer += textDecoder.decode(value);
+                  const lines = buffer.split('\n');
+                  buffer = lines.pop() || '';
+
+                  for (const line of lines) {
+                    const trimmed = line.trim();
+                    if (trimmed) {
+                      console.log("📨 Dados recebidos:", trimmed);
+                      this.processData(trimmed);
+                    }
+                  }
+                }
+              }
+            } catch (readError) {
+              console.error("Erro na leitura:", readError);
+            } finally {
+              this.reader.releaseLock();
+            }
+          }
+        } catch (error) {
+          console.error("Erro no loop de leitura:", error);
+        }
+      }
+
+      processData(data) {
+        // Ignorar mensagem de conexão
+        if (data === "ARDUINO_CONNECTED") {
+          console.log("🔗 Arduino confirmou conexão");
+          return;
+        }
+
+        const size = parseInt(data);
+        if (!isNaN(size) && size >= 1 && size <= 100) {
+          console.log("🎨 Atualizando pincel para:", size);
+          this.updateBrushSize(size);
+        }
+      }
+
+      updateBrushSize(size) {
+        const slider = document.getElementById('brush-size');
+        const valueSpan = document.getElementById('brush-size-value');
+
+        if (slider && valueSpan) {
+          slider.value = size;
+          valueSpan.textContent = size + 'px';
+
+          // Disparar evento para atualizar todas as ferramentas
+          const inputEvent = new Event('input', { bubbles: true });
+          slider.dispatchEvent(inputEvent);
+        }
+      }
+
+      async disconnectArduino() {
+        try {
+          this.connected = false;
+
+          if (this.reader) {
+            await this.reader.cancel();
+            this.reader = null;
+          }
+
+          if (this.port) {
+            await this.port.close();
+            this.port = null;
+          }
+
+          console.log("🔌 Arduino desconectado");
+          this.showMessage("🔌 Arduino desconectado", "info");
+          this.updateArduinoStatus(false);
+
+        } catch (error) {
+          console.error("Erro ao desconectar:", error);
+        }
+      }
+
+      updateArduinoStatus(connected) {
+        const statusElement = document.getElementById('arduino-status');
+        if (statusElement) {
+          if (connected) {
+            statusElement.classList.add('connected');
+            statusElement.querySelector('span').textContent = 'Arduino: Conectado';
+          } else {
+            statusElement.classList.remove('connected');
+            statusElement.querySelector('span').textContent = 'Arduino: Desconectado';
+          }
+        }
+      }
+
+      showMessage(message, type) {
+        const notification = document.getElementById("notification");
+        const text = document.getElementById("notification-text");
+        const icon = notification.querySelector("i");
+
+        if (notification && text) {
+          text.textContent = message;
+
+          if (type === "success") {
+            notification.style.background = "linear-gradient(45deg, #4caf50, #8bc34a)";
+            icon.className = "fas fa-check-circle";
+          } else if (type === "error") {
+            notification.style.background = "linear-gradient(45deg, #ff6b6b, #ff9e7d)";
+            icon.className = "fas fa-exclamation-circle";
+          } else {
+            notification.style.background = "rgba(45, 21, 84, 0.9)";
+            icon.className = "fas fa-info-circle";
+          }
+
+          notification.style.opacity = "1";
+          notification.style.transform = "translateY(0)";
+
+          setTimeout(() => {
+            notification.style.opacity = "0";
+            notification.style.transform = "translateY(20px)";
+          }, 4000);
+        }
+      }
+    }
+
+    // Controle do LED IR
+    class LEDController {
+      constructor() {
+        this.port = null;
+        this.connected = false;
+      }
+
+      async connect() {
+        try {
+          if (!('serial' in navigator)) {
+            this.showNotification("Web Serial não suportada", "error");
+            return false;
+          }
+
+          this.port = await navigator.serial.requestPort();
+          await this.port.open({
+            baudRate: 9600,
+            dataBits: 8,
+            stopBits: 1,
+            parity: 'none'
+          });
+
+          this.connected = true;
+          this.showNotification("LED IR conectado!", "success");
+          return true;
+
+        } catch (error) {
+          console.error("Erro ao conectar LED:", error);
+          this.showNotification("Erro ao conectar LED IR", "error");
+          return false;
+        }
+      }
+
+      async sendColorCommand(colorHex) {
+        if (!this.connected || !this.port) {
+          console.warn("LED não conectado");
+          return;
+        }
+
+        try {
+          const writer = this.port.writable.getWriter();
+          const command = `COLOR:${colorHex.replace('#', '')}\n`;
+          const encoder = new TextEncoder();
+
+          await writer.write(encoder.encode(command));
+          writer.releaseLock();
+
+          console.log("Comando LED enviado:", colorHex);
+        } catch (error) {
+          console.error("Erro ao enviar comando LED:", error);
+        }
+      }
+
+      async disconnect() {
+        if (this.port) {
+          await this.port.close();
+          this.port = null;
+        }
+        this.connected = false;
+        this.showNotification("LED IR desconectado", "info");
+      }
+
+      showNotification(message, type) {
+        const notification = document.getElementById("notification");
+        const text = document.getElementById("notification-text");
+        const icon = notification.querySelector("i");
+
+        if (notification && text) {
+          text.textContent = message;
+
+          if (type === "success") {
+            notification.style.background = "linear-gradient(45deg, #4caf50, #8bc34a)";
+            icon.className = "fas fa-check-circle";
+          } else if (type === "error") {
+            notification.style.background = "linear-gradient(45deg, #ff6b6b, #ff9e7d)";
+            icon.className = "fas fa-exclamation-circle";
+          } else {
+            notification.style.background = "rgba(45, 21, 84, 0.9)";
+            icon.className = "fas fa-info-circle";
+          }
+
+          notification.style.opacity = "1";
+          notification.style.transform = "translateY(0)";
+
+          setTimeout(() => {
+            notification.style.opacity = "0";
+            notification.style.transform = "translateY(20px)";
+          }, 3000);
+        }
+      }
+    }
+
+    // Gerenciadores globais
+    let arduino = null;
+    let ledController = null;
+
+    document.addEventListener('DOMContentLoaded', function () {
+      console.log("🚀 Inicializando interface Arduino...");
+
+      // Configurar botão Arduino
+      const arduinoButton = document.getElementById('arduino-btn');
+      if (arduinoButton) {
+        arduinoButton.addEventListener('click', async function () {
+          if (!arduino) {
+            arduino = new ArduinoController();
+          }
+
+          if (!arduino.connected) {
+            await arduino.connectArduino();
+            if (arduino.connected) {
+              arduinoButton.classList.add('connected');
+              arduinoButton.innerHTML = '<i class="fas fa-plug"></i>';
+              arduinoButton.setAttribute('data-tooltip', 'Desconectar Arduino');
+            }
+          } else {
+            await arduino.disconnectArduino();
+            arduinoButton.classList.remove('connected');
+            arduinoButton.innerHTML = '<i class="fas fa-microchip"></i>';
+            arduinoButton.setAttribute('data-tooltip', 'Conectar Arduino');
+          }
+        });
+      }
+
+      // Configurar botão LED
+      const ledButton = document.getElementById('led-control-btn');
+      if (ledButton) {
+        ledButton.addEventListener('click', async function () {
+          if (!ledController) {
+            ledController = new LEDController();
+          }
+
+          if (!ledController.connected) {
+            const connected = await ledController.connect();
+            if (connected) {
+              this.classList.add('led-connected');
+              this.innerHTML = '<i class="fas fa-lightbulb"></i>';
+              this.setAttribute('data-tooltip', 'Desconectar LED IR');
+
+              // Configurar eventos de cor para enviar comandos LED
+              setupLEDColorEvents();
+            }
+          } else {
+            await ledController.disconnect();
+            this.classList.remove('led-connected');
+            this.innerHTML = '<i class="fas fa-lightbulb"></i>';
+            this.setAttribute('data-tooltip', 'Conectar LED IR');
+          }
+        });
+      }
+
+      // Configurar eventos de cor para LED
+      function setupLEDColorEvents() {
+        const colorOptions = document.querySelectorAll('.color-option');
+        const colorPicker = document.getElementById('color-picker');
+
+        colorOptions.forEach(option => {
+          option.addEventListener('click', function () {
+            if (ledController && ledController.connected) {
+              const color = this.getAttribute('data-color');
+              ledController.sendColorCommand(color);
+            }
+          });
+        });
+
+        colorPicker.addEventListener('input', function () {
+          if (ledController && ledController.connected) {
+            const color = this.value;
+            ledController.sendColorCommand(color);
+          }
+        });
+      }
+
+      // Configurar botão do seletor de cor personalizado
+      const colorPickerBtn = document.getElementById('color-picker-btn');
+      const colorPicker = document.getElementById('color-picker');
+
+      if (colorPickerBtn && colorPicker) {
+        colorPickerBtn.addEventListener('click', function () {
+          colorPicker.click();
+        });
+
+        colorPicker.addEventListener('input', function (e) {
+          const color = e.target.value;
+          selectColor(color);
+        });
+      }
+    });
+  </script>
+</body>
+
 </html>

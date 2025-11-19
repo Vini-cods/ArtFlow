@@ -30,8 +30,7 @@ followButtons.forEach((button) => {
 
       // Notificação de sucesso
       showNotification(
-        `Agora você está seguindo ${
-          this.parentElement.querySelector("h4").textContent
+        `Agora você está seguindo ${this.parentElement.querySelector("h4").textContent
         }`
       );
     } else {
@@ -84,17 +83,6 @@ featuredItems.forEach((item) => {
 
     // Abrir modal com informações detalhadas
     showStoryModal(title, artist, imageSrc);
-  });
-});
-
-// Interatividade das atividades
-const activityCards = document.querySelectorAll(".activity-card");
-activityCards.forEach((card) => {
-  card.addEventListener("click", () => {
-    card.style.transform = "scale(0.95)";
-    setTimeout(() => {
-      card.style.transform = "";
-    }, 200);
   });
 });
 
@@ -369,9 +357,8 @@ function createFloatingShapes() {
         shape.style.opacity = "0.8";
 
         setTimeout(() => {
-          shape.style.animation = `float ${
-            8 + Math.random() * 4
-          }s ease-in-out infinite`;
+          shape.style.animation = `float ${8 + Math.random() * 4
+            }s ease-in-out infinite`;
           shape.style.transform = "scale(1)";
           shape.style.opacity = "0.6";
         }, 500);

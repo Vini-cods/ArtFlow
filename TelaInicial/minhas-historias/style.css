@@ -826,3 +826,17 @@ body {
     width: 100%;
   }
 }
+
+.modal-btn.danger {
+  background: linear-gradient(45deg, #ff4757, #ff3838);
+  color: white;
+}
+
+/* Garantir que as imagens das histórias estáticas sejam exibidas corretamente */
+.story-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform 0.3s ease;
+}

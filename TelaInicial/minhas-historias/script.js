@@ -123,25 +123,34 @@ function loadStoriesFromStorage() {
   const grid = document.getElementById("storiesGrid");
   const emptyState = document.getElementById("emptyState");
 
+  // Remover histórias "oi" e "aaa" se existirem
+  const filteredStories = stories.filter(story =>
+    story.title.toLowerCase() !== "oi" && story.title.toLowerCase() !== "aaa"
+  );
+
+  // Salvar de volta sem as histórias indesejadas
+  if (filteredStories.length !== stories.length) {
+    localStorage.setItem("artflow-stories", JSON.stringify(filteredStories));
+  }
+
   // Se não houver histórias, mostrar estado vazio
-  if (stories.length === 0) {
+  if (filteredStories.length === 0) {
     emptyState.style.display = "block";
     return;
   }
 
   emptyState.style.display = "none";
 
-  // Limpar o grid (mantenha as histórias estáticas já existentes ou substitua completamente)
-  // Para adicionar às histórias existentes, comente a linha abaixo
-  // grid.innerHTML = '';
+  // Limpar o grid e adicionar apenas as histórias do localStorage
+  grid.innerHTML = '';
 
-  stories.forEach((story) => {
+  filteredStories.forEach((story) => {
     const storyCard = createStoryCard(story);
     grid.appendChild(storyCard);
   });
 
   // Atualizar contadores
-  updateStoryCounters(stories);
+  updateStoryCounters(filteredStories);
 }
 
 // Função para criar um card de história
@@ -199,8 +208,7 @@ function createStoryCard(story) {
     }" />
           <div class="story-status ${statusClass}">${statusText}</div>
           <div class="story-progress">
-              <div class="progress-bar" style="width: ${story.progress
-    }%"></div>
+              <div class="progress-bar" style="width: ${story.progress}%"></div>
           </div>
       </div>
       <div class="story-info">
@@ -212,8 +220,7 @@ function createStoryCard(story) {
               </div>
               <div class="story-pages">
                   <i class="fas fa-book-open"></i>
-                  <span>${story.currentPage || 0}/${story.pagesCount
-    } páginas</span>
+                  <span>${story.currentPage || 0}/${story.pagesCount} páginas</span>
               </div>
           </div>
           <p class="story-description">
@@ -225,8 +232,7 @@ function createStoryCard(story) {
           <div class="story-actions">
               <div class="action-buttons">
                   <button class="action-btn" title="Favoritar">
-                      <i class="${story.favorite ? "fas" : "far"
-    } fa-heart"></i>
+                      <i class="${story.favorite ? "fas" : "far"} fa-heart"></i>
                   </button>
                   <button class="action-btn" title="Compartilhar">
                       <i class="fas fa-share"></i>
@@ -255,7 +261,7 @@ function createStoryCard(story) {
   const optionsBtn = card.querySelector('.action-btn[title="Mais opções"]');
   optionsBtn.addEventListener("click", function (e) {
     e.stopPropagation();
-    showStoryOptions(story);
+    showStoryOptions(story, card);
   });
 
   const continueBtn = card.querySelector(".continue-btn");
@@ -300,13 +306,48 @@ function openStory(story) {
   }
 }
 
+// Variáveis globais para controle do modal
+let currentStory = null;
+let currentStoryCard = null;
+
 // Função para mostrar opções da história
-function showStoryOptions(story) {
+function showStoryOptions(story, storyCard) {
   const modal = document.getElementById("storyModal");
   const modalTitle = document.getElementById("modalTitle");
 
+  currentStory = story;
+  currentStoryCard = storyCard;
+
   modalTitle.textContent = `Opções: ${story.title}`;
   modal.classList.add("active");
+}
+
+// Função para remover história
+function removeStory() {
+  if (!currentStory) return;
+
+  let stories = JSON.parse(localStorage.getItem("artflow-stories")) || [];
+  stories = stories.filter(story => story.id !== currentStory.id);
+
+  localStorage.setItem("artflow-stories", JSON.stringify(stories));
+
+  // Remover o card da interface
+  if (currentStoryCard) {
+    currentStoryCard.remove();
+  }
+
+  // Fechar o modal
+  const modal = document.getElementById("storyModal");
+  modal.classList.remove("active");
+
+  // Atualizar contadores
+  updateStoryCounters(stories);
+
+  // Mostrar estado vazio se não houver mais histórias
+  const emptyState = document.getElementById("emptyState");
+  if (stories.length === 0) {
+    emptyState.style.display = "block";
+  }
 }
 
 // Função para atualizar contadores
@@ -315,12 +356,9 @@ function updateStoryCounters(stories) {
   const readStories = stories.filter((s) => s.status === "completed").length;
   const readingStories = stories.filter((s) => s.status === "reading").length;
 
-  document.querySelector(".stat-number:nth-child(1)").textContent =
-    totalStories;
-  document.querySelector(".stat-number:nth-child(2)").textContent =
-    readStories;
-  document.querySelector(".stat-number:nth-child(3)").textContent =
-    readingStories;
+  document.querySelector(".stat-number:nth-child(1)").textContent = totalStories;
+  document.querySelector(".stat-number:nth-child(2)").textContent = readStories;
+  document.querySelector(".stat-number:nth-child(3)").textContent = readingStories;
 }
 
 // Event listeners
@@ -374,7 +412,24 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Ações dos cartões
+  // Botões do modal
+  document.getElementById("removeStoryBtn").addEventListener("click", removeStory);
+
+  document.getElementById("openStoryBtn").addEventListener("click", function () {
+    if (currentStory) {
+      openStory(currentStory);
+      modal.classList.remove("active");
+    }
+  });
+
+  document.getElementById("favoriteStoryBtn").addEventListener("click", function () {
+    if (currentStory) {
+      toggleFavorite(currentStory.id);
+      modal.classList.remove("active");
+    }
+  });
+
+  // Ações dos cartões existentes (histórias estáticas)
   document.querySelectorAll(".action-btn").forEach((btn) => {
     btn.addEventListener("click", function (e) {
       e.stopPropagation();
@@ -392,12 +447,20 @@ document.addEventListener("DOMContentLoaded", function () {
         const card = this.closest(".story-card");
         const title = card.dataset.title;
         document.getElementById("modalTitle").textContent = `Opções: ${title}`;
-        modal.classList.add("active");
+
+        // Criar objeto story temporário para histórias estáticas
+        const tempStory = {
+          id: 'static-' + Date.now(),
+          title: title,
+          status: card.dataset.status
+        };
+
+        showStoryOptions(tempStory, card);
       }
     });
   });
 
-  // Botões de continuar/começar
+  // Botões de continuar/começar das histórias estáticas
   document.querySelectorAll(".continue-btn").forEach((btn) => {
     btn.addEventListener("click", function (e) {
       e.stopPropagation();
