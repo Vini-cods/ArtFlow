@@ -724,3 +724,18 @@ a:focus {
 .tool-btn.connected i {
   color: #4caf50 !important;
 }
+/* Estilo para o botão do LED */
+.tool-btn.led-connected {
+  background: rgba(255, 193, 7, 0.3) !important;
+  box-shadow: 0 0 15px rgba(255, 193, 7, 0.5) !important;
+  border-color: #ffc107 !important;
+  animation: pulse 2s infinite;
+}
+
+.tool-btn.led-connected i {
+  color: #ffc107 !important;
+}
+
+.tool-btn.led-connected::after {
+  content: "Desconectar LED" !important;
+}
