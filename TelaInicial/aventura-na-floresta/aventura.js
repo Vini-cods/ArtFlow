@@ -241,14 +241,14 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
 
-    // Cores - NOVO: usando color-option
+    // Cores - usando color-option
     document.querySelectorAll(".color-option").forEach((color) => {
       color.addEventListener("click", function () {
         selectColor(this.getAttribute("data-color"));
       });
     });
 
-    // NOVO: Color picker personalizado
+    // Color picker personalizado
     const colorPickerBtn = document.getElementById("color-picker-btn");
     const colorPicker = document.getElementById("color-picker");
 
@@ -436,6 +436,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Atualizar color picker
     document.getElementById("color-picker").value = color;
+
+    // ENVIAR COR PARA ARDUINO E LED
+    if (window.arduino && window.arduino.connected) {
+      window.arduino.sendColorCommand(color);
+    }
+    if (window.ledController && window.ledController.connected) {
+      window.ledController.sendColorCommand(color);
+    }
   }
 
   function updateBrushSize(size) {
@@ -637,4 +645,5 @@ document.addEventListener("DOMContentLoaded", function () {
   window.goBack = goBack;
   window.nextPage = nextPage;
   window.previousPage = previousPage;
+  window.selectColor = selectColor;
 });

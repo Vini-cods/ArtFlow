@@ -87,7 +87,7 @@
               <button class="tool-btn" id="led-control-btn" data-tooltip="Conectar LED IR">
                 <i class="fas fa-lightbulb"></i>
               </button>
-              <!-- NOVO: Seletor de cor personalizada ao lado do LED -->
+              <!-- Seletor de cor personalizada -->
               <div class="color-picker-container">
                 <button class="color-picker-btn" id="color-picker-btn" data-tooltip="Seletor de Cor">
                   <i class="fas fa-palette"></i>
@@ -97,7 +97,7 @@
             </div>
           </div>
 
-          <!-- NOVO: Paleta de cores estilo drawing -->
+          <!-- Paleta de cores estilo drawing -->
           <div class="color-palette-container">
             <div class="color-palette">
               <div class="color-option active" style="background-color: #000000" data-color="#000000"></div>
@@ -159,6 +159,7 @@
         this.port = null;
         this.reader = null;
         this.connected = false;
+        this.readerActive = false;
       }
 
       async connectArduino() {
@@ -185,11 +186,12 @@
 
           console.log("✅ Porta serial aberta");
           this.connected = true;
+          this.readerActive = true;
 
           // Pequeno delay para estabilização
           await new Promise(resolve => setTimeout(resolve, 1000));
 
-          this.showMessage("✅ Arduino conectado!", "success");
+          this.showMessage("✅ Arduino conectado! Potenciômetro ativo.", "success");
           this.updateArduinoStatus(true);
           this.startReading();
 
@@ -213,9 +215,9 @@
 
       async startReading() {
         try {
-          console.log("📖 Iniciando leitura...");
+          console.log("📖 Iniciando leitura do potenciômetro...");
 
-          while (this.port.readable && this.connected) {
+          while (this.port.readable && this.readerActive) {
             const textDecoder = new TextDecoder();
             this.reader = this.port.readable.getReader();
             let buffer = '';
@@ -261,6 +263,12 @@
           return;
         }
 
+        // Log de informações do Arduino
+        if (data.includes("SISTEMA") || data.includes("Mapeamento") || data.includes("Encontrado")) {
+          console.log("🔧 " + data);
+          return;
+        }
+
         const size = parseInt(data);
         if (!isNaN(size) && size >= 1 && size <= 100) {
           console.log("🎨 Atualizando pincel para:", size);
@@ -282,9 +290,57 @@
         }
       }
 
+      async sendColorCommand(colorHex) {
+        if (!this.connected || !this.port) {
+          console.warn("Arduino não conectado");
+          return;
+        }
+
+        try {
+          const command = `COLOR:${colorHex}\n`;
+          const encoder = new TextEncoder();
+
+          if (this.port.writable) {
+            const writer = this.port.writable.getWriter();
+            await writer.write(encoder.encode(command));
+            writer.releaseLock();
+            console.log("🎨 Cor enviada para LED:", colorHex);
+
+            // Mostrar mensagem de confirmação
+            this.showMessage(`LED mudou para ${this.getColorName(colorHex)}`, "success");
+          }
+        } catch (error) {
+          console.error("Erro ao enviar cor para Arduino:", error);
+          this.showMessage("Erro ao mudar cor do LED", "error");
+        }
+      }
+
+      getColorName(colorHex) {
+        const colorNames = {
+          '#000000': 'Preto',
+          '#ff0000': 'Vermelho',
+          '#0000ff': 'Azul',
+          '#00ff00': 'Verde',
+          '#ffff00': 'Amarelo',
+          '#ff00ff': 'Roxo',
+          '#ff8800': 'Laranja',
+          '#00ffff': 'Ciano',
+          '#8800ff': 'Roxo',
+          '#ff0088': 'Rosa',
+          '#8a5c2e': 'Marrom',
+          '#ff9999': 'Rosa claro',
+          '#99ff99': 'Verde lima',
+          '#9999ff': 'Azul claro',
+          '#ffff99': 'Amarelo claro',
+          '#ff99ff': 'Rosa claro'
+        };
+        return colorNames[colorHex.toLowerCase()] || colorHex;
+      }
+
       async disconnectArduino() {
         try {
           this.connected = false;
+          this.readerActive = false;
 
           if (this.reader) {
             await this.reader.cancel();
@@ -444,6 +500,20 @@
     let arduino = null;
     let ledController = null;
 
+    // Função para enviar cor para o Arduino
+    function sendColorToArduino(colorHex) {
+      if (arduino && arduino.connected) {
+        arduino.sendColorCommand(colorHex);
+      }
+    }
+
+    // Função para enviar cor para o LED
+    function sendColorToLED(colorHex) {
+      if (ledController && ledController.connected) {
+        ledController.sendColorCommand(colorHex);
+      }
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
       console.log("🚀 Inicializando interface Arduino...");
 
@@ -485,9 +555,6 @@
               this.classList.add('led-connected');
               this.innerHTML = '<i class="fas fa-lightbulb"></i>';
               this.setAttribute('data-tooltip', 'Desconectar LED IR');
-
-              // Configurar eventos de cor para enviar comandos LED
-              setupLEDColorEvents();
             }
           } else {
             await ledController.disconnect();
@@ -498,25 +565,29 @@
         });
       }
 
-      // Configurar eventos de cor para LED
-      function setupLEDColorEvents() {
+      // Configurar eventos de cor para Arduino e LED
+      function setupColorEvents() {
         const colorOptions = document.querySelectorAll('.color-option');
         const colorPicker = document.getElementById('color-picker');
 
         colorOptions.forEach(option => {
           option.addEventListener('click', function () {
-            if (ledController && ledController.connected) {
-              const color = this.getAttribute('data-color');
-              ledController.sendColorCommand(color);
-            }
+            const color = this.getAttribute('data-color');
+            console.log("🎨 Cor selecionada:", color);
+
+            // Enviar para Arduino (LED)
+            sendColorToArduino(color);
+            sendColorToLED(color);
           });
         });
 
         colorPicker.addEventListener('input', function () {
-          if (ledController && ledController.connected) {
-            const color = this.value;
-            ledController.sendColorCommand(color);
-          }
+          const color = this.value;
+          console.log("🎨 Cor personalizada selecionada:", color);
+
+          // Enviar para Arduino (LED)
+          sendColorToArduino(color);
+          sendColorToLED(color);
         });
       }
 
@@ -531,9 +602,12 @@
 
         colorPicker.addEventListener('input', function (e) {
           const color = e.target.value;
-          selectColor(color);
+          // A função selectColor será chamada pelo aventura.js
         });
       }
+
+      // Inicializar eventos de cor
+      setupColorEvents();
     });
   </script>
 </body>

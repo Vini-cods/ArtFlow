@@ -1,4 +1,3 @@
-// semanal.js - Versão atualizada com ferramentas do drawing.js
 document.addEventListener("DOMContentLoaded", function () {
   // Elementos do DOM
   const canvas = document.getElementById("drawing-canvas");
@@ -420,6 +419,11 @@ document.addEventListener("DOMContentLoaded", function () {
       currentColor = this.dataset.color;
       ctx.strokeStyle = currentColor;
       ctx.fillStyle = currentColor;
+
+      // Enviar cor para Arduino LED se conectado
+      if (window.arduino && window.arduino.connected) {
+        window.sendColorToArduino(currentColor);
+      }
     });
   });
 
@@ -435,6 +439,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Atualizar botão de cor ativa
     colorButtons.forEach((btn) => btn.classList.remove("active"));
+
+    // Enviar cor para Arduino LED se conectado
+    if (window.arduino && window.arduino.connected) {
+      window.sendColorToArduino(currentColor);
+    }
   });
 
   // Event Listeners para controles deslizantes

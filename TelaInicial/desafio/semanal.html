@@ -1,330 +1,532 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Desafio Semanal - ArtFlow Kids</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link rel="stylesheet" href="semanal.css" />
-    <link rel="icon" href="../img/favicon.ico" type="image/x-icon" />
-  </head>
-  <body>
-    <!-- Conteúdo Principal -->
-    <div class="main-content">
-      <div class="challenge-container">
-        <!-- Bolinhas flutuantes interativas -->
-        <div class="floating-shapes"></div>
 
-        <div class="challenge-header">
-          <button
-            class="back-button"
-            onclick="window.location.href='../index.html'"
-          >
-            <i class="fas fa-arrow-left"></i> Voltar para Início
-          </button>
-          <h1 class="challenge-title">Desafio da Semana</h1>
-          <div class="challenge-theme">
-            <h2>Desenhe um animal fantástico!</h2>
-            <p>Crie uma criatura mágica que vive na floresta encantada</p>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Desafio Semanal - ArtFlow Kids</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="semanal.css" />
+  <link rel="icon" href="../img/favicon.ico" type="image/x-icon" />
+</head>
+
+<body>
+  <!-- Conteúdo Principal -->
+  <div class="main-content">
+    <div class="challenge-container">
+      <!-- Bolinhas flutuantes interativas -->
+      <div class="floating-shapes"></div>
+
+      <div class="challenge-header">
+        <button class="back-button" onclick="window.location.href='../index.html'">
+          <i class="fas fa-arrow-left"></i> Voltar para Início
+        </button>
+        <h1 class="challenge-title">Desafio da Semana</h1>
+        <div class="challenge-theme">
+          <h2>Desenhe um animal fantástico!</h2>
+          <p>Crie uma criatura mágica que vive na floresta encantada</p>
+        </div>
+        <div class="countdown-timer" id="countdown">
+          Termina em: <span id="days">5</span> dias,
+          <span id="hours">12</span> horas,
+          <span id="minutes">30</span> minutos
+        </div>
+      </div>
+
+      <div class="challenge-content">
+        <div class="challenge-details">
+          <div class="detail-section">
+            <h3><i class="fas fa-gift"></i> Prêmios</h3>
+            <ul class="prizes-list">
+              <li>
+                <i class="fas fa-trophy"></i> Emblema especial "Mestre das
+                Criaturas"
+              </li>
+              <li>
+                <i class="fas fa-star"></i> Destaque na página inicial por uma
+                semana
+              </li>
+              <li>
+                <i class="fas fa-gem"></i> 50 pontos de criatividade para seu
+                perfil
+              </li>
+              <li>
+                <i class="fas fa-palette"></i> Pincel exclusivo para uso na
+                plataforma
+              </li>
+            </ul>
           </div>
-          <div class="countdown-timer" id="countdown">
-            Termina em: <span id="days">5</span> dias,
-            <span id="hours">12</span> horas,
-            <span id="minutes">30</span> minutos
+
+          <div class="detail-section">
+            <h3><i class="fas fa-list-alt"></i> Regras</h3>
+            <ol class="rules-list">
+              <li>O desenho deve ser original e criado por você</li>
+              <li>
+                Use a ferramenta de desenho abaixo ou faça upload de uma
+                imagem
+              </li>
+              <li>Apenas uma submissão por participante</li>
+              <li>O desafio termina no domingo às 23h59</li>
+              <li>
+                Os vencedores serão anunciados na segunda-feira seguinte
+              </li>
+            </ol>
+          </div>
+
+          <div class="detail-section">
+            <h3><i class="fas fa-lightbulb"></i> Dicas Criativas</h3>
+            <ul class="prizes-list">
+              <li>
+                <i class="fas fa-check"></i> Combinar elementos de diferentes
+                animais
+              </li>
+              <li>
+                <i class="fas fa-check"></i> Adicionar poderes mágicos ou
+                elementos naturais
+              </li>
+              <li>
+                <i class="fas fa-check"></i> Usar cores vibrantes e
+                inesperadas
+              </li>
+              <li>
+                <i class="fas fa-check"></i> Criar um habitat interessante
+                para sua criatura
+              </li>
+            </ul>
           </div>
         </div>
 
-        <div class="challenge-content">
-          <div class="challenge-details">
-            <div class="detail-section">
-              <h3><i class="fas fa-gift"></i> Prêmios</h3>
-              <ul class="prizes-list">
-                <li>
-                  <i class="fas fa-trophy"></i> Emblema especial "Mestre das
-                  Criaturas"
-                </li>
-                <li>
-                  <i class="fas fa-star"></i> Destaque na página inicial por uma
-                  semana
-                </li>
-                <li>
-                  <i class="fas fa-gem"></i> 50 pontos de criatividade para seu
-                  perfil
-                </li>
-                <li>
-                  <i class="fas fa-palette"></i> Pincel exclusivo para uso na
-                  plataforma
-                </li>
-              </ul>
-            </div>
+        <div class="drawing-area-improved">
+          <div class="challenge-description">
+            <h3><i class="fas fa-info-circle"></i> Descrição do Desafio</h3>
+            <p>
+              Solte sua imaginação e crie um animal fantástico que poderia
+              viver em uma floresta encantada! Pode ser uma mistura de animais
+              reais ou algo completamente novo da sua imaginação.
+            </p>
+            <p>
+              Pense em características especiais: poderes mágicos, cores
+              vibrantes, habilidades únicas. Quanto mais criativo, melhor!
+            </p>
+          </div>
 
-            <div class="detail-section">
-              <h3><i class="fas fa-list-alt"></i> Regras</h3>
-              <ol class="rules-list">
-                <li>O desenho deve ser original e criado por você</li>
-                <li>
-                  Use a ferramenta de desenho abaixo ou faça upload de uma
-                  imagem
-                </li>
-                <li>Apenas uma submissão por participante</li>
-                <li>O desafio termina no domingo às 23h59</li>
-                <li>
-                  Os vencedores serão anunciados na segunda-feira seguinte
-                </li>
-              </ol>
-            </div>
+          <div class="drawing-container">
+            <div class="tools-panel">
+              <!-- Ferramentas básicas - COPIADAS DO DRAWING -->
+              <div class="tool-btn active" data-tool="pencil" data-tooltip="Lápis">
+                <i class="fas fa-pencil-alt"></i>
+              </div>
+              <div class="tool-btn" data-tool="brush" data-tooltip="Pincel">
+                <i class="fas fa-paint-brush"></i>
+              </div>
+              <div class="tool-btn" data-tool="marker" data-tooltip="Marcador">
+                <i class="fas fa-highlighter"></i>
+              </div>
+              <div class="tool-btn" data-tool="spray" data-tooltip="Spray">
+                <i class="fas fa-spray-can"></i>
+              </div>
+              <div class="tool-btn" data-tool="eraser" data-tooltip="Borracha">
+                <i class="fas fa-eraser"></i>
+              </div>
 
-            <div class="detail-section">
-              <h3><i class="fas fa-lightbulb"></i> Dicas Criativas</h3>
-              <ul class="prizes-list">
-                <li>
-                  <i class="fas fa-check"></i> Combinar elementos de diferentes
-                  animais
-                </li>
-                <li>
-                  <i class="fas fa-check"></i> Adicionar poderes mágicos ou
-                  elementos naturais
-                </li>
-                <li>
-                  <i class="fas fa-check"></i> Usar cores vibrantes e
-                  inesperadas
-                </li>
-                <li>
-                  <i class="fas fa-check"></i> Criar um habitat interessante
-                  para sua criatura
-                </li>
-              </ul>
+              <!-- Botão Arduino ADICIONADO -->
+              <div class="tool-btn" id="arduino-btn" data-tooltip="Conectar Arduino">
+                <i class="fas fa-microchip"></i>
+              </div>
+
+              <!-- Paleta de cores expandida - COPIADA DO DRAWING -->
+              <div class="color-palette">
+                <div class="color-btn active" style="background-color: #000000" data-color="#000000"></div>
+                <div class="color-btn" style="background-color: #ff0000" data-color="#ff0000"></div>
+                <div class="color-btn" style="background-color: #0000ff" data-color="#0000ff"></div>
+                <div class="color-btn" style="background-color: #00ff00" data-color="#00ff00"></div>
+                <div class="color-btn" style="background-color: #ffff00" data-color="#ffff00"></div>
+                <div class="color-btn" style="background-color: #ff00ff" data-color="#ff00ff"></div>
+                <div class="color-btn" style="background-color: #ff8800" data-color="#ff8800"></div>
+                <div class="color-btn" style="background-color: #00ffff" data-color="#00ffff"></div>
+                <div class="color-btn" style="background-color: #8800ff" data-color="#8800ff"></div>
+                <div class="color-btn" style="background-color: #ff0088" data-color="#ff0088"></div>
+                <div class="color-btn" style="background-color: #8a5c2e" data-color="#8a5c2e"></div>
+                <div class="color-btn" style="background-color: #ff9999" data-color="#ff9999"></div>
+                <div class="color-btn" style="background-color: #99ff99" data-color="#99ff99"></div>
+                <div class="color-btn" style="background-color: #9999ff" data-color="#9999ff"></div>
+                <div class="color-btn" style="background-color: #ffff99" data-color="#ffff99"></div>
+                <div class="color-btn" style="background-color: #ff99ff" data-color="#ff99ff"></div>
+              </div>
+
+              <div class="tool-btn" id="color-picker-btn" data-tooltip="Seletor de Cor">
+                <i class="fas fa-palette"></i>
+              </div>
+              <input type="color" id="color-picker" style="display: none" />
+
+              <!-- Opções de ferramentas - COPIADAS DO DRAWING -->
+              <div class="tool-options">
+                <div class="tool-option">
+                  <label for="brush-size">Tamanho:</label>
+                  <input type="range" id="brush-size" min="1" max="100" value="5" />
+                  <span id="brush-size-value">5px</span>
+                </div>
+                <div class="tool-option">
+                  <label for="opacity">Opacidade:</label>
+                  <input type="range" id="opacity" min="10" max="100" value="100" />
+                  <span id="opacity-value">100%</span>
+                </div>
+              </div>
+            </div>
+            <div class="canvas-container">
+              <canvas id="drawing-canvas"></canvas>
             </div>
           </div>
 
-          <div class="drawing-area-improved">
-            <div class="challenge-description">
-              <h3><i class="fas fa-info-circle"></i> Descrição do Desafio</h3>
-              <p>
-                Solte sua imaginação e crie um animal fantástico que poderia
-                viver em uma floresta encantada! Pode ser uma mistura de animais
-                reais ou algo completamente novo da sua imaginação.
-              </p>
-              <p>
-                Pense em características especiais: poderes mágicos, cores
-                vibrantes, habilidades únicas. Quanto mais criativo, melhor!
-              </p>
-            </div>
+          <div class="drawing-controls">
+            <button class="control-btn undo" id="undo-action">
+              <i class="fas fa-undo"></i> Desfazer
+            </button>
+            <button class="control-btn redo" id="redo-action">
+              <i class="fas fa-redo"></i> Refazer
+            </button>
+            <button class="control-btn clear" id="clear-btn">
+              <i class="fas fa-trash"></i> Limpar
+            </button>
+            <button class="control-btn save" id="save-btn">
+              <i class="fas fa-save"></i> Salvar
+            </button>
+            <button class="control-btn" id="submit-drawing">
+              <i class="fas fa-paper-plane"></i> Enviar Desenho
+            </button>
+          </div>
 
-            <div class="drawing-container">
-              <div class="tools-panel">
-                <!-- Ferramentas básicas - COPIADAS DO DRAWING -->
-                <div
-                  class="tool-btn active"
-                  data-tool="pencil"
-                  data-tooltip="Lápis"
-                >
-                  <i class="fas fa-pencil-alt"></i>
-                </div>
-                <div class="tool-btn" data-tool="brush" data-tooltip="Pincel">
-                  <i class="fas fa-paint-brush"></i>
-                </div>
-                <div
-                  class="tool-btn"
-                  data-tool="marker"
-                  data-tooltip="Marcador"
-                >
-                  <i class="fas fa-highlighter"></i>
-                </div>
-                <div class="tool-btn" data-tool="spray" data-tooltip="Spray">
-                  <i class="fas fa-spray-can"></i>
-                </div>
-                <div
-                  class="tool-btn"
-                  data-tool="eraser"
-                  data-tooltip="Borracha"
-                >
-                  <i class="fas fa-eraser"></i>
-                </div>
-
-                <!-- Paleta de cores expandida - COPIADA DO DRAWING -->
-                <div class="color-palette">
-                  <div
-                    class="color-btn active"
-                    style="background-color: #000000"
-                    data-color="#000000"
-                  ></div>
-                  <div
-                    class="color-btn"
-                    style="background-color: #ff0000"
-                    data-color="#ff0000"
-                  ></div>
-                  <div
-                    class="color-btn"
-                    style="background-color: #0000ff"
-                    data-color="#0000ff"
-                  ></div>
-                  <div
-                    class="color-btn"
-                    style="background-color: #00ff00"
-                    data-color="#00ff00"
-                  ></div>
-                  <div
-                    class="color-btn"
-                    style="background-color: #ffff00"
-                    data-color="#ffff00"
-                  ></div>
-                  <div
-                    class="color-btn"
-                    style="background-color: #ff00ff"
-                    data-color="#ff00ff"
-                  ></div>
-                  <div
-                    class="color-btn"
-                    style="background-color: #ff8800"
-                    data-color="#ff8800"
-                  ></div>
-                  <div
-                    class="color-btn"
-                    style="background-color: #00ffff"
-                    data-color="#00ffff"
-                  ></div>
-                  <div
-                    class="color-btn"
-                    style="background-color: #8800ff"
-                    data-color="#8800ff"
-                  ></div>
-                  <div
-                    class="color-btn"
-                    style="background-color: #ff0088"
-                    data-color="#ff0088"
-                  ></div>
-                  <div
-                    class="color-btn"
-                    style="background-color: #8a5c2e"
-                    data-color="#8a5c2e"
-                  ></div>
-                  <div
-                    class="color-btn"
-                    style="background-color: #ff9999"
-                    data-color="#ff9999"
-                  ></div>
-                  <div
-                    class="color-btn"
-                    style="background-color: #99ff99"
-                    data-color="#99ff99"
-                  ></div>
-                  <div
-                    class="color-btn"
-                    style="background-color: #9999ff"
-                    data-color="#9999ff"
-                  ></div>
-                  <div
-                    class="color-btn"
-                    style="background-color: #ffff99"
-                    data-color="#ffff99"
-                  ></div>
-                  <div
-                    class="color-btn"
-                    style="background-color: #ff99ff"
-                    data-color="#ff99ff"
-                  ></div>
-                </div>
-
-                <div
-                  class="tool-btn"
-                  id="color-picker-btn"
-                  data-tooltip="Seletor de Cor"
-                >
-                  <i class="fas fa-palette"></i>
-                </div>
-                <input type="color" id="color-picker" style="display: none" />
-
-                <!-- Opções de ferramentas - COPIADAS DO DRAWING -->
-                <div class="tool-options">
-                  <div class="tool-option">
-                    <label for="brush-size">Tamanho:</label>
-                    <input
-                      type="range"
-                      id="brush-size"
-                      min="1"
-                      max="100"
-                      value="5"
-                    />
-                    <span id="brush-size-value">5px</span>
-                  </div>
-                  <div class="tool-option">
-                    <label for="opacity">Opacidade:</label>
-                    <input
-                      type="range"
-                      id="opacity"
-                      min="10"
-                      max="100"
-                      value="100"
-                    />
-                    <span id="opacity-value">100%</span>
-                  </div>
-                </div>
-              </div>
-              <div class="canvas-container">
-                <canvas id="drawing-canvas"></canvas>
-              </div>
-            </div>
-
-            <div class="drawing-controls">
-              <button class="control-btn undo" id="undo-action">
-                <i class="fas fa-undo"></i> Desfazer
-              </button>
-              <button class="control-btn redo" id="redo-action">
-                <i class="fas fa-redo"></i> Refazer
-              </button>
-              <button class="control-btn clear" id="clear-btn">
-                <i class="fas fa-trash"></i> Limpar
-              </button>
-              <button class="control-btn save" id="save-btn">
-                <i class="fas fa-save"></i> Salvar
-              </button>
-              <button class="control-btn" id="submit-drawing">
-                <i class="fas fa-paper-plane"></i> Enviar Desenho
-              </button>
-            </div>
-
-            <div style="text-align: center; margin-top: 15px">
-              <p>Ou faça upload de uma imagem:</p>
-              <input
-                type="file"
-                id="upload-image"
-                accept="image/*"
-                style="display: none"
-              />
-              <button
-                class="control-btn secondary"
-                onclick="document.getElementById('upload-image').click()"
-              >
-                <i class="fas fa-upload"></i> Fazer Upload
-              </button>
-            </div>
+          <div style="text-align: center; margin-top: 15px">
+            <p>Ou faça upload de uma imagem:</p>
+            <input type="file" id="upload-image" accept="image/*" style="display: none" />
+            <button class="control-btn secondary" onclick="document.getElementById('upload-image').click()">
+              <i class="fas fa-upload"></i> Fazer Upload
+            </button>
           </div>
         </div>
+      </div>
 
-        <div class="submission-gallery">
-          <h3 class="gallery-title">Submissões da Comunidade</h3>
+      <div class="submission-gallery">
+        <h3 class="gallery-title">Submissões da Comunidade</h3>
 
-          <div class="submissions-grid" id="submissions-container">
-            <div class="empty-gallery">
-              <i class="fas fa-paint-brush"></i>
-              <p>Seja o primeiro a enviar um desenho para este desafio!</p>
-            </div>
+        <div class="submissions-grid" id="submissions-container">
+          <div class="empty-gallery">
+            <i class="fas fa-paint-brush"></i>
+            <p>Seja o primeiro a enviar um desenho para este desafio!</p>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="notification" id="notification">
-      <div class="notification-content">
-        <i class="fas fa-check-circle"></i>
-        <span id="notification-text">Desenho salvo com sucesso!</span>
-      </div>
+  <div class="notification" id="notification">
+    <div class="notification-content">
+      <i class="fas fa-check-circle"></i>
+      <span id="notification-text">Desenho salvo com sucesso!</span>
     </div>
+  </div>
 
-    <script src="semanal.js"></script>
-  </body>
+  <script src="semanal.js"></script>
+
+  <!-- Código do Arduino copiado do drawing.html -->
+  <script>
+    class ArduinoController {
+      constructor() {
+        this.port = null;
+        this.reader = null;
+        this.connected = false;
+        this.readerActive = false;
+      }
+
+      async connectArduino() {
+        try {
+          console.log("🔌 Iniciando conexão Arduino...");
+
+          // Fechar qualquer conexão existente
+          if (this.port) {
+            await this.disconnectArduino();
+          }
+
+          // Solicitar porta ao usuário
+          this.port = await navigator.serial.requestPort();
+          console.log("📡 Porta selecionada:", this.port);
+
+          // Configurar a porta
+          await this.port.open({
+            baudRate: 9600,
+            dataBits: 8,
+            stopBits: 1,
+            parity: 'none',
+            flowControl: 'none'
+          });
+
+          console.log("✅ Porta serial aberta");
+          this.connected = true;
+          this.readerActive = true;
+
+          // Pequeno delay para estabilização
+          await new Promise(resolve => setTimeout(resolve, 1000));
+
+          this.showMessage("✅ Arduino conectado! LED IR pronto.", "success");
+          this.startReading();
+
+        } catch (error) {
+          console.error("❌ Erro na conexão:", error);
+          let errorMsg = "Erro ao conectar: ";
+
+          if (error.name === 'NotFoundError') {
+            errorMsg += "Nenhum dispositivo encontrado.";
+          } else if (error.name === 'SecurityError') {
+            errorMsg += "Permissão negada.";
+          } else if (error.message.includes('open')) {
+            errorMsg += "Porta já em uso. Feche o Arduino IDE e outros programas.";
+          } else {
+            errorMsg += error.message;
+          }
+
+          this.showMessage(errorMsg, "error");
+        }
+      }
+
+      async startReading() {
+        try {
+          console.log("📖 Iniciando leitura...");
+
+          while (this.port.readable && this.readerActive) {
+            const textDecoder = new TextDecoder();
+            this.reader = this.port.readable.getReader();
+            let buffer = '';
+
+            try {
+              while (true) {
+                const { value, done } = await this.reader.read();
+
+                if (done) {
+                  console.log("Leitor finalizado");
+                  break;
+                }
+
+                if (value) {
+                  buffer += textDecoder.decode(value);
+                  const lines = buffer.split('\n');
+                  buffer = lines.pop() || '';
+
+                  for (const line of lines) {
+                    const trimmed = line.trim();
+                    if (trimmed) {
+                      console.log("📨 Dados recebidos:", trimmed);
+                      this.processData(trimmed);
+                    }
+                  }
+                }
+              }
+            } catch (readError) {
+              console.error("Erro na leitura:", readError);
+            } finally {
+              this.reader.releaseLock();
+            }
+          }
+        } catch (error) {
+          console.error("Erro no loop de leitura:", error);
+        }
+      }
+
+      processData(data) {
+        // Ignorar mensagem de conexão
+        if (data === "ARDUINO_CONNECTED") {
+          console.log("🔗 Arduino confirmou conexão");
+          return;
+        }
+
+        // Log de informações do Arduino
+        if (data.includes("SISTEMA") || data.includes("Mapeamento") || data.includes("Encontrado")) {
+          console.log("🔧 " + data);
+          return;
+        }
+
+        const size = parseInt(data);
+        if (!isNaN(size) && size >= 1 && size <= 100) {
+          console.log("🎨 Atualizando pincel para:", size);
+          this.updateBrushSize(size);
+        }
+      }
+
+      updateBrushSize(size) {
+        const slider = document.getElementById('brush-size');
+        const valueSpan = document.getElementById('brush-size-value');
+
+        if (slider && valueSpan) {
+          slider.value = size;
+          valueSpan.textContent = size + 'px';
+
+          // Disparar evento para atualizar todas as ferramentas
+          const inputEvent = new Event('input', { bubbles: true });
+          slider.dispatchEvent(inputEvent);
+        }
+      }
+
+      async sendColorCommand(colorHex) {
+        if (!this.connected || !this.port) {
+          console.warn("Arduino não conectado");
+          return;
+        }
+
+        try {
+          const command = `COLOR:${colorHex}\n`;
+          const encoder = new TextEncoder();
+
+          if (this.port.writable) {
+            const writer = this.port.writable.getWriter();
+            await writer.write(encoder.encode(command));
+            writer.releaseLock();
+            console.log("🎨 Cor enviada para LED:", colorHex);
+
+            // Mostrar mensagem de confirmação
+            this.showMessage(`LED mudou para ${this.getColorName(colorHex)}`, "success");
+          }
+        } catch (error) {
+          console.error("Erro ao enviar cor para Arduino:", error);
+          this.showMessage("Erro ao mudar cor do LED", "error");
+        }
+      }
+
+      getColorName(colorHex) {
+        const colorNames = {
+          '#000000': 'Preto',
+          '#ff0000': 'Vermelho',
+          '#0000ff': 'Azul',
+          '#00ff00': 'Verde',
+          '#ffff00': 'Amarelo',
+          '#ff00ff': 'Roxo',
+          '#ff8800': 'Laranja',
+          '#00ffff': 'Ciano',
+          '#8800ff': 'Roxo',
+          '#ff0088': 'Rosa',
+          '#8a5c2e': 'Marrom',
+          '#ff9999': 'Rosa claro',
+          '#99ff99': 'Verde lima',
+          '#9999ff': 'Azul claro',
+          '#ffff99': 'Amarelo claro',
+          '#ff99ff': 'Rosa claro'
+        };
+        return colorNames[colorHex.toLowerCase()] || colorHex;
+      }
+
+      async disconnectArduino() {
+        try {
+          this.connected = false;
+          this.readerActive = false;
+
+          if (this.reader) {
+            await this.reader.cancel();
+            this.reader = null;
+          }
+
+          if (this.port) {
+            await this.port.close();
+            this.port = null;
+          }
+
+          console.log("🔌 Arduino desconectado");
+          this.showMessage("🔌 Arduino desconectado", "info");
+
+        } catch (error) {
+          console.error("Erro ao desconectar:", error);
+        }
+      }
+
+      showMessage(message, type) {
+        const notification = document.getElementById("notification");
+        const text = document.getElementById("notification-text");
+        const icon = notification.querySelector("i");
+
+        if (notification && text) {
+          text.textContent = message;
+
+          if (type === "success") {
+            notification.style.background = "linear-gradient(45deg, #4caf50, #8bc34a)";
+            icon.className = "fas fa-check-circle";
+          } else if (type === "error") {
+            notification.style.background = "linear-gradient(45deg, #ff6b6b, #ff9e7d)";
+            icon.className = "fas fa-exclamation-circle";
+          } else {
+            notification.style.background = "rgba(45, 21, 84, 0.9)";
+            icon.className = "fas fa-info-circle";
+          }
+
+          notification.style.opacity = "1";
+          notification.style.transform = "translateY(0)";
+
+          setTimeout(() => {
+            notification.style.opacity = "0";
+            notification.style.transform = "translateY(20px)";
+          }, 3000);
+        }
+      }
+    }
+
+    // Gerenciador global do Arduino
+    let arduino = null;
+
+    // Função para enviar cor para o Arduino
+    function sendColorToArduino(colorHex) {
+      if (arduino && arduino.connected) {
+        arduino.sendColorCommand(colorHex);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      console.log("🚀 Inicializando interface Arduino...");
+
+      // Adicionar botão do Arduino
+      const toolsPanel = document.querySelector('.tools-panel');
+      const arduinoButton = document.getElementById('arduino-btn');
+
+      if (arduinoButton) {
+        arduinoButton.addEventListener('click', async function () {
+          if (!arduino) {
+            arduino = new ArduinoController();
+          }
+
+          if (!arduino.connected) {
+            await arduino.connectArduino();
+            if (arduino.connected) {
+              arduinoButton.classList.add('connected');
+              arduinoButton.innerHTML = '<i class="fas fa-plug"></i>';
+              arduinoButton.setAttribute('data-tooltip', 'Desconectar Arduino');
+            }
+          } else {
+            await arduino.disconnectArduino();
+            arduinoButton.classList.remove('connected');
+            arduinoButton.innerHTML = '<i class="fas fa-microchip"></i>';
+            arduinoButton.setAttribute('data-tooltip', 'Conectar Arduino');
+          }
+        });
+
+        console.log("🔘 Botão Arduino configurado");
+      }
+
+      // Configurar envio de cores para Arduino
+      const colorButtons = document.querySelectorAll('.color-btn');
+      const colorPicker = document.getElementById('color-picker');
+
+      colorButtons.forEach(button => {
+        button.addEventListener('click', function () {
+          const color = this.getAttribute('data-color');
+          console.log("🎨 Cor selecionada:", color);
+          sendColorToArduino(color);
+        });
+      });
+
+      colorPicker.addEventListener('input', function (e) {
+        const color = e.target.value;
+        console.log("🎨 Cor personalizada selecionada:", color);
+        sendColorToArduino(color);
+      });
+
+      console.log("🎨 Controle de cores configurado para Arduino LED");
+    });
+  </script>
+</body>
+
 </html>
