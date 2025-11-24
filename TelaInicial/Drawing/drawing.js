@@ -273,6 +273,11 @@ document.addEventListener("DOMContentLoaded", function () {
       if (currentTool === "spray") {
         ctx.fillStyle = currentColor;
       }
+
+      // ENVIAR COR PARA ARDUINO LED
+      if (window.arduino && window.arduino.connected) {
+        window.arduino.sendColorCommand(currentColor);
+      }
     });
   });
 
@@ -287,6 +292,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Criar ou ativar um botão de cor personalizada
     activateCustomColor(this.value);
+
+    // ENVIAR COR PARA ARDUINO LED
+    if (window.arduino && window.arduino.connected) {
+      window.arduino.sendColorCommand(currentColor);
+    }
   });
 
   function activateCustomColor(color) {
@@ -311,6 +321,11 @@ document.addEventListener("DOMContentLoaded", function () {
         currentColor = this.getAttribute("data-color");
         ctx.strokeStyle = currentColor;
         ctx.fillStyle = currentColor;
+
+        // ENVIAR COR PARA ARDUINO LED
+        if (window.arduino && window.arduino.connected) {
+          window.arduino.sendColorCommand(currentColor);
+        }
       });
     } else {
       // Atualizar a cor existente
@@ -511,7 +526,7 @@ document.addEventListener("DOMContentLoaded", function () {
     showNotification("Bem-vindo ao ArtFlow! Comece a desenhar!");
   }, 1000);
 
-  // Web Serial API para comunicação com Arduino
+  // Web Serial API para comunicação com Arduino - Versão Simplificada
   class ArduinoPotentiometer {
     constructor() {
       this.port = null;
@@ -604,6 +619,27 @@ document.addEventListener("DOMContentLoaded", function () {
         // Disparar evento para atualizar o pincel
         const inputEvent = new Event('input', { bubbles: true });
         brushSizeSlider.dispatchEvent(inputEvent);
+      }
+    }
+
+    async sendColorCommand(colorHex) {
+      if (!this.isConnected || !this.port) {
+        console.warn("Arduino não conectado");
+        return;
+      }
+
+      try {
+        const command = `COLOR:${colorHex}\n`;
+        const encoder = new TextEncoder();
+
+        if (this.port.writable) {
+          const writer = this.port.writable.getWriter();
+          await writer.write(encoder.encode(command));
+          writer.releaseLock();
+          console.log("🎨 Cor enviada para Arduino:", colorHex);
+        }
+      } catch (error) {
+        console.error("Erro ao enviar cor para Arduino:", error);
       }
     }
 
@@ -705,152 +741,188 @@ document.addEventListener("DOMContentLoaded", function () {
         toolsPanel.appendChild(connectButton);
       }
     }
-    // Controle de LED IR
-    class LEDController {
-      constructor() {
-        this.port = null;
-        this.connected = false;
+
+    // Configurar envio automático de cores para Arduino
+    const colorButtons = document.querySelectorAll('.color-btn');
+    const colorPicker = document.getElementById('color-picker');
+
+    // Função para enviar cor para Arduino
+    function sendColorToArduino(colorHex) {
+      if (arduino.isConnected) {
+        arduino.sendColorCommand(colorHex);
       }
+    }
 
-      async connect() {
-        try {
-          if (!('serial' in navigator)) {
-            this.showNotification("Web Serial não suportada", "error");
-            return false;
-          }
+    // Adicionar event listeners para cores
+    colorButtons.forEach(button => {
+      button.addEventListener('click', function () {
+        const color = this.getAttribute('data-color');
+        sendColorToArduino(color);
+      });
+    });
 
-          this.port = await navigator.serial.requestPort();
-          await this.port.open({
-            baudRate: 9600,
-            dataBits: 8,
-            stopBits: 1,
-            parity: 'none'
-          });
+    colorPicker.addEventListener('input', function (e) {
+      sendColorToArduino(e.target.value);
+    });
 
-          this.connected = true;
-          this.showNotification("LED IR conectado!", "success");
-          return true;
+    // Também modificar a função de ativação de cor personalizada
+    const originalActivateCustomColor = window.activateCustomColor;
+    window.activateCustomColor = function (color) {
+      if (originalActivateCustomColor) {
+        originalActivateCustomColor(color);
+      }
+      sendColorToArduino(color);
+    };
+  });
 
-        } catch (error) {
-          console.error("Erro ao conectar LED:", error);
-          this.showNotification("Erro ao conectar LED IR", "error");
+  // Controle de LED IR
+  class LEDController {
+    constructor() {
+      this.port = null;
+      this.connected = false;
+    }
+
+    async connect() {
+      try {
+        if (!('serial' in navigator)) {
+          this.showNotification("Web Serial não suportada", "error");
           return false;
         }
-      }
 
-      async sendColorCommand(colorHex) {
-        if (!this.connected || !this.port) {
-          console.warn("LED não conectado");
-          return;
-        }
+        this.port = await navigator.serial.requestPort();
+        await this.port.open({
+          baudRate: 9600,
+          dataBits: 8,
+          stopBits: 1,
+          parity: 'none'
+        });
 
-        try {
-          const writer = this.port.writable.getWriter();
-          const command = `COLOR:${colorHex.replace('#', '')}\n`;
-          const encoder = new TextEncoder();
+        this.connected = true;
+        this.showNotification("LED IR conectado!", "success");
+        return true;
 
-          await writer.write(encoder.encode(command));
-          writer.releaseLock();
-
-          console.log("Comando LED enviado:", colorHex);
-        } catch (error) {
-          console.error("Erro ao enviar comando LED:", error);
-        }
-      }
-
-      async disconnect() {
-        if (this.port) {
-          await this.port.close();
-          this.port = null;
-        }
-        this.connected = false;
-        this.showNotification("LED IR desconectado", "info");
-      }
-
-      showNotification(message, type) {
-        const notification = document.getElementById("notification");
-        const text = document.getElementById("notification-text");
-        const icon = notification.querySelector("i");
-
-        if (notification && text) {
-          text.textContent = message;
-
-          if (type === "success") {
-            notification.style.background = "linear-gradient(45deg, #4caf50, #8bc34a)";
-            icon.className = "fas fa-check-circle";
-          } else if (type === "error") {
-            notification.style.background = "linear-gradient(45deg, #ff6b6b, #ff9e7d)";
-            icon.className = "fas fa-exclamation-circle";
-          } else {
-            notification.style.background = "rgba(45, 21, 84, 0.9)";
-            icon.className = "fas fa-info-circle";
-          }
-
-          notification.style.opacity = "1";
-          notification.style.transform = "translateY(0)";
-
-          setTimeout(() => {
-            notification.style.opacity = "0";
-            notification.style.transform = "translateY(20px)";
-          }, 3000);
-        }
+      } catch (error) {
+        console.error("Erro ao conectar LED:", error);
+        this.showNotification("Erro ao conectar LED IR", "error");
+        return false;
       }
     }
 
-    // Instância global do controlador LED
-    const ledController = new LEDController();
+    async sendColorCommand(colorHex) {
+      if (!this.connected || !this.port) {
+        console.warn("LED não conectado");
+        return;
+      }
 
-    // Modificar o evento de clique das cores para enviar comando IR
-    function setupLEDControl() {
-      colorButtons.forEach((button) => {
-        const originalClick = button.onclick;
+      try {
+        const writer = this.port.writable.getWriter();
+        const command = `COLOR:${colorHex.replace('#', '')}\n`;
+        const encoder = new TextEncoder();
 
-        button.addEventListener("click", function () {
-          const color = this.getAttribute("data-color");
+        await writer.write(encoder.encode(command));
+        writer.releaseLock();
 
-          // Enviar comando para o LED se estiver conectado
-          if (ledController.connected) {
-            ledController.sendColorCommand(color);
-          }
-
-          // Manter o comportamento original
-          if (originalClick) originalClick.call(this);
-        });
-      });
-
-      // Também para o seletor de cor personalizado
-      colorPicker.addEventListener("input", function (e) {
-        const color = e.target.value;
-
-        if (ledController.connected) {
-          ledController.sendColorCommand(color);
-        }
-      });
+        console.log("Comando LED enviado:", colorHex);
+      } catch (error) {
+        console.error("Erro ao enviar comando LED:", error);
+      }
     }
-    // Inicializar controle LED
-    document.addEventListener("DOMContentLoaded", function () {
-      setupLEDControl();
 
-      // Configurar botão de controle LED
-      const ledButton = document.getElementById('led-control-btn');
-      if (ledButton) {
-        ledButton.addEventListener('click', async function () {
-          if (!ledController.connected) {
-            const connected = await ledController.connect();
-            if (connected) {
-              this.classList.add('led-connected');
-              this.innerHTML = '<i class="fas fa-lightbulb"></i>';
-              this.setAttribute('data-tooltip', 'Desconectar LED IR');
-            }
-          } else {
-            await ledController.disconnect();
-            this.classList.remove('led-connected');
-            this.innerHTML = '<i class="fas fa-lightbulb"></i>';
-            this.setAttribute('data-tooltip', 'Conectar LED IR');
-          }
-        });
+    async disconnect() {
+      if (this.port) {
+        await this.port.close();
+        this.port = null;
+      }
+      this.connected = false;
+      this.showNotification("LED IR desconectado", "info");
+    }
+
+    showNotification(message, type) {
+      const notification = document.getElementById("notification");
+      const text = document.getElementById("notification-text");
+      const icon = notification.querySelector("i");
+
+      if (notification && text) {
+        text.textContent = message;
+
+        if (type === "success") {
+          notification.style.background = "linear-gradient(45deg, #4caf50, #8bc34a)";
+          icon.className = "fas fa-check-circle";
+        } else if (type === "error") {
+          notification.style.background = "linear-gradient(45deg, #ff6b6b, #ff9e7d)";
+          icon.className = "fas fa-exclamation-circle";
+        } else {
+          notification.style.background = "rgba(45, 21, 84, 0.9)";
+          icon.className = "fas fa-info-circle";
+        }
+
+        notification.style.opacity = "1";
+        notification.style.transform = "translateY(0)";
+
+        setTimeout(() => {
+          notification.style.opacity = "0";
+          notification.style.transform = "translateY(20px)";
+        }, 3000);
+      }
+    }
+  }
+
+  // Configurar controle LED
+  function setupLEDControl() {
+    const colorButtons = document.querySelectorAll('.color-btn');
+    const colorPicker = document.getElementById('color-picker');
+
+    colorButtons.forEach(button => {
+      const originalClick = button.onclick;
+
+      button.addEventListener("click", function () {
+        const color = this.getAttribute("data-color");
+
+        // Enviar comando para o LED se estiver conectado
+        if (window.ledController && window.ledController.connected) {
+          window.ledController.sendColorCommand(color);
+        }
+
+        // Manter o comportamento original
+        if (originalClick) originalClick.call(this);
+      });
+    });
+
+    // Também para o seletor de cor personalizado
+    colorPicker.addEventListener("input", function (e) {
+      const color = e.target.value;
+
+      if (window.ledController && window.ledController.connected) {
+        window.ledController.sendColorCommand(color);
       }
     });
+  }
+
+  // Inicializar controle LED
+  document.addEventListener("DOMContentLoaded", function () {
+    setupLEDControl();
+
+    // Configurar botão de controle LED
+    const ledButton = document.getElementById('led-control-btn');
+    if (ledButton) {
+      // Criar instância do controlador LED
+      window.ledController = new LEDController();
+
+      ledButton.addEventListener('click', async function () {
+        if (!window.ledController.connected) {
+          const connected = await window.ledController.connect();
+          if (connected) {
+            this.classList.add('led-connected');
+            this.innerHTML = '<i class="fas fa-lightbulb"></i>';
+            this.setAttribute('data-tooltip', 'Desconectar LED IR');
+          }
+        } else {
+          await window.ledController.disconnect();
+          this.classList.remove('led-connected');
+          this.innerHTML = '<i class="fas fa-lightbulb"></i>';
+          this.setAttribute('data-tooltip', 'Conectar LED IR');
+        }
+      });
+    }
   });
 });
-
